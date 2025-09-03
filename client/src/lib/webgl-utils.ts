@@ -1,4 +1,8 @@
-declare const THREE: any;
+declare global {
+  interface Window {
+    THREE: any;
+  }
+}
 
 export function initializeHeroCanvas(canvas: HTMLCanvasElement): () => void {
   if (typeof window === 'undefined' || !window.THREE) {

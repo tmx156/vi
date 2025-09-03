@@ -1,8 +1,28 @@
 import { Button } from "@/components/ui/button";
 import WebGLHero from "@/components/WebGLHero";
 import ServiceCard from "@/components/ServiceCard";
+import { useEffect } from "react";
 
 export default function Home() {
+  useEffect(() => {
+    // Add scroll trigger for reveal animations
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('visible');
+          }
+        });
+      },
+      { threshold: 0.1 }
+    );
+
+    const revealElements = document.querySelectorAll('.reveal-up');
+    revealElements.forEach((el) => observer.observe(el));
+
+    return () => observer.disconnect();
+  }, []);
+
   const services = [
     {
       title: "BOUDOIR",
@@ -59,7 +79,7 @@ export default function Home() {
       {/* Services Section */}
       <section className="py-32 px-8">
         <div className="max-w-7xl mx-auto">
-          <div className="text-center mb-24 reveal-up">
+          <div className="text-center mb-24 reveal-up visible">
             <h2 className="text-5xl md:text-6xl font-serif font-light mb-8 luxury-gradient tracking-wide" data-testid="services-title">
               SIGNATURE COLLECTIONS
             </h2>
@@ -72,7 +92,7 @@ export default function Home() {
           
           <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
             {services.map((service, index) => (
-              <div key={service.title} className={`reveal-up ${index % 2 === 0 ? 'lg:mt-12' : ''}`}>
+              <div key={service.title} className={`reveal-up visible ${index % 2 === 0 ? 'lg:mt-12' : ''}`}>
                 <ServiceCard
                   title={service.title}
                   description={service.description}
@@ -87,7 +107,7 @@ export default function Home() {
       {/* Process Section */}
       <section className="py-32 bg-gradient-to-b from-background to-secondary">
         <div className="max-w-7xl mx-auto px-8">
-          <div className="text-center mb-24 reveal-up">
+          <div className="text-center mb-24 reveal-up visible">
             <h2 className="text-5xl md:text-6xl font-serif font-light mb-8 luxury-gradient tracking-wide" data-testid="process-title">
               THE ATELIER EXPERIENCE
             </h2>
@@ -99,7 +119,7 @@ export default function Home() {
           </div>
 
           <div className="grid md:grid-cols-3 gap-16">
-            <div className="text-center reveal-up premium-card p-12">
+            <div className="text-center reveal-up visible premium-card p-12">
               <div className="w-24 h-24 border border-accent/30 flex items-center justify-center mx-auto mb-8 relative">
                 <span className="text-2xl font-serif font-light text-accent tracking-wider">I</span>
                 <div className="absolute inset-0 bg-gradient-to-br from-accent/10 to-transparent"></div>
@@ -111,7 +131,7 @@ export default function Home() {
               </p>
             </div>
 
-            <div className="text-center reveal-up premium-card p-12 md:mt-12">
+            <div className="text-center reveal-up visible premium-card p-12 md:mt-12">
               <div className="w-24 h-24 border border-accent/30 flex items-center justify-center mx-auto mb-8 relative">
                 <span className="text-2xl font-serif font-light text-accent tracking-wider">II</span>
                 <div className="absolute inset-0 bg-gradient-to-br from-accent/10 to-transparent"></div>
@@ -123,7 +143,7 @@ export default function Home() {
               </p>
             </div>
 
-            <div className="text-center reveal-up premium-card p-12">
+            <div className="text-center reveal-up visible premium-card p-12">
               <div className="w-24 h-24 border border-accent/30 flex items-center justify-center mx-auto mb-8 relative">
                 <span className="text-2xl font-serif font-light text-accent tracking-wider">III</span>
                 <div className="absolute inset-0 bg-gradient-to-br from-accent/10 to-transparent"></div>
@@ -141,7 +161,7 @@ export default function Home() {
       {/* CTA Section */}
       <section className="py-32 px-8">
         <div className="max-w-5xl mx-auto text-center">
-          <div className="reveal-up">
+          <div className="reveal-up visible">
             <h2 className="text-6xl md:text-7xl font-serif font-light mb-12 luxury-gradient leading-tight tracking-wide" data-testid="cta-title">
               READY TO CREATE<br />
               <span className="italic font-normal">Excellence?</span>

@@ -5,39 +5,51 @@ export default function Navigation() {
   const [location] = useLocation();
 
   const navItems = [
-    { path: "/", label: "Home" },
-    { path: "/about", label: "About" },
-    { path: "/gallery", label: "Gallery" },
-    { path: "/locations", label: "Locations" },
+    { path: "/", label: "HOME" },
+    { path: "/about", label: "ABOUT" },
+    { path: "/gallery", label: "GALLERY" },
+    { path: "/locations", label: "LOCATIONS" },
   ];
 
   return (
-    <nav className="fixed top-8 left-1/2 transform -translate-x-1/2 z-50">
-      <div className="glass-effect rounded-full px-8 py-4">
-        <div className="flex items-center space-x-8">
-          <Link 
-            href="/" 
-            className="text-2xl font-serif font-bold gradient-text" 
-            data-testid="logo-link"
-          >
-            VIP Photoshoots
-          </Link>
-          <div className="flex space-x-6">
-            {navItems.map((item) => (
+    <nav className="fixed top-0 left-0 right-0 z-50 py-6">
+      <div className="max-w-7xl mx-auto px-8">
+        <div className="premium-glass px-12 py-6">
+          <div className="flex items-center justify-between">
+            <Link 
+              href="/" 
+              className="text-3xl font-serif font-light luxury-gradient tracking-wide" 
+              data-testid="logo-link"
+            >
+              VIP PHOTOSHOOTS
+            </Link>
+            <div className="flex items-center space-x-12">
+              {navItems.map((item) => (
+                <Link
+                  key={item.path}
+                  href={item.path}
+                  className={cn(
+                    "font-sans text-sm font-medium tracking-widest transition-all duration-500 relative",
+                    location === item.path
+                      ? "text-accent"
+                      : "text-foreground/80 hover:text-accent"
+                  )}
+                  data-testid={`nav-${item.label.toLowerCase()}`}
+                >
+                  {item.label}
+                  {location === item.path && (
+                    <div className="absolute -bottom-2 left-0 right-0 h-px bg-gradient-to-r from-transparent via-accent to-transparent"></div>
+                  )}
+                </Link>
+              ))}
               <Link
-                key={item.path}
-                href={item.path}
-                className={cn(
-                  "nav-link transition-colors duration-300",
-                  location === item.path
-                    ? "text-accent"
-                    : "text-foreground hover:text-accent"
-                )}
-                data-testid={`nav-${item.label.toLowerCase()}`}
+                href="/contact"
+                className="premium-button px-8 py-3 text-sm font-medium tracking-wide text-accent-foreground"
+                data-testid="nav-contact"
               >
-                {item.label}
+                BOOK SESSION
               </Link>
-            ))}
+            </div>
           </div>
         </div>
       </div>

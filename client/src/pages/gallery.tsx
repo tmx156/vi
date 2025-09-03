@@ -2,6 +2,7 @@ import GalleryGrid from "@/components/GalleryGrid";
 
 export default function Gallery() {
   const galleryImages = [
+    // Featured Portfolio Images
     {
       id: "boudoir-1",
       src: "https://images.unsplash.com/photo-1594736797933-d0c3c3d69e92?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&h=500",
@@ -73,6 +74,43 @@ export default function Gallery() {
       src: "https://images.unsplash.com/photo-1519671482749-fd09be7ccebf?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&h=500",
       alt: "Glamorous friends photoshoot",
       category: "bestie"
+    },
+    // Additional Portfolio Images
+    {
+      id: "boudoir-4",
+      src: "https://images.unsplash.com/photo-1616683693504-3ea7e9ad6fec?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&h=600",
+      alt: "Elegant boudoir portrait",
+      category: "boudoir"
+    },
+    {
+      id: "maternity-4",
+      src: "https://images.unsplash.com/photo-1586107962156-7b29df739ec1?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&h=500",
+      alt: "Artistic maternity session",
+      category: "maternity"
+    },
+    {
+      id: "family-4",
+      src: "https://images.unsplash.com/photo-1581833971358-2c8b550f87b3?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&h=400",
+      alt: "Intimate family moment",
+      category: "family"
+    },
+    {
+      id: "bestie-4",
+      src: "https://images.unsplash.com/photo-1529626455594-4ff0802cfb7e?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&h=500",
+      alt: "Creative friendship photography",
+      category: "bestie"
+    },
+    {
+      id: "boudoir-5",
+      src: "https://images.unsplash.com/photo-1590736969955-71cc94901144?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&h=600",
+      alt: "Luxury boudoir experience",
+      category: "boudoir"
+    },
+    {
+      id: "maternity-5",
+      src: "https://images.unsplash.com/photo-1544861853-4f13a4ad3952?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&h=500",
+      alt: "Sophisticated maternity portrait",
+      category: "maternity"
     }
   ];
 
@@ -81,11 +119,13 @@ export default function Gallery() {
       <section className="pt-32 pb-24 px-6">
         <div className="max-w-7xl mx-auto">
           <div className="text-center mb-16">
-            <h1 className="text-6xl font-serif font-bold mb-6 gradient-text" data-testid="gallery-title">
-              Our Portfolio
+            <h1 className="text-6xl md:text-7xl font-serif font-light mb-8 luxury-gradient tracking-wide" data-testid="gallery-title">
+              PORTFOLIO COLLECTION
             </h1>
-            <p className="text-xl text-muted-foreground max-w-3xl mx-auto" data-testid="gallery-subtitle">
-              Explore our collection of luxury photography experiences across all our signature services
+            <div className="elegant-divider w-24 mx-auto mb-8"></div>
+            <p className="text-lg text-foreground/60 max-w-4xl mx-auto font-sans leading-relaxed tracking-wide" data-testid="gallery-subtitle">
+              A curated selection from our extensive archive of luxury photography experiences,<br />
+              showcasing the artistry and sophistication that defines our signature aesthetic
             </p>
           </div>
 

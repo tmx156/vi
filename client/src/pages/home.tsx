@@ -185,6 +185,125 @@ export default function Home() {
           </div>
         </div>
       </section>
+
+      {/* Testimonials Section */}
+      <section className="py-32 bg-gradient-to-b from-secondary to-background">
+        <div className="max-w-7xl mx-auto px-8">
+          <div className="text-center mb-24 reveal-up visible">
+            <h2 className="text-5xl md:text-6xl font-serif font-light mb-8 luxury-gradient tracking-wide">
+              CLIENT TESTIMONIALS
+            </h2>
+            <div className="elegant-divider w-24 mx-auto mb-8"></div>
+            <p className="text-lg text-foreground/60 max-w-3xl mx-auto font-sans leading-relaxed tracking-wide">
+              The voices of our distinguished clientele speak to our commitment<br />
+              to excellence and artistry in every capture
+            </p>
+          </div>
+
+          <div className="grid md:grid-cols-3 gap-12">
+            <div className="reveal-up visible premium-card p-8 text-center">
+              <div className="mb-6">
+                <div className="flex justify-center mb-4">
+                  {[...Array(5)].map((_, i) => (
+                    <svg key={i} className="w-5 h-5 text-accent" fill="currentColor" viewBox="0 0 20 20">
+                      <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
+                    </svg>
+                  ))}
+                </div>
+                <p className="text-foreground/70 font-sans leading-relaxed mb-6 italic">
+                  "VIP Photoshoots exceeded every expectation. The attention to detail and artistic vision created portraits that are truly works of art. An absolutely extraordinary experience."
+                </p>
+                <h4 className="font-serif text-lg text-accent mb-1">Isabella Hartwell</h4>
+                <p className="text-foreground/50 text-sm tracking-wider">CREATIVE DIRECTOR</p>
+              </div>
+            </div>
+
+            <div className="reveal-up visible premium-card p-8 text-center md:mt-12">
+              <div className="mb-6">
+                <div className="flex justify-center mb-4">
+                  {[...Array(5)].map((_, i) => (
+                    <svg key={i} className="w-5 h-5 text-accent" fill="currentColor" viewBox="0 0 20 20">
+                      <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
+                    </svg>
+                  ))}
+                </div>
+                <p className="text-foreground/70 font-sans leading-relaxed mb-6 italic">
+                  "From consultation to final delivery, every moment was luxurious. The team's professionalism and creativity produced stunning maternity portraits that I will treasure forever."
+                </p>
+                <h4 className="font-serif text-lg text-accent mb-1">Charlotte Pemberton</h4>
+                <p className="text-foreground/50 text-sm tracking-wider">ENTREPRENEUR</p>
+              </div>
+            </div>
+
+            <div className="reveal-up visible premium-card p-8 text-center">
+              <div className="mb-6">
+                <div className="flex justify-center mb-4">
+                  {[...Array(5)].map((_, i) => (
+                    <svg key={i} className="w-5 h-5 text-accent" fill="currentColor" viewBox="0 0 20 20">
+                      <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
+                    </svg>
+                  ))}
+                </div>
+                <p className="text-foreground/70 font-sans leading-relaxed mb-6 italic">
+                  "The family portraits captured our essence beautifully. The luxury studio environment and photographer's expertise created an experience that felt both comfortable and extraordinary."
+                </p>
+                <h4 className="font-serif text-lg text-accent mb-1">Victoria & James Morrison</h4>
+                <p className="text-foreground/50 text-sm tracking-wider">PRIVATE CLIENTS</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Awards Section */}
+      <section className="py-32 px-8">
+        <div className="max-w-7xl mx-auto">
+          <div className="text-center mb-24 reveal-up visible">
+            <h2 className="text-5xl md:text-6xl font-serif font-light mb-8 luxury-gradient tracking-wide">
+              AWARDS & RECOGNITION
+            </h2>
+            <div className="elegant-divider w-24 mx-auto mb-8"></div>
+            <p className="text-lg text-foreground/60 max-w-3xl mx-auto font-sans leading-relaxed tracking-wide">
+              Our commitment to excellence has been recognized by the industry's<br />
+              most prestigious institutions and publications
+            </p>
+          </div>
+
+          <div className="grid md:grid-cols-4 gap-12 items-center">
+            <div className="reveal-up visible text-center">
+              <div className="premium-card p-8 h-48 flex flex-col justify-center">
+                <h3 className="font-serif text-lg text-accent mb-2">BRITISH PHOTOGRAPHY</h3>
+                <h4 className="font-serif text-2xl luxury-gradient mb-2">AWARDS</h4>
+                <p className="text-foreground/60 text-sm tracking-wider">PORTRAIT PHOTOGRAPHER<br />OF THE YEAR 2024</p>
+              </div>
+            </div>
+
+            <div className="reveal-up visible text-center">
+              <div className="premium-card p-8 h-48 flex flex-col justify-center">
+                <h3 className="font-serif text-lg text-accent mb-2">LONDON LUXURY</h3>
+                <h4 className="font-serif text-2xl luxury-gradient mb-2">LIFESTYLE</h4>
+                <p className="text-foreground/60 text-sm tracking-wider">BEST PHOTOGRAPHY<br />STUDIO 2024</p>
+              </div>
+            </div>
+
+            <div className="reveal-up visible text-center">
+              <div className="premium-card p-8 h-48 flex flex-col justify-center">
+                <h3 className="font-serif text-lg text-accent mb-2">PROFESSIONAL</h3>
+                <h4 className="font-serif text-2xl luxury-gradient mb-2">PHOTOGRAPHERS</h4>
+                <p className="text-foreground/60 text-sm tracking-wider">EXCELLENCE IN<br />PORTRAITURE 2023</p>
+              </div>
+            </div>
+
+            <div className="reveal-up visible text-center">
+              <div className="premium-card p-8 h-48 flex flex-col justify-center">
+                <h3 className="font-serif text-lg text-accent mb-2">VOGUE FEATURED</h3>
+                <h4 className="font-serif text-2xl luxury-gradient mb-2">ARTIST</h4>
+                <p className="text-foreground/60 text-sm tracking-wider">RECOMMENDED<br />PHOTOGRAPHER 2024</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
     </div>
   );
 }

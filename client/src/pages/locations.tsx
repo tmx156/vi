@@ -104,12 +104,94 @@ export default function Locations() {
             ))}
           </div>
 
+          {/* Investment Guide */}
+          <section className="py-24 bg-gradient-to-b from-secondary to-background mb-24">
+            <div className="max-w-7xl mx-auto px-8">
+              <div className="text-center mb-16">
+                <h2 className="text-5xl md:text-6xl font-serif font-light mb-8 luxury-gradient tracking-wide">
+                  INVESTMENT GUIDE
+                </h2>
+                <div className="elegant-divider w-24 mx-auto mb-8"></div>
+                <p className="text-lg text-foreground/60 max-w-3xl mx-auto font-sans leading-relaxed tracking-wide">
+                  Luxury photography experiences crafted with meticulous attention to detail,<br />
+                  representing an investment in your personal legacy
+                </p>
+              </div>
+
+              <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
+                <div className="premium-card p-8 text-center">
+                  <h3 className="text-2xl font-serif font-light mb-4 text-accent">BOUDOIR</h3>
+                  <div className="w-12 h-px bg-accent/40 mx-auto mb-6"></div>
+                  <div className="text-3xl font-serif luxury-gradient mb-4">£850</div>
+                  <ul className="text-foreground/70 font-sans text-sm space-y-2">
+                    <li>• 90-minute private session</li>
+                    <li>• Professional styling consultation</li>
+                    <li>• 20+ edited digital images</li>
+                    <li>• Luxury presentation box</li>
+                    <li>• Print release included</li>
+                  </ul>
+                </div>
+
+                <div className="premium-card p-8 text-center">
+                  <h3 className="text-2xl font-serif font-light mb-4 text-accent">MATERNITY</h3>
+                  <div className="w-12 h-px bg-accent/40 mx-auto mb-6"></div>
+                  <div className="text-3xl font-serif luxury-gradient mb-4">£750</div>
+                  <ul className="text-foreground/70 font-sans text-sm space-y-2">
+                    <li>• 60-minute session</li>
+                    <li>• Partner included</li>
+                    <li>• 15+ edited digital images</li>
+                    <li>• Wardrobe assistance</li>
+                    <li>• Online gallery access</li>
+                  </ul>
+                </div>
+
+                <div className="premium-card p-8 text-center">
+                  <h3 className="text-2xl font-serif font-light mb-4 text-accent">FAMILY</h3>
+                  <div className="w-12 h-px bg-accent/40 mx-auto mb-6"></div>
+                  <div className="text-3xl font-serif luxury-gradient mb-4">£650</div>
+                  <ul className="text-foreground/70 font-sans text-sm space-y-2">
+                    <li>• 45-minute session</li>
+                    <li>• Up to 6 family members</li>
+                    <li>• 12+ edited digital images</li>
+                    <li>• Multiple outfit changes</li>
+                    <li>• Digital download included</li>
+                  </ul>
+                </div>
+
+                <div className="premium-card p-8 text-center">
+                  <h3 className="text-2xl font-serif font-light mb-4 text-accent">BESTIE</h3>
+                  <div className="w-12 h-px bg-accent/40 mx-auto mb-6"></div>
+                  <div className="text-3xl font-serif luxury-gradient mb-4">£950</div>
+                  <ul className="text-foreground/70 font-sans text-sm space-y-2">
+                    <li>• 2-hour dynamic session</li>
+                    <li>• Up to 4 friends</li>
+                    <li>• 25+ edited digital images</li>
+                    <li>• Creative set designs</li>
+                    <li>• Individual portraits included</li>
+                  </ul>
+                </div>
+              </div>
+
+              <div className="text-center mt-16">
+                <p className="text-foreground/60 font-sans text-sm mb-8">
+                  All sessions include pre-consultation, professional editing, and lifetime cloud storage.<br />
+                  Custom packages and corporate rates available upon request.
+                </p>
+                <div className="premium-button px-12 py-4 text-sm font-medium tracking-widest text-accent-foreground inline-block cursor-pointer">
+                  REQUEST CUSTOM QUOTE
+                </div>
+              </div>
+            </div>
+          </section>
+
           {/* Contact Form */}
-          <div className="bg-secondary rounded-2xl p-12">
+          <div className="premium-glass p-16">
             <div className="max-w-2xl mx-auto text-center">
-              <h3 className="text-4xl font-serif font-bold mb-6" data-testid="contact-form-title">Book Your Session</h3>
-              <p className="text-xl text-muted-foreground mb-8" data-testid="contact-form-subtitle">
-                Ready to create something extraordinary? Get in touch with our team.
+              <h3 className="text-4xl font-serif font-light mb-6 luxury-gradient" data-testid="contact-form-title">Book Your Session</h3>
+              <div className="elegant-divider w-16 mx-auto mb-8"></div>
+              <p className="text-lg text-foreground/60 mb-12 font-sans leading-relaxed tracking-wide" data-testid="contact-form-subtitle">
+                Ready to create something extraordinary? Connect with our atelier team to begin<br />
+                your bespoke photography experience.
               </p>
               
               <form className="space-y-6">

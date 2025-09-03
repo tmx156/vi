@@ -9,6 +9,7 @@ import About from "@/pages/about";
 import Gallery from "@/pages/gallery";
 import Locations from "@/pages/locations";
 import Navigation from "@/components/Navigation";
+import Footer from "@/components/Footer";
 
 function Router() {
   return (
@@ -21,6 +22,7 @@ function Router() {
         <Route path="/locations" component={Locations} />
         <Route component={NotFound} />
       </Switch>
+      <Footer />
     </>
   );
 }

@@ -68,32 +68,53 @@ function setupWebGLScene(canvas: HTMLCanvasElement): () => void {
   ring.rotation.x = Math.PI / 2;
   scene.add(ring);
 
-  // Add camera flash lights
+  // Add camera flash lights with lens flare effect
   const flashLights = [];
-  const flashGeometry = new THREE.SphereGeometry(0.02, 8, 8);
+  const flashGeometry = new THREE.SphereGeometry(0.1, 16, 16);
+  const flareGeometry = new THREE.PlaneGeometry(0.8, 0.8);
   
-  for (let i = 0; i < 8; i++) {
+  for (let i = 0; i < 6; i++) {
+    // Main flash light
     const flashMaterial = new THREE.MeshBasicMaterial({
       color: 0xffffff,
       transparent: true,
-      opacity: 0
+      opacity: 0,
+      emissive: 0xffffff,
+      emissiveIntensity: 0
     });
     const flashLight = new THREE.Mesh(flashGeometry, flashMaterial);
     
+    // Lens flare effect
+    const flareMaterial = new THREE.MeshBasicMaterial({
+      color: 0xffffff,
+      transparent: true,
+      opacity: 0,
+      blending: THREE.AdditiveBlending,
+      depthTest: false
+    });
+    const flareLight = new THREE.Mesh(flareGeometry, flareMaterial);
+    
     // Position lights around the scene
-    const angle = (i / 8) * Math.PI * 2;
-    flashLight.position.x = Math.cos(angle) * 3;
-    flashLight.position.y = Math.sin(angle) * 2;
-    flashLight.position.z = Math.random() * 2 - 1;
+    const angle = (i / 6) * Math.PI * 2;
+    const radius = 2.5 + Math.random() * 1;
+    flashLight.position.x = Math.cos(angle) * radius;
+    flashLight.position.y = Math.sin(angle) * 1.5 + (Math.random() - 0.5) * 0.8;
+    flashLight.position.z = Math.random() * 3 - 1.5;
+    
+    flareLight.position.copy(flashLight.position);
+    flareLight.lookAt(camera.position);
     
     flashLights.push({
       mesh: flashLight,
-      flashTimer: Math.random() * 100,
+      flare: flareLight,
+      flashTimer: Math.random() * 150,
       flashDuration: 0,
-      isFlashing: false
+      isFlashing: false,
+      intensity: Math.random() * 0.5 + 0.5
     });
     
     scene.add(flashLight);
+    scene.add(flareLight);
   }
   
   camera.position.z = 4;
@@ -126,11 +147,11 @@ function setupWebGLScene(canvas: HTMLCanvasElement): () => void {
     ring.rotation.z += 0.002;
     ring.material.opacity = 0.05 + Math.sin(time) * 0.03;
     
-    // Camera flash effects
+    // Dramatic camera flash effects
     flashLights.forEach((flash, index) => {
-      flash.flashTimer += 0.5;
+      flash.flashTimer += 1;
       
-      if (!flash.isFlashing && flash.flashTimer > 60 + Math.random() * 120) {
+      if (!flash.isFlashing && flash.flashTimer > 80 + Math.random() * 100) {
         // Start a new flash
         flash.isFlashing = true;
         flash.flashDuration = 0;
@@ -138,29 +159,46 @@ function setupWebGLScene(canvas: HTMLCanvasElement): () => void {
       }
       
       if (flash.isFlashing) {
-        flash.flashDuration += 2;
+        flash.flashDuration += 1;
         
-        if (flash.flashDuration < 8) {
-          // Flash bright
-          flash.mesh.material.opacity = 0.8 + Math.random() * 0.2;
-          flash.mesh.scale.setScalar(2 + Math.random() * 3);
+        if (flash.flashDuration < 3) {
+          // Intense flash burst
+          const intensity = flash.intensity * (1.5 + Math.random() * 0.5);
+          flash.mesh.material.opacity = intensity;
+          flash.mesh.material.emissiveIntensity = intensity * 2;
+          flash.mesh.scale.setScalar(3 + Math.random() * 2);
           
-          // Add some camera flash color variation
-          if (Math.random() > 0.7) {
-            flash.mesh.material.color.setHex(0xffffaa); // Warm flash
+          // Lens flare effect
+          flash.flare.material.opacity = intensity * 0.8;
+          flash.flare.scale.setScalar(4 + Math.random() * 3);
+          
+          // Camera flash color variation
+          if (Math.random() > 0.6) {
+            flash.mesh.material.color.setHex(0xfff8dc); // Warm flash
+            flash.flare.material.color.setHex(0xfff8dc);
           } else {
             flash.mesh.material.color.setHex(0xffffff); // Cool flash
+            flash.flare.material.color.setHex(0xffffff);
           }
-        } else if (flash.flashDuration < 20) {
-          // Fade out
-          flash.mesh.material.opacity = Math.max(0, 0.8 - (flash.flashDuration - 8) * 0.1);
-          flash.mesh.scale.setScalar(1 + (flash.flashDuration - 8) * 0.2);
+        } else if (flash.flashDuration < 12) {
+          // Quick fade out
+          const fadeOut = 1 - ((flash.flashDuration - 3) / 9);
+          flash.mesh.material.opacity = flash.intensity * fadeOut;
+          flash.mesh.material.emissiveIntensity = flash.intensity * fadeOut * 2;
+          flash.mesh.scale.setScalar(1 + fadeOut * 2);
+          
+          flash.flare.material.opacity = flash.intensity * fadeOut * 0.6;
+          flash.flare.scale.setScalar(1 + fadeOut * 4);
         } else {
           // End flash
           flash.isFlashing = false;
           flash.mesh.material.opacity = 0;
+          flash.mesh.material.emissiveIntensity = 0;
           flash.mesh.scale.setScalar(1);
+          flash.flare.material.opacity = 0;
+          flash.flare.scale.setScalar(1);
           flash.mesh.material.color.setHex(0xffffff);
+          flash.flare.material.color.setHex(0xffffff);
         }
       }
     });

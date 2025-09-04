@@ -20,13 +20,17 @@ export default function WebGLHero({ children }: WebGLHeroProps) {
   return (
     <section 
       className="relative h-screen flex items-center justify-center overflow-hidden"
-      style={{
-        backgroundImage: 'url(https://i.imgur.com/XYIL0pL.png)',
-        backgroundSize: 'cover',
-        backgroundPosition: 'center',
-        backgroundRepeat: 'no-repeat'
-      }}
     >
+      {/* Video Background */}
+      <video
+        autoPlay
+        muted
+        loop
+        playsInline
+        className="absolute top-0 left-0 w-full h-full object-cover z-0"
+      >
+        <source src="https://d1q70pf5vjeyhc.cloudfront.net/predictions/349b3be9e3314770ae89b8fe0620c835/1.mp4" type="video/mp4" />
+      </video>
       {/* Dark overlay for better text readability */}
       <div className="absolute inset-0 bg-black/40 z-10"></div>
       

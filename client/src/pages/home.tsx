@@ -37,7 +37,7 @@ export default function Home() {
     {
       title: "FAMILY",
       description: "Exquisite family portraits capturing authentic connections and timeless bonds with refined artistic vision.",
-      imageUrl: "https://images.unsplash.com/photo-1511895426328-dc8714191300?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&h=800"
+      imageUrl: "https://i.imgur.com/ZyMjl2z.jpeg"
     },
     {
       title: "BESTIE",

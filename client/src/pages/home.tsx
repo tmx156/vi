@@ -27,7 +27,7 @@ export default function Home() {
     {
       title: "BOUDOIR",
       description: "Intimate, empowering sessions that celebrate your confidence and beauty in an environment of absolute luxury and discretion.",
-      imageUrl: "https://images.unsplash.com/photo-1594736797933-d0c3c3d69e92?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&h=800"
+      imageUrl: "https://i.imgur.com/7pArum1.jpeg"
     },
     {
       title: "MATERNITY",

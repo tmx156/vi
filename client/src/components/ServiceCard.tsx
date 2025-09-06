@@ -29,16 +29,21 @@ export default function ServiceCard({ title, description, imageUrl, className }:
         <p className="text-foreground/70 mb-8 font-sans leading-relaxed tracking-wide text-sm" data-testid={`service-description-${title.toLowerCase()}`}>
           {description}
         </p>
-        <div className="flex items-center text-accent group-hover:text-foreground transition-colors duration-300">
-          <span className="text-xs font-medium tracking-widest uppercase">Explore Collection</span>
-          <svg 
-            className="ml-3 w-4 h-4 group-hover:translate-x-2 transition-transform duration-300" 
-            fill="none" 
-            stroke="currentColor" 
-            viewBox="0 0 24 24"
-          >
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M17 8l4 4m0 0l-4 4m4-4H3" />
-          </svg>
+        <div className="space-y-4">
+          <div className="flex items-center text-accent group-hover:text-foreground transition-colors duration-300 mb-4">
+            <span className="text-xs font-medium tracking-widest uppercase">Explore Collection</span>
+            <svg 
+              className="ml-3 w-4 h-4 group-hover:translate-x-2 transition-transform duration-300" 
+              fill="none" 
+              stroke="currentColor" 
+              viewBox="0 0 24 24"
+            >
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M17 8l4 4m0 0l-4 4m4-4H3" />
+            </svg>
+          </div>
+          <button className="w-full px-4 py-2 text-xs font-medium tracking-widest text-foreground border border-accent/50 hover:bg-accent/10 transition-all duration-300 uppercase">
+            Get {title} Consultation
+          </button>
         </div>
       </div>
     </div>

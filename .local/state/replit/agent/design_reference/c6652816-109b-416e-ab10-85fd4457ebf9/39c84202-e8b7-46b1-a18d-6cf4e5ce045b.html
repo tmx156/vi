@@ -1,0 +1,827 @@
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>VIP Photoshoots - Luxury Photography Studio</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/three@0.155.0/build/three.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <script>
+    tailwind.config = {
+        theme: {
+            extend: {
+                borderRadius: {
+                    lg: "var(--radius)",
+                    md: "calc(var(--radius) - 2px)",
+                    sm: "calc(var(--radius) - 4px)",
+                },
+                colors: {
+                    background: "var(--background)",
+                    foreground: "var(--foreground)",
+                    card: {
+                        DEFAULT: "var(--card)",
+                        foreground: "var(--card-foreground)",
+                    },
+                    primary: {
+                        DEFAULT: "var(--primary)",
+                        foreground: "var(--primary-foreground)",
+                    },
+                    secondary: {
+                        DEFAULT: "var(--secondary)",
+                        foreground: "var(--secondary-foreground)",
+                    },
+                    muted: {
+                        DEFAULT: "var(--muted)",
+                        foreground: "var(--muted-foreground)",
+                    },
+                    accent: {
+                        DEFAULT: "var(--accent)",
+                        foreground: "var(--accent-foreground)",
+                    },
+                    border: "var(--border)",
+                    ring: "var(--ring)",
+                },
+                fontFamily: {
+                    serif: ['Playfair Display', 'serif'],
+                    sans: ['Inter', 'sans-serif'],
+                }
+            }
+        }
+    };
+    </script>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <style>
+        :root {
+            --background: hsl(0 0% 10%);
+            --foreground: hsl(0 0% 98%);
+            --card: hsl(0 0% 12%);
+            --card-foreground: hsl(0 0% 98%);
+            --primary: hsl(51 80% 53%);
+            --primary-foreground: hsl(0 0% 10%);
+            --secondary: hsl(0 0% 15%);
+            --secondary-foreground: hsl(0 0% 98%);
+            --muted: hsl(0 0% 20%);
+            --muted-foreground: hsl(0 0% 70%);
+            --accent: hsl(51 80% 53%);
+            --accent-foreground: hsl(0 0% 10%);
+            --border: hsl(0 0% 25%);
+            --ring: hsl(51 80% 53%);
+            --radius: 0.75rem;
+        }
+
+        body {
+            background-color: var(--background);
+            color: var(--foreground);
+            font-family: 'Inter', sans-serif;
+        }
+
+        .hero-canvas {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 1;
+        }
+
+        .page {
+            display: none;
+        }
+
+        .page.active {
+            display: block;
+        }
+
+        .glass-effect {
+            backdrop-filter: blur(10px);
+            background: rgba(26, 26, 26, 0.9);
+            border: 1px solid rgba(212, 175, 55, 0.2);
+        }
+
+        .floating-nav {
+            position: fixed;
+            top: 2rem;
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 1000;
+            backdrop-filter: blur(10px);
+            background: rgba(0, 0, 0, 0.8);
+            border: 1px solid rgba(212, 175, 55, 0.3);
+        }
+
+        .service-card {
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .service-card:hover {
+            transform: translateY(-10px) scale(1.02);
+        }
+
+        .gallery-item {
+            transition: all 0.3s ease;
+        }
+
+        .gallery-item:hover {
+            transform: scale(1.05);
+        }
+
+        .parallax-bg {
+            background-attachment: fixed;
+            background-position: center;
+            background-repeat: no-repeat;
+            background-size: cover;
+        }
+
+        .gradient-text {
+            background: linear-gradient(135deg, #d4af37, #f4e4a1);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .fade-in {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: all 0.8s ease;
+        }
+
+        .fade-in.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .luxury-button {
+            position: relative;
+            overflow: hidden;
+            transition: all 0.3s ease;
+        }
+
+        .luxury-button::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(212, 175, 55, 0.3), transparent);
+            transition: left 0.5s;
+        }
+
+        .luxury-button:hover::before {
+            left: 100%;
+        }
+    </style>
+</head>
+<body>
+    <!-- Floating Navigation -->
+    <nav class="floating-nav rounded-full px-8 py-4">
+        <div class="flex items-center space-x-8">
+            <div class="text-2xl font-serif font-bold gradient-text">VIP Photoshoots</div>
+            <div class="flex space-x-6">
+                <button onclick="showPage('home')" class="nav-link text-foreground hover:text-accent transition-colors duration-300">Home</button>
+                <button onclick="showPage('about')" class="nav-link text-foreground hover:text-accent transition-colors duration-300">About</button>
+                <button onclick="showPage('gallery')" class="nav-link text-foreground hover:text-accent transition-colors duration-300">Gallery</button>
+                <button onclick="showPage('locations')" class="nav-link text-foreground hover:text-accent transition-colors duration-300">Locations</button>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Home Page -->
+    <div id="home" class="page active">
+        <!-- Hero Section with WebGL -->
+        <section class="relative h-screen flex items-center justify-center overflow-hidden">
+            <canvas id="hero-canvas" class="hero-canvas"></canvas>
+            <div class="relative z-10 text-center max-w-4xl mx-auto px-6">
+                <h1 class="text-7xl md:text-8xl font-serif font-bold mb-6 gradient-text leading-tight">
+                    Define Your<br>Luxury Moment
+                </h1>
+                <p class="text-xl md:text-2xl text-muted-foreground mb-8 font-light">
+                    London's Premier Luxury Photography Studio
+                </p>
+                <p class="text-lg text-muted-foreground mb-12 max-w-2xl mx-auto">
+                    Specializing in Boudoir, Maternity, Family & Bestie Photography
+                </p>
+                <button class="luxury-button bg-accent text-accent-foreground px-12 py-4 rounded-full text-lg font-semibold hover:scale-105 transition-all duration-300">
+                    Book Your Session
+                </button>
+            </div>
+        </section>
+
+        <!-- Services Section -->
+        <section class="py-24 px-6">
+            <div class="max-w-7xl mx-auto">
+                <div class="text-center mb-16 fade-in">
+                    <h2 class="text-5xl font-serif font-bold mb-6">Our Signature Services</h2>
+                    <p class="text-xl text-muted-foreground max-w-3xl mx-auto">
+                        Each session is crafted with meticulous attention to detail, ensuring your vision becomes an extraordinary reality
+                    </p>
+                </div>
+                
+                <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
+                    <!-- Boudoir Photography -->
+                    <div class="service-card bg-card rounded-2xl overflow-hidden group cursor-pointer">
+                        <!-- Professional boudoir photography in luxury studio setting -->
+                        <img src="https://pixabay.com/get/g405e99a2c67a5b965d2b452653a2b2f57422c4f9a185fd24df6ae903fcc529ca04410bd69acbe144a0d0b7cfc2007d1ce61d16e7537ead5afe3ab9b754752005_1280.jpg" alt="Luxury boudoir photography session" class="w-full h-64 object-cover">
+                        <div class="p-8">
+                            <h3 class="text-2xl font-serif font-semibold mb-4 gradient-text">Boudoir</h3>
+                            <p class="text-muted-foreground mb-6">Intimate, empowering sessions that celebrate your confidence and beauty in a luxurious, private setting.</p>
+                            <div class="flex items-center text-accent">
+                                <span class="text-sm font-medium">Explore Collection</span>
+                                <i class="fas fa-arrow-right ml-2 group-hover:translate-x-2 transition-transform"></i>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Maternity Photography -->
+                    <div class="service-card bg-card rounded-2xl overflow-hidden group cursor-pointer">
+                        <!-- Beautiful maternity photography session with elegant lighting -->
+                        <img src="https://images.unsplash.com/photo-1555252333-9f8e92e65df9?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&h=400" alt="Elegant maternity photography session" class="w-full h-64 object-cover">
+                        <div class="p-8">
+                            <h3 class="text-2xl font-serif font-semibold mb-4 gradient-text">Maternity</h3>
+                            <p class="text-muted-foreground mb-6">Celebrating the miracle of life with sophisticated portraits that capture this precious moment forever.</p>
+                            <div class="flex items-center text-accent">
+                                <span class="text-sm font-medium">Explore Collection</span>
+                                <i class="fas fa-arrow-right ml-2 group-hover:translate-x-2 transition-transform"></i>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Family Photography -->
+                    <div class="service-card bg-card rounded-2xl overflow-hidden group cursor-pointer">
+                        <!-- Professional family portrait photography in studio -->
+                        <img src="https://images.unsplash.com/photo-1511895426328-dc8714191300?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&h=400" alt="Luxury family portrait session" class="w-full h-64 object-cover">
+                        <div class="p-8">
+                            <h3 class="text-2xl font-serif font-semibold mb-4 gradient-text">Family</h3>
+                            <p class="text-muted-foreground mb-6">Timeless family portraits that capture the love, connection, and unique dynamics of your family.</p>
+                            <div class="flex items-center text-accent">
+                                <span class="text-sm font-medium">Explore Collection</span>
+                                <i class="fas fa-arrow-right ml-2 group-hover:translate-x-2 transition-transform"></i>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Bestie Photography -->
+                    <div class="service-card bg-card rounded-2xl overflow-hidden group cursor-pointer">
+                        <!-- Friends photoshoot in luxury photography studio -->
+                        <img src="https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&h=400" alt="Luxury bestie photography session" class="w-full h-64 object-cover">
+                        <div class="p-8">
+                            <h3 class="text-2xl font-serif font-semibold mb-4 gradient-text">Bestie</h3>
+                            <p class="text-muted-foreground mb-6">Celebrate friendship with dynamic, fun sessions that capture the unique bond between best friends.</p>
+                            <div class="flex items-center text-accent">
+                                <span class="text-sm font-medium">Explore Collection</span>
+                                <i class="fas fa-arrow-right ml-2 group-hover:translate-x-2 transition-transform"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Process Section -->
+        <section class="py-24 bg-secondary">
+            <div class="max-w-7xl mx-auto px-6">
+                <div class="text-center mb-16 fade-in">
+                    <h2 class="text-5xl font-serif font-bold mb-6">The VIP Experience</h2>
+                    <p class="text-xl text-muted-foreground max-w-3xl mx-auto">
+                        From consultation to final delivery, every step is designed for luxury and excellence
+                    </p>
+                </div>
+
+                <div class="grid md:grid-cols-3 gap-12">
+                    <div class="text-center fade-in">
+                        <div class="w-20 h-20 bg-accent rounded-full flex items-center justify-center mx-auto mb-6">
+                            <span class="text-2xl font-bold text-accent-foreground">01</span>
+                        </div>
+                        <h3 class="text-2xl font-serif font-semibold mb-4">Consultation</h3>
+                        <p class="text-muted-foreground">Personal consultation to understand your vision, style preferences, and create a customized experience.</p>
+                    </div>
+
+                    <div class="text-center fade-in">
+                        <div class="w-20 h-20 bg-accent rounded-full flex items-center justify-center mx-auto mb-6">
+                            <span class="text-2xl font-bold text-accent-foreground">02</span>
+                        </div>
+                        <h3 class="text-2xl font-serif font-semibold mb-4">Studio Session</h3>
+                        <p class="text-muted-foreground">Professional photography session in our luxury studio with expert lighting and artistic direction.</p>
+                    </div>
+
+                    <div class="text-center fade-in">
+                        <div class="w-20 h-20 bg-accent rounded-full flex items-center justify-center mx-auto mb-6">
+                            <span class="text-2xl font-bold text-accent-foreground">03</span>
+                        </div>
+                        <h3 class="text-2xl font-serif font-semibold mb-4">Luxury Delivery</h3>
+                        <p class="text-muted-foreground">Receive your professionally edited images in a premium digital gallery with print options.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- CTA Section -->
+        <section class="py-24 px-6">
+            <div class="max-w-4xl mx-auto text-center">
+                <h2 class="text-6xl font-serif font-bold mb-6 gradient-text">Ready to Create Magic?</h2>
+                <p class="text-xl text-muted-foreground mb-12">Let's bring your vision to life with our signature luxury photography experience</p>
+                <button class="luxury-button bg-accent text-accent-foreground px-12 py-4 rounded-full text-lg font-semibold hover:scale-105 transition-all duration-300 mr-6">
+                    Book Consultation
+                </button>
+                <button class="luxury-button border border-accent text-accent px-12 py-4 rounded-full text-lg font-semibold hover:bg-accent hover:text-accent-foreground transition-all duration-300">
+                    View Portfolio
+                </button>
+            </div>
+        </section>
+    </div>
+
+    <!-- About Page -->
+    <div id="about" class="page">
+        <section class="pt-32 pb-24 px-6">
+            <div class="max-w-7xl mx-auto">
+                <div class="grid lg:grid-cols-2 gap-16 items-center">
+                    <div>
+                        <h1 class="text-6xl font-serif font-bold mb-8 gradient-text">About VIP Photoshoots</h1>
+                        <p class="text-xl text-muted-foreground mb-8 leading-relaxed">
+                            Founded on the belief that every individual deserves to feel extraordinary, VIP Photoshoots has become London's premier destination for luxury photography experiences.
+                        </p>
+                        <p class="text-lg text-muted-foreground mb-8 leading-relaxed">
+                            Our state-of-the-art studio, combined with our team of award-winning photographers, creates an environment where artistry meets luxury. We specialize in capturing the essence of our clients through sophisticated portraiture that tells their unique story.
+                        </p>
+                        <div class="grid grid-cols-3 gap-8 mb-8">
+                            <div class="text-center">
+                                <div class="text-3xl font-bold text-accent mb-2">500+</div>
+                                <div class="text-sm text-muted-foreground">Luxury Sessions</div>
+                            </div>
+                            <div class="text-center">
+                                <div class="text-3xl font-bold text-accent mb-2">5</div>
+                                <div class="text-sm text-muted-foreground">Years Excellence</div>
+                            </div>
+                            <div class="text-center">
+                                <div class="text-3xl font-bold text-accent mb-2">98%</div>
+                                <div class="text-sm text-muted-foreground">Client Satisfaction</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="relative">
+                        <!-- Luxury photography studio interior with professional equipment -->
+                        <img src="https://images.unsplash.com/photo-1606983340126-99ab4feaa64a?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&h=600" alt="VIP Photoshoots luxury studio interior" class="rounded-2xl shadow-2xl">
+                        <div class="absolute -bottom-6 -left-6 w-32 h-32 bg-accent rounded-full opacity-20"></div>
+                        <div class="absolute -top-6 -right-6 w-24 h-24 bg-accent rounded-full opacity-30"></div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Team Section -->
+        <section class="py-24 bg-secondary">
+            <div class="max-w-7xl mx-auto px-6">
+                <div class="text-center mb-16">
+                    <h2 class="text-5xl font-serif font-bold mb-6">Our Creative Team</h2>
+                    <p class="text-xl text-muted-foreground max-w-3xl mx-auto">
+                        Meet the talented artists behind every exceptional photograph
+                    </p>
+                </div>
+
+                <div class="grid md:grid-cols-3 gap-12">
+                    <div class="text-center">
+                        <!-- Professional photographer headshot portrait -->
+                        <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?ixlib=rb-4.0.3&auto=format&fit=crop&w=300&h=300" alt="Lead photographer at VIP Photoshoots" class="w-48 h-48 rounded-full mx-auto mb-6 object-cover">
+                        <h3 class="text-2xl font-serif font-semibold mb-2">Alexander Reynolds</h3>
+                        <p class="text-accent mb-4">Lead Photographer & Creative Director</p>
+                        <p class="text-muted-foreground">Award-winning photographer with 10+ years of experience in luxury portraiture and fashion photography.</p>
+                    </div>
+
+                    <div class="text-center">
+                        <!-- Professional photographer headshot portrait female -->
+                        <img src="https://pixabay.com/get/g6af24e1614de784ead651fd1a05c552a98686f18b48fdacda142b9fab637455716a4c88285db2142448a15d508544e909854216e84c77be8bbc2b2a6dad8524e_1280.jpg" alt="Senior photographer at VIP Photoshoots" class="w-48 h-48 rounded-full mx-auto mb-6 object-cover">
+                        <h3 class="text-2xl font-serif font-semibold mb-2">Sophia Martinez</h3>
+                        <p class="text-accent mb-4">Senior Portrait Photographer</p>
+                        <p class="text-muted-foreground">Specializes in boudoir and maternity photography, known for creating intimate and empowering experiences.</p>
+                    </div>
+
+                    <div class="text-center">
+                        <!-- Professional photographer headshot portrait male -->
+                        <img src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-4.0.3&auto=format&fit=crop&w=300&h=300" alt="Family photographer at VIP Photoshoots" class="w-48 h-48 rounded-full mx-auto mb-6 object-cover">
+                        <h3 class="text-2xl font-serif font-semibold mb-2">James Wellington</h3>
+                        <p class="text-accent mb-4">Family & Lifestyle Photographer</p>
+                        <p class="text-muted-foreground">Expert in capturing authentic family moments and creating comfortable environments for natural expressions.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <!-- Gallery Page -->
+    <div id="gallery" class="page">
+        <section class="pt-32 pb-24 px-6">
+            <div class="max-w-7xl mx-auto">
+                <div class="text-center mb-16">
+                    <h1 class="text-6xl font-serif font-bold mb-6 gradient-text">Our Portfolio</h1>
+                    <p class="text-xl text-muted-foreground max-w-3xl mx-auto">
+                        Explore our collection of luxury photography experiences across all our signature services
+                    </p>
+                </div>
+
+                <!-- Gallery Filters -->
+                <div class="flex flex-wrap justify-center gap-4 mb-12">
+                    <button class="gallery-filter active bg-accent text-accent-foreground px-6 py-3 rounded-full font-medium" data-filter="all">All Work</button>
+                    <button class="gallery-filter bg-secondary text-foreground px-6 py-3 rounded-full font-medium hover:bg-accent hover:text-accent-foreground transition-all" data-filter="boudoir">Boudoir</button>
+                    <button class="gallery-filter bg-secondary text-foreground px-6 py-3 rounded-full font-medium hover:bg-accent hover:text-accent-foreground transition-all" data-filter="maternity">Maternity</button>
+                    <button class="gallery-filter bg-secondary text-foreground px-6 py-3 rounded-full font-medium hover:bg-accent hover:text-accent-foreground transition-all" data-filter="family">Family</button>
+                    <button class="gallery-filter bg-secondary text-foreground px-6 py-3 rounded-full font-medium hover:bg-accent hover:text-accent-foreground transition-all" data-filter="bestie">Bestie</button>
+                </div>
+
+                <!-- Gallery Grid -->
+                <div class="grid md:grid-cols-3 lg:grid-cols-4 gap-6">
+                    <!-- Boudoir Images -->
+                    <div class="gallery-item boudoir rounded-2xl overflow-hidden cursor-pointer" data-category="boudoir">
+                        <!-- Elegant boudoir photography in luxury studio -->
+                        <img src="https://pixabay.com/get/gf0edd90cbd7f825de5cca7db91152e678ed84e1a92f201b49b30ce0b71e226f8a0df434fee149852c4c5fff6ee0ba572a20ca159e4e7fc5434e44d2e4cee19c5_1280.jpg" alt="Luxury boudoir photography" class="w-full h-full object-cover">
+                    </div>
+                    
+                    <div class="gallery-item maternity rounded-2xl overflow-hidden cursor-pointer" data-category="maternity">
+                        <!-- Beautiful maternity photography session -->
+                        <img src="https://images.unsplash.com/photo-1555252333-9f8e92e65df9?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&h=500" alt="Elegant maternity photography" class="w-full h-full object-cover">
+                    </div>
+
+                    <div class="gallery-item family rounded-2xl overflow-hidden cursor-pointer" data-category="family">
+                        <!-- Professional family portrait in studio -->
+                        <img src="https://images.unsplash.com/photo-1511895426328-dc8714191300?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&h=400" alt="Luxury family portrait" class="w-full h-full object-cover">
+                    </div>
+
+                    <div class="gallery-item bestie rounded-2xl overflow-hidden cursor-pointer" data-category="bestie">
+                        <!-- Friends photoshoot in professional studio -->
+                        <img src="https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&h=500" alt="Luxury bestie photography" class="w-full h-full object-cover">
+                    </div>
+
+                    <div class="gallery-item boudoir rounded-2xl overflow-hidden cursor-pointer" data-category="boudoir">
+                        <!-- Artistic boudoir photography with dramatic lighting -->
+                        <img src="https://pixabay.com/get/g2bc9374823949d9b8d274735630fe72a0696b91af506da37bdcb9d98fffbd14f47a50d16f68fa22994c6a38a262d391e93abe956d6ad80149178ff50df3ac83f_1280.jpg" alt="Artistic boudoir photography" class="w-full h-full object-cover">
+                    </div>
+
+                    <div class="gallery-item maternity rounded-2xl overflow-hidden cursor-pointer" data-category="maternity">
+                        <!-- Studio maternity photography with professional lighting -->
+                        <img src="https://pixabay.com/get/g92a9e4e17f203e80087b25137f2c1c39c22ae2e301c57fa426666e91e719a00dd615ec188f21aaee10e58829bcdf941cc548cee7531fbb86de5572d309de017a_1280.jpg" alt="Studio maternity photography" class="w-full h-full object-cover">
+                    </div>
+
+                    <div class="gallery-item family rounded-2xl overflow-hidden cursor-pointer" data-category="family">
+                        <!-- Luxury family photography session -->
+                        <img src="https://images.unsplash.com/photo-1609220136736-443140cffec6?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&h=400" alt="Luxury family photography" class="w-full h-full object-cover">
+                    </div>
+
+                    <div class="gallery-item bestie rounded-2xl overflow-hidden cursor-pointer" data-category="bestie">
+                        <!-- Professional friends photography in studio -->
+                        <img src="https://images.unsplash.com/photo-1464375117522-1311d6a5b81f?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&h=500" alt="Professional friends photography" class="w-full h-full object-cover">
+                    </div>
+
+                    <div class="gallery-item boudoir rounded-2xl overflow-hidden cursor-pointer" data-category="boudoir">
+                        <!-- Luxury boudoir photography with elegant styling -->
+                        <img src="https://images.unsplash.com/photo-1614644147798-f8c0fc9da7f6?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&h=600" alt="Luxury boudoir styling" class="w-full h-full object-cover">
+                    </div>
+
+                    <div class="gallery-item maternity rounded-2xl overflow-hidden cursor-pointer" data-category="maternity">
+                        <!-- Professional maternity portrait photography -->
+                        <img src="https://images.unsplash.com/photo-1551884170-09fb70a3a2ed?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&h=500" alt="Professional maternity portrait" class="w-full h-full object-cover">
+                    </div>
+
+                    <div class="gallery-item family rounded-2xl overflow-hidden cursor-pointer" data-category="family">
+                        <!-- Studio family photography with children -->
+                        <img src="https://images.unsplash.com/photo-1593085512500-5d55148d6f0d?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&h=400" alt="Studio family photography" class="w-full h-full object-cover">
+                    </div>
+
+                    <div class="gallery-item bestie rounded-2xl overflow-hidden cursor-pointer" data-category="bestie">
+                        <!-- Glamorous friends photoshoot in luxury studio -->
+                        <img src="https://images.unsplash.com/photo-1519671482749-fd09be7ccebf?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&h=500" alt="Glamorous friends photoshoot" class="w-full h-full object-cover">
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <!-- Locations Page -->
+    <div id="locations" class="page">
+        <section class="pt-32 pb-24 px-6">
+            <div class="max-w-7xl mx-auto">
+                <div class="text-center mb-16">
+                    <h1 class="text-6xl font-serif font-bold mb-6 gradient-text">Studio Locations</h1>
+                    <p class="text-xl text-muted-foreground max-w-3xl mx-auto">
+                        Experience luxury photography at our premium studio locations across London
+                    </p>
+                </div>
+
+                <div class="grid lg:grid-cols-2 gap-16 mb-24">
+                    <!-- Primary Studio -->
+                    <div class="bg-card rounded-2xl overflow-hidden">
+                        <!-- Luxury photography studio interior in Mayfair London -->
+                        <img src="https://images.unsplash.com/photo-1606983340126-99ab4feaa64a?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&h=400" alt="VIP Photoshoots Mayfair studio interior" class="w-full h-64 object-cover">
+                        <div class="p-8">
+                            <h3 class="text-3xl font-serif font-bold mb-4 gradient-text">Mayfair Studio</h3>
+                            <p class="text-muted-foreground mb-6">Our flagship location in the heart of Mayfair, featuring state-of-the-art equipment and luxury amenities.</p>
+                            
+                            <div class="space-y-4 mb-8">
+                                <div class="flex items-center">
+                                    <i class="fas fa-map-marker-alt text-accent mr-3"></i>
+                                    <span>15 Berkeley Square, Mayfair, London W1J 6QQ</span>
+                                </div>
+                                <div class="flex items-center">
+                                    <i class="fas fa-phone text-accent mr-3"></i>
+                                    <span>+44 20 7493 5555</span>
+                                </div>
+                                <div class="flex items-center">
+                                    <i class="fas fa-envelope text-accent mr-3"></i>
+                                    <span>mayfair@vipphotoshoots.com</span>
+                                </div>
+                            </div>
+
+                            <div class="mb-6">
+                                <h4 class="text-lg font-semibold mb-3">Studio Features</h4>
+                                <ul class="space-y-2 text-muted-foreground">
+                                    <li class="flex items-center"><i class="fas fa-check text-accent mr-2"></i>3 Professional Shooting Spaces</li>
+                                    <li class="flex items-center"><i class="fas fa-check text-accent mr-2"></i>Luxury Changing Rooms</li>
+                                    <li class="flex items-center"><i class="fas fa-check text-accent mr-2"></i>Professional Hair & Makeup Station</li>
+                                    <li class="flex items-center"><i class="fas fa-check text-accent mr-2"></i>Client Lounge Area</li>
+                                </ul>
+                            </div>
+
+                            <button class="luxury-button bg-accent text-accent-foreground px-8 py-3 rounded-full font-semibold w-full">
+                                Book Mayfair Studio
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Secondary Studio -->
+                    <div class="bg-card rounded-2xl overflow-hidden">
+                        <!-- Modern photography studio interior in Shoreditch London -->
+                        <img src="https://images.unsplash.com/photo-1598300042247-d088f8ab3a91?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&h=400" alt="VIP Photoshoots Shoreditch studio interior" class="w-full h-64 object-cover">
+                        <div class="p-8">
+                            <h3 class="text-3xl font-serif font-bold mb-4 gradient-text">Shoreditch Studio</h3>
+                            <p class="text-muted-foreground mb-6">Our contemporary space in trendy Shoreditch, perfect for creative and artistic photography sessions.</p>
+                            
+                            <div class="space-y-4 mb-8">
+                                <div class="flex items-center">
+                                    <i class="fas fa-map-marker-alt text-accent mr-3"></i>
+                                    <span>42 Rivington Street, Shoreditch, London EC2A 3BN</span>
+                                </div>
+                                <div class="flex items-center">
+                                    <i class="fas fa-phone text-accent mr-3"></i>
+                                    <span>+44 20 7739 3333</span>
+                                </div>
+                                <div class="flex items-center">
+                                    <i class="fas fa-envelope text-accent mr-3"></i>
+                                    <span>shoreditch@vipphotoshoots.com</span>
+                                </div>
+                            </div>
+
+                            <div class="mb-6">
+                                <h4 class="text-lg font-semibold mb-3">Studio Features</h4>
+                                <ul class="space-y-2 text-muted-foreground">
+                                    <li class="flex items-center"><i class="fas fa-check text-accent mr-2"></i>2 Creative Shooting Spaces</li>
+                                    <li class="flex items-center"><i class="fas fa-check text-accent mr-2"></i>Industrial Backdrop Options</li>
+                                    <li class="flex items-center"><i class="fas fa-check text-accent mr-2"></i>Natural Light Studio</li>
+                                    <li class="flex items-center"><i class="fas fa-check text-accent mr-2"></i>Props & Wardrobe Selection</li>
+                                </ul>
+                            </div>
+
+                            <button class="luxury-button bg-accent text-accent-foreground px-8 py-3 rounded-full font-semibold w-full">
+                                Book Shoreditch Studio
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Contact Form -->
+                <div class="bg-secondary rounded-2xl p-12">
+                    <div class="max-w-2xl mx-auto text-center">
+                        <h3 class="text-4xl font-serif font-bold mb-6">Book Your Session</h3>
+                        <p class="text-xl text-muted-foreground mb-8">Ready to create something extraordinary? Get in touch with our team.</p>
+                        
+                        <form class="space-y-6">
+                            <div class="grid md:grid-cols-2 gap-6">
+                                <input type="text" placeholder="Full Name" class="w-full px-6 py-4 bg-background border border-border rounded-lg focus:border-accent focus:outline-none">
+                                <input type="email" placeholder="Email Address" class="w-full px-6 py-4 bg-background border border-border rounded-lg focus:border-accent focus:outline-none">
+                            </div>
+                            <div class="grid md:grid-cols-2 gap-6">
+                                <input type="tel" placeholder="Phone Number" class="w-full px-6 py-4 bg-background border border-border rounded-lg focus:border-accent focus:outline-none">
+                                <select class="w-full px-6 py-4 bg-background border border-border rounded-lg focus:border-accent focus:outline-none">
+                                    <option>Select Service</option>
+                                    <option>Boudoir Photography</option>
+                                    <option>Maternity Photography</option>
+                                    <option>Family Photography</option>
+                                    <option>Bestie Photography</option>
+                                </select>
+                            </div>
+                            <textarea placeholder="Tell us about your vision..." rows="4" class="w-full px-6 py-4 bg-background border border-border rounded-lg focus:border-accent focus:outline-none"></textarea>
+                            <button type="submit" class="luxury-button bg-accent text-accent-foreground px-12 py-4 rounded-full text-lg font-semibold hover:scale-105 transition-all duration-300">
+                                Send Inquiry
+                            </button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <script>
+        // WebGL Hero Effect
+        (() => {
+            const canvas = document.getElementById('hero-canvas');
+            if (!canvas) return;
+            
+            const scene = new THREE.Scene();
+            const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+            const renderer = new THREE.WebGLRenderer({ canvas: canvas, alpha: true });
+            
+            renderer.setSize(window.innerWidth, window.innerHeight);
+            renderer.setClearColor(0x000000, 0);
+            
+            // Create particles
+            const particlesGeometry = new THREE.BufferGeometry();
+            const particlesCount = 2000;
+            const posArray = new Float32Array(particlesCount * 3);
+            
+            for (let i = 0; i < particlesCount * 3; i++) {
+                posArray[i] = (Math.random() - 0.5) * 10;
+            }
+            
+            particlesGeometry.setAttribute('position', new THREE.BufferAttribute(posArray, 3));
+            
+            const particlesMaterial = new THREE.PointsMaterial({
+                size: 0.005,
+                color: 0xd4af37,
+                transparent: true,
+                opacity: 0.8
+            });
+            
+            const particlesMesh = new THREE.Points(particlesGeometry, particlesMaterial);
+            scene.add(particlesMesh);
+            
+            camera.position.z = 3;
+            
+            let mouseX = 0;
+            let mouseY = 0;
+            
+            document.addEventListener('mousemove', (event) => {
+                mouseX = (event.clientX / window.innerWidth) * 2 - 1;
+                mouseY = -(event.clientY / window.innerHeight) * 2 + 1;
+            });
+            
+            const animate = () => {
+                requestAnimationFrame(animate);
+                
+                particlesMesh.rotation.y += 0.001;
+                particlesMesh.rotation.x += 0.0005;
+                
+                // Mouse interaction
+                particlesMesh.rotation.y += mouseX * 0.0001;
+                particlesMesh.rotation.x += mouseY * 0.0001;
+                
+                renderer.render(scene, camera);
+            };
+            
+            animate();
+            
+            // Handle resize
+            window.addEventListener('resize', () => {
+                camera.aspect = window.innerWidth / window.innerHeight;
+                camera.updateProjectionMatrix();
+                renderer.setSize(window.innerWidth, window.innerHeight);
+            });
+        })();
+
+        // Page Navigation
+        function showPage(pageId) {
+            // Hide all pages
+            document.querySelectorAll('.page').forEach(page => {
+                page.classList.remove('active');
+            });
+            
+            // Show selected page
+            document.getElementById(pageId).classList.add('active');
+            
+            // Update nav styles
+            document.querySelectorAll('.nav-link').forEach(link => {
+                link.classList.remove('text-accent');
+                link.classList.add('text-foreground');
+            });
+            
+            event.target.classList.remove('text-foreground');
+            event.target.classList.add('text-accent');
+            
+            // Scroll to top
+            window.scrollTo(0, 0);
+        }
+
+        // Gallery Filter
+        document.addEventListener('DOMContentLoaded', () => {
+            const filterButtons = document.querySelectorAll('.gallery-filter');
+            const galleryItems = document.querySelectorAll('.gallery-item');
+            
+            filterButtons.forEach(button => {
+                button.addEventListener('click', () => {
+                    const filter = button.getAttribute('data-filter');
+                    
+                    // Update active button
+                    filterButtons.forEach(btn => {
+                        btn.classList.remove('bg-accent', 'text-accent-foreground');
+                        btn.classList.add('bg-secondary', 'text-foreground');
+                    });
+                    
+                    button.classList.remove('bg-secondary', 'text-foreground');
+                    button.classList.add('bg-accent', 'text-accent-foreground');
+                    
+                    // Filter gallery items
+                    galleryItems.forEach(item => {
+                        if (filter === 'all' || item.getAttribute('data-category') === filter) {
+                            item.style.display = 'block';
+                            gsap.fromTo(item, 
+                                { opacity: 0, scale: 0.8 }, 
+                                { opacity: 1, scale: 1, duration: 0.5, ease: "power2.out" }
+                            );
+                        } else {
+                            item.style.display = 'none';
+                        }
+                    });
+                });
+            });
+        });
+
+        // Scroll Animations
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                }
+            });
+        }, observerOptions);
+
+        document.querySelectorAll('.fade-in').forEach(el => {
+            observer.observe(el);
+        });
+
+        // Service Card Hover Effects
+        document.querySelectorAll('.service-card').forEach(card => {
+            card.addEventListener('mouseenter', () => {
+                gsap.to(card, { 
+                    y: -10, 
+                    scale: 1.02, 
+                    duration: 0.4, 
+                    ease: "power2.out" 
+                });
+            });
+            
+            card.addEventListener('mouseleave', () => {
+                gsap.to(card, { 
+                    y: 0, 
+                    scale: 1, 
+                    duration: 0.4, 
+                    ease: "power2.out" 
+                });
+            });
+        });
+
+        // Gallery Item Hover Effects
+        document.querySelectorAll('.gallery-item').forEach(item => {
+            item.addEventListener('mouseenter', () => {
+                gsap.to(item, { 
+                    scale: 1.05, 
+                    duration: 0.3, 
+                    ease: "power2.out" 
+                });
+            });
+            
+            item.addEventListener('mouseleave', () => {
+                gsap.to(item, { 
+                    scale: 1, 
+                    duration: 0.3, 
+                    ease: "power2.out" 
+                });
+            });
+        });
+
+        // Smooth scrolling for navigation
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
+
+        // Form submission (placeholder)
+        document.querySelectorAll('form').forEach(form => {
+            form.addEventListener('submit', (e) => {
+                e.preventDefault();
+                // TODO: Implement form submission logic
+                alert('Thank you for your inquiry! We will contact you soon.');
+            });
+        });
+    </script>
+</body>
+</html>

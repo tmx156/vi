@@ -18,6 +18,10 @@ export default function WebGLHero({ children }: WebGLHeroProps) {
     {
       type: 'image',
       src: 'https://i.imgur.com/MRGNjyI.jpeg'
+    },
+    {
+      type: 'image',
+      src: 'https://i.imgur.com/upMb0rp.jpeg'
     }
   ];
 

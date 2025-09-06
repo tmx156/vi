@@ -70,7 +70,7 @@ export default function About() {
             </div>
             <div className="relative">
               <img 
-                src="https://images.unsplash.com/photo-1606983340126-99ab4feaa64a?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&h=600" 
+                src="https://i.imgur.com/QFajmcc.jpeg" 
                 alt="VIP Photoshoots luxury studio interior" 
                 className="rounded-2xl shadow-2xl"
                 data-testid="studio-image"

@@ -1,21 +1,6 @@
-declare global {
-  interface Window {
-    THREE: any;
-  }
-}
+import * as THREE from 'three';
 
 export function initializeHeroCanvas(canvas: HTMLCanvasElement): () => void {
-  if (typeof window === 'undefined' || !window.THREE) {
-    // Load Three.js dynamically
-    const script = document.createElement('script');
-    script.src = 'https://unpkg.com/three@0.155.0/build/three.min.js';
-    script.onload = () => {
-      setupWebGLScene(canvas);
-    };
-    document.head.appendChild(script);
-    return () => {};
-  }
-
   return setupWebGLScene(canvas);
 }
 

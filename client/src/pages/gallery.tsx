@@ -5,113 +5,185 @@ export default function Gallery() {
     // Featured Portfolio Images
     {
       id: "boudoir-1",
-      src: "https://images.unsplash.com/photo-1594736797933-d0c3c3d69e92?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&h=500",
+      src: "https://i.imgur.com/hBhVQ3Q.jpeg",
       alt: "Luxury boudoir photography",
       category: "boudoir"
     },
     {
       id: "maternity-1",
-      src: "https://images.unsplash.com/photo-1555252333-9f8e92e65df9?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&h=500",
+      src: "https://i.imgur.com/lpEdOD6.jpeg",
       alt: "Elegant maternity photography",
       category: "maternity"
     },
     {
       id: "family-1",
-      src: "https://images.unsplash.com/photo-1511895426328-dc8714191300?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&h=400",
+      src: "https://i.imgur.com/CPb8mAP.jpeg",
       alt: "Luxury family portrait",
       category: "family"
     },
     {
       id: "bestie-1",
-      src: "https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&h=500",
+      src: "https://i.imgur.com/nUwpbIB.jpeg",
       alt: "Luxury bestie photography",
       category: "bestie"
     },
     {
       id: "boudoir-2",
-      src: "https://images.unsplash.com/photo-1614644147798-f8c0fc9da7f6?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&h=600",
+      src: "https://i.imgur.com/RkMwCQS.jpeg",
       alt: "Artistic boudoir photography",
       category: "boudoir"
     },
     {
       id: "maternity-2",
-      src: "https://images.unsplash.com/photo-1551884170-09fb70a3a2ed?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&h=500",
+      src: "https://i.imgur.com/Jx47Iyr.jpeg",
       alt: "Studio maternity photography",
       category: "maternity"
     },
     {
+      id: "maternity-3",
+      src: "https://i.imgur.com/FOyTS6j.jpeg",
+      alt: "Beautiful maternity portrait",
+      category: "maternity"
+    },
+    {
+      id: "maternity-4",
+      src: "https://i.imgur.com/8EuISn2.jpeg",
+      alt: "Elegant maternity photography",
+      category: "maternity"
+    },
+    {
+      id: "maternity-5",
+      src: "https://i.imgur.com/ZU1tDwt.jpeg",
+      alt: "Luxury maternity session",
+      category: "maternity"
+    },
+    {
+      id: "maternity-6",
+      src: "https://i.imgur.com/ug5k3AN.jpeg",
+      alt: "Sophisticated maternity portrait",
+      category: "maternity"
+    },
+    {
+      id: "maternity-7",
+      src: "https://i.imgur.com/rS794ix.jpeg",
+      alt: "Artistic maternity photography",
+      category: "maternity"
+    },
+    {
+      id: "maternity-8",
+      src: "https://i.imgur.com/q6JDXQ6.jpeg",
+      alt: "Professional maternity portrait",
+      category: "maternity"
+    },
+    {
       id: "family-2",
-      src: "https://images.unsplash.com/photo-1609220136736-443140cffec6?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&h=400",
+      src: "https://i.imgur.com/qDxWCbT.jpeg",
       alt: "Luxury family photography",
       category: "family"
     },
     {
       id: "bestie-2",
-      src: "https://images.unsplash.com/photo-1464375117522-1311d6a5b81f?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&h=500",
+      src: "https://i.imgur.com/CP7vmIf.jpeg",
       alt: "Professional friends photography",
       category: "bestie"
     },
     {
       id: "boudoir-3",
-      src: "https://images.unsplash.com/photo-1580489944761-15a19d654956?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&h=600",
+      src: "https://i.imgur.com/HskrxZR.jpeg",
       alt: "Luxury boudoir styling",
       category: "boudoir"
     },
     {
-      id: "maternity-3",
-      src: "https://images.unsplash.com/photo-1578662996442-48f60103fc96?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&h=500",
-      alt: "Professional maternity portrait",
-      category: "maternity"
-    },
-    {
       id: "family-3",
-      src: "https://images.unsplash.com/photo-1593085512500-5d55148d6f0d?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&h=400",
+      src: "https://i.imgur.com/ZgBJ4pz.jpeg",
       alt: "Studio family photography",
       category: "family"
     },
     {
       id: "bestie-3",
-      src: "https://images.unsplash.com/photo-1519671482749-fd09be7ccebf?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&h=500",
+      src: "https://i.imgur.com/TtZomX5.jpeg",
       alt: "Glamorous friends photoshoot",
       category: "bestie"
     },
     // Additional Portfolio Images
     {
       id: "boudoir-4",
-      src: "https://images.unsplash.com/photo-1616683693504-3ea7e9ad6fec?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&h=600",
+      src: "https://i.imgur.com/izlmqIa.jpeg",
       alt: "Elegant boudoir portrait",
       category: "boudoir"
     },
     {
-      id: "maternity-4",
-      src: "https://images.unsplash.com/photo-1586107962156-7b29df739ec1?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&h=500",
-      alt: "Artistic maternity session",
-      category: "maternity"
-    },
-    {
       id: "family-4",
-      src: "https://images.unsplash.com/photo-1581833971358-2c8b550f87b3?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&h=400",
+      src: "https://i.imgur.com/OYGgBkV.jpeg",
       alt: "Intimate family moment",
       category: "family"
     },
     {
+      id: "family-5",
+      src: "https://i.imgur.com/SrLbxYt.jpeg",
+      alt: "Beautiful family portrait",
+      category: "family"
+    },
+    {
+      id: "family-6",
+      src: "https://i.imgur.com/rv8GyqO.jpeg",
+      alt: "Luxury family session",
+      category: "family"
+    },
+    {
+      id: "family-7",
+      src: "https://i.imgur.com/ZyMjl2z.jpeg",
+      alt: "Elegant family photography",
+      category: "family"
+    },
+    {
       id: "bestie-4",
-      src: "https://images.unsplash.com/photo-1529626455594-4ff0802cfb7e?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&h=500",
+      src: "https://i.imgur.com/13FUUst.jpeg",
       alt: "Creative friendship photography",
       category: "bestie"
     },
     {
+      id: "bestie-5",
+      src: "https://i.imgur.com/WoBCaWp.jpeg",
+      alt: "Elegant friends portrait",
+      category: "bestie"
+    },
+    {
+      id: "bestie-6",
+      src: "https://i.imgur.com/mDhO35Q.jpeg",
+      alt: "Luxury bestie session",
+      category: "bestie"
+    },
+    {
+      id: "bestie-7",
+      src: "https://i.imgur.com/tpQW5n2.jpeg",
+      alt: "Sophisticated friendship photography",
+      category: "bestie"
+    },
+    {
       id: "boudoir-5",
-      src: "https://images.unsplash.com/photo-1590736969955-71cc94901144?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&h=600",
+      src: "https://i.imgur.com/Qoyk9nV.jpeg",
       alt: "Luxury boudoir experience",
       category: "boudoir"
     },
     {
-      id: "maternity-5",
-      src: "https://images.unsplash.com/photo-1544861853-4f13a4ad3952?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&h=500",
-      alt: "Sophisticated maternity portrait",
-      category: "maternity"
-    }
+      id: "boudoir-6",
+      src: "https://i.imgur.com/MmZ32Iw.jpeg",
+      alt: "Sophisticated boudoir portrait",
+      category: "boudoir"
+    },
+    {
+      id: "boudoir-7",
+      src: "https://i.imgur.com/sz34KWy.jpeg",
+      alt: "Elegant boudoir photography",
+      category: "boudoir"
+    },
+    {
+      id: "boudoir-8",
+      src: "https://i.imgur.com/DIz3Al9.jpeg",
+      alt: "Luxury boudoir portrait",
+      category: "boudoir"
+    },
   ];
 
   return (

@@ -3,16 +3,17 @@ import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { MapPin, Phone, Mail, Check } from "lucide-react";
+import HomeGallery from "@/components/HomeGallery";
 
 export default function Locations() {
   const studios = [
     {
-      name: "Mayfair Studio",
-      description: "Our flagship location in the heart of Mayfair, featuring state-of-the-art equipment and luxury amenities.",
+      name: "London Studio",
+      description: "Our flagship location in the heart of London, featuring state-of-the-art equipment and luxury amenities.",
       address: "15 Berkeley Square, Mayfair, London W1J 6QQ",
       phone: "+44 20 7493 5555",
-      email: "mayfair@vipphotoshoots.com",
-      imageUrl: "https://images.unsplash.com/photo-1606983340126-99ab4feaa64a?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&h=400",
+      email: "london@vipphotoshoots.com",
+      imageUrl: "https://i.imgur.com/nGTCJ8l.jpeg",
       features: [
         "3 Professional Shooting Spaces",
         "Luxury Changing Rooms",
@@ -21,12 +22,12 @@ export default function Locations() {
       ]
     },
     {
-      name: "Shoreditch Studio",
-      description: "Our contemporary space in trendy Shoreditch, perfect for creative and artistic photography sessions.",
-      address: "42 Rivington Street, Shoreditch, London EC2A 3BN",
-      phone: "+44 20 7739 3333",
-      email: "shoreditch@vipphotoshoots.com",
-      imageUrl: "https://images.unsplash.com/photo-1598300042247-d088f8ab3a91?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&h=400",
+      name: "Manchester Studios",
+      description: "Our contemporary space in vibrant Manchester, perfect for creative and artistic photography sessions.",
+      address: "42 Rivington Street, Manchester M1 3BN",
+      phone: "+44 161 7739 3333",
+      email: "manchester@vipphotoshoots.com",
+      imageUrl: "https://i.imgur.com/KFMpwj9.jpeg",
       features: [
         "2 Creative Shooting Spaces",
         "Industrial Backdrop Options",
@@ -104,85 +105,8 @@ export default function Locations() {
             ))}
           </div>
 
-          {/* Investment Guide */}
-          <section className="py-24 bg-gradient-to-b from-secondary to-background mb-24">
-            <div className="max-w-7xl mx-auto px-8">
-              <div className="text-center mb-16">
-                <h2 className="text-5xl md:text-6xl font-serif font-light mb-8 luxury-gradient tracking-wide">
-                  INVESTMENT GUIDE
-                </h2>
-                <div className="elegant-divider w-24 mx-auto mb-8"></div>
-                <p className="text-lg text-foreground/60 max-w-3xl mx-auto font-sans leading-relaxed tracking-wide">
-                  Luxury photography experiences crafted with meticulous attention to detail,<br />
-                  representing an investment in your personal legacy
-                </p>
-              </div>
-
-              <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
-                <div className="premium-card p-8 text-center">
-                  <h3 className="text-2xl font-serif font-light mb-4 text-accent">BOUDOIR</h3>
-                  <div className="w-12 h-px bg-accent/40 mx-auto mb-6"></div>
-                  <div className="text-3xl font-serif luxury-gradient mb-4">£850</div>
-                  <ul className="text-foreground/70 font-sans text-sm space-y-2">
-                    <li>• 90-minute private session</li>
-                    <li>• Professional styling consultation</li>
-                    <li>• 20+ edited digital images</li>
-                    <li>• Luxury presentation box</li>
-                    <li>• Print release included</li>
-                  </ul>
-                </div>
-
-                <div className="premium-card p-8 text-center">
-                  <h3 className="text-2xl font-serif font-light mb-4 text-accent">MATERNITY</h3>
-                  <div className="w-12 h-px bg-accent/40 mx-auto mb-6"></div>
-                  <div className="text-3xl font-serif luxury-gradient mb-4">£750</div>
-                  <ul className="text-foreground/70 font-sans text-sm space-y-2">
-                    <li>• 60-minute session</li>
-                    <li>• Partner included</li>
-                    <li>• 15+ edited digital images</li>
-                    <li>• Wardrobe assistance</li>
-                    <li>• Online gallery access</li>
-                  </ul>
-                </div>
-
-                <div className="premium-card p-8 text-center">
-                  <h3 className="text-2xl font-serif font-light mb-4 text-accent">FAMILY</h3>
-                  <div className="w-12 h-px bg-accent/40 mx-auto mb-6"></div>
-                  <div className="text-3xl font-serif luxury-gradient mb-4">£650</div>
-                  <ul className="text-foreground/70 font-sans text-sm space-y-2">
-                    <li>• 45-minute session</li>
-                    <li>• Up to 6 family members</li>
-                    <li>• 12+ edited digital images</li>
-                    <li>• Multiple outfit changes</li>
-                    <li>• Digital download included</li>
-                  </ul>
-                </div>
-
-                <div className="premium-card p-8 text-center">
-                  <h3 className="text-2xl font-serif font-light mb-4 text-accent">BESTIE</h3>
-                  <div className="w-12 h-px bg-accent/40 mx-auto mb-6"></div>
-                  <div className="text-3xl font-serif luxury-gradient mb-4">£950</div>
-                  <ul className="text-foreground/70 font-sans text-sm space-y-2">
-                    <li>• 2-hour dynamic session</li>
-                    <li>• Up to 4 friends</li>
-                    <li>• 25+ edited digital images</li>
-                    <li>• Creative set designs</li>
-                    <li>• Individual portraits included</li>
-                  </ul>
-                </div>
-              </div>
-
-              <div className="text-center mt-16">
-                <p className="text-foreground/60 font-sans text-sm mb-8">
-                  All sessions include pre-consultation, professional editing, and lifetime cloud storage.<br />
-                  Custom packages and corporate rates available upon request.
-                </p>
-                <div className="premium-button px-12 py-4 text-sm font-medium tracking-widest text-accent-foreground inline-block cursor-pointer">
-                  REQUEST CUSTOM QUOTE
-                </div>
-              </div>
-            </div>
-          </section>
+          {/* Featured Work Gallery */}
+          <HomeGallery />
 
           {/* Contact Form */}
           <div className="premium-glass p-16">

@@ -17,11 +17,36 @@ export default defineConfig({
   build: {
     outDir: path.resolve(import.meta.dirname, "dist/public"),
     emptyOutDir: true,
+    // Mobile optimization settings
+    target: 'es2015',
+    minify: 'terser',
+    terserOptions: {
+      compress: {
+        drop_console: true,
+        drop_debugger: true,
+      },
+    },
+    rollupOptions: {
+      output: {
+        manualChunks: {
+          vendor: ['react', 'react-dom'],
+          ui: ['@radix-ui/react-dialog', '@radix-ui/react-select', '@radix-ui/react-toast'],
+          utils: ['wouter', 'framer-motion', 'three'],
+        },
+      },
+    },
+    // Optimize for mobile
+    chunkSizeWarningLimit: 1000,
+    assetsInlineLimit: 4096,
   },
   server: {
     fs: {
       strict: true,
       deny: ["**/.*"],
     },
+  },
+  // Mobile performance optimizations
+  optimizeDeps: {
+    include: ['react', 'react-dom', 'wouter', 'framer-motion'],
   },
 });

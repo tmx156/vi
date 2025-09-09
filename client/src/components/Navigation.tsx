@@ -4,7 +4,11 @@ import { cn } from "@/lib/utils";
 import { Menu, X } from "lucide-react";
 import { useState } from "react";
 
-export default function Navigation() {
+interface NavigationProps {
+  onBookSession?: () => void;
+}
+
+export default function Navigation({ onBookSession }: NavigationProps) {
   const [location] = useLocation();
   const [isOpen, setIsOpen] = useState(false);
 
@@ -48,13 +52,13 @@ export default function Navigation() {
                 )}
               </Link>
             ))}
-            <Link
-              href="/contact"
+            <button
+              onClick={onBookSession}
               className="bg-accent text-accent-foreground px-6 py-2 rounded-md text-sm font-medium hover:bg-accent/90 transition-colors"
               data-testid="nav-contact"
             >
               BOOK SESSION
-            </Link>
+            </button>
           </div>
 
           {/* Mobile Menu Button */}
@@ -87,14 +91,16 @@ export default function Navigation() {
                   {item.label}
                 </Link>
               ))}
-              <Link
-                href="/contact"
-                className="block mx-3 mt-4 bg-accent text-accent-foreground px-6 py-2 rounded-md text-base font-medium text-center hover:bg-accent/90 transition-colors"
-                onClick={() => setIsOpen(false)}
+              <button
+                onClick={() => {
+                  setIsOpen(false);
+                  onBookSession?.();
+                }}
+                className="block mx-3 mt-4 bg-accent text-accent-foreground px-6 py-2 rounded-md text-base font-medium text-center hover:bg-accent/90 transition-colors w-full"
                 data-testid="nav-mobile-contact"
               >
                 BOOK SESSION
-              </Link>
+              </button>
             </div>
           </div>
         )}

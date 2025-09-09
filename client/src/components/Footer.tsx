@@ -103,8 +103,8 @@ export default function Footer() {
               © {currentYear} VIP Photoshoots. All rights reserved.
             </div>
             <div className="flex space-x-8 text-foreground/50 font-sans text-sm">
-              <a href="#" className="hover:text-accent transition-colors duration-300">Privacy Policy</a>
-              <a href="#" className="hover:text-accent transition-colors duration-300">Terms of Service</a>
+              <Link href="/privacy" className="hover:text-accent transition-colors duration-300">Privacy Policy</Link>
+              <Link href="/terms" className="hover:text-accent transition-colors duration-300">Terms of Service</Link>
               <a href="#" className="hover:text-accent transition-colors duration-300">Cookie Policy</a>
             </div>
           </div>

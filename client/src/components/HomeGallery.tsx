@@ -1,5 +1,6 @@
 import { useEffect } from "react";
 import { useLocation } from "wouter";
+import MobileOptimizedImage from "./MobileOptimizedImage";
 
 interface GalleryImage {
   id: string;
@@ -38,13 +39,13 @@ export default function HomeGallery() {
     },
     {
       id: "boudoir-2",
-      src: "https://i.imgur.com/3o48Gu2.jpeg",
+      src: "https://i.imgur.com/g5NKulQ.jpeg",
       alt: "Artistic boudoir photography",
       category: "boudoir"
     },
     {
       id: "maternity-2",
-      src: "https://i.imgur.com/XeOfcMQ.jpeg",
+      src: "https://i.imgur.com/f7NYTlM.jpeg",
       alt: "Studio maternity photography",
       category: "maternity"
     },
@@ -109,10 +110,12 @@ export default function HomeGallery() {
               }}
             >
               <div className="relative aspect-[3/4] overflow-hidden rounded-lg premium-card">
-                <img
+                <MobileOptimizedImage
                   src={image.src}
                   alt={image.alt}
                   className="w-full h-full object-cover transition-all duration-700 group-hover:scale-110"
+                  loading="lazy"
+                  decoding="async"
                 />
                 {/* Subtle overlay with category */}
                 <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500">

@@ -9,24 +9,37 @@ interface WebGLHeroProps {
 export default function WebGLHero({ children }: WebGLHeroProps) {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const [currentSlide, setCurrentSlide] = useState(0);
+  const [isFirstSlideLoaded, setIsFirstSlideLoaded] = useState(false);
 
   const slides = [
     {
+      type: 'image',
+      src: 'https://i.imgur.com/MRGNjyI.jpeg',
+      priority: true // First slide is critical for LCP
+    },
+    {
       type: 'video',
-      src: 'https://d1q70pf5vjeyhc.cloudfront.net/predictions/349b3be9e3314770ae89b8fe0620c835/1.mp4'
+      src: 'https://d1q70pf5vjeyhc.cloudfront.net/predictions/349b3be9e3314770ae89b8fe0620c835/1.mp4',
+      priority: false
     },
     {
       type: 'image',
-      src: 'https://i.imgur.com/MRGNjyI.jpeg'
+      src: 'https://i.imgur.com/upMb0rp.jpeg',
+      priority: false
     },
     {
       type: 'image',
-      src: 'https://i.imgur.com/upMb0rp.jpeg'
+      src: 'https://i.imgur.com/fwMaLqL.jpeg',
+      priority: false
     }
   ];
 
   useEffect(() => {
     if (!canvasRef.current) return;
+
+    // Only initialize WebGL on desktop for better mobile performance
+    const isMobile = window.innerWidth <= 768;
+    if (isMobile) return;
 
     const cleanup = initializeHeroCanvas(canvasRef.current);
     
@@ -55,31 +68,44 @@ export default function WebGLHero({ children }: WebGLHeroProps) {
     >
       {/* Slider Backgrounds */}
       <div className="absolute inset-0 z-0">
-        {slides.map((slide, index) => (
-          <div
-            key={index}
-            className={`absolute inset-0 transition-opacity duration-1000 ${
-              index === currentSlide ? 'opacity-100' : 'opacity-0'
-            }`}
-          >
-            {slide.type === 'video' ? (
-              <video
-                autoPlay
-                muted
-                loop
-                playsInline
-                className="absolute top-0 left-0 w-full h-full object-cover"
-              >
-                <source src={slide.src} type="video/mp4" />
-              </video>
-            ) : (
-              <div
-                className="absolute top-0 left-0 w-full h-full bg-cover bg-center bg-no-repeat"
-                style={{ backgroundImage: `url(${slide.src})` }}
-              />
-            )}
-          </div>
-        ))}
+        {slides.map((slide, index) => {
+          // Only render the current slide and the first slide for LCP optimization
+          const shouldRender = index === currentSlide || (index === 0 && !isFirstSlideLoaded);
+          
+          if (!shouldRender) return null;
+
+          return (
+            <div
+              key={index}
+              className={`absolute inset-0 transition-opacity duration-1000 ${
+                index === currentSlide ? 'opacity-100' : 'opacity-0'
+              }`}
+            >
+              {slide.type === 'video' ? (
+                <video
+                  autoPlay
+                  muted
+                  loop
+                  playsInline
+                  preload={index === 0 ? 'auto' : 'metadata'}
+                  className="absolute top-0 left-0 w-full h-full object-cover"
+                  onLoadedData={() => index === 0 && setIsFirstSlideLoaded(true)}
+                >
+                  <source src={slide.src} type="video/mp4" />
+                </video>
+              ) : (
+                <img
+                  src={slide.src}
+                  alt=""
+                  className="absolute top-0 left-0 w-full h-full object-cover"
+                  loading={index === 0 ? 'eager' : 'lazy'}
+                  fetchPriority={index === 0 ? 'high' : 'low'}
+                  onLoad={() => index === 0 && setIsFirstSlideLoaded(true)}
+                />
+              )}
+            </div>
+          );
+        })}
       </div>
 
       {/* Dark overlay for better text readability */}

@@ -1,0 +1,43 @@
+{
+  "version": 2,
+  "builds": [
+    {
+      "src": "dist/index.js",
+      "use": "@vercel/node"
+    },
+    {
+      "src": "dist/public/**",
+      "use": "@vercel/static"
+    }
+  ],
+  "routes": [
+    {
+      "src": "/api/(.*)",
+      "dest": "/dist/index.js"
+    },
+    {
+      "src": "/privacy",
+      "dest": "/dist/public/index.html"
+    },
+    {
+      "src": "/terms",
+      "dest": "/dist/public/index.html"
+    },
+    {
+      "src": "/about",
+      "dest": "/dist/public/index.html"
+    },
+    {
+      "src": "/gallery",
+      "dest": "/dist/public/index.html"
+    },
+    {
+      "src": "/locations",
+      "dest": "/dist/public/index.html"
+    },
+    {
+      "src": "/(.*)",
+      "dest": "/dist/public/$1"
+    }
+  ]
+}

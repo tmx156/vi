@@ -2,11 +2,18 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import WebGLHero from "@/components/WebGLHero";
+import OptimizedHero from "@/components/OptimizedHero";
+import MobileHero from "@/components/MobileHero";
 import ServiceCard from "@/components/ServiceCard";
 import HomeGallery from "@/components/HomeGallery";
+import Navigation from "@/components/Navigation";
+import { useMobilePerformance } from "@/hooks/use-mobile-performance";
 import { useEffect, useState } from "react";
 
 export default function Home() {
+  // Mobile performance optimizations
+  const { isMobile, isReducedMotion } = useMobilePerformance();
+
   // Form state
   const [formData, setFormData] = useState({
     name: '',
@@ -19,13 +26,14 @@ export default function Home() {
   const [submitStatus, setSubmitStatus] = useState(''); // 'success', 'error', or ''
   const [isModalOpen, setIsModalOpen] = useState(false);
 
-  // Debug form data changes
-  useEffect(() => {
-    console.log('Form data updated:', formData);
-  }, [formData]);
 
   useEffect(() => {
-    // Add scroll trigger for reveal animations
+    // Skip animations on mobile for better performance
+    if (isMobile || isReducedMotion) {
+      return; // No animations needed on mobile
+    }
+
+    // Add scroll trigger for reveal animations on desktop only
     const observer = new IntersectionObserver(
       (entries) => {
         entries.forEach((entry) => {
@@ -34,14 +42,14 @@ export default function Home() {
           }
         });
       },
-      { threshold: 0.1 }
+      { threshold: 0.1, rootMargin: '50px' }
     );
 
     const revealElements = document.querySelectorAll('.reveal-up');
     revealElements.forEach((el) => observer.observe(el));
 
     return () => observer.disconnect();
-  }, []);
+  }, [isMobile, isReducedMotion]);
 
   // Form validation
   const validateForm = () => {
@@ -155,64 +163,60 @@ export default function Home() {
 
   return (
     <div className="min-h-screen">
-      {/* Hero Section with WebGL */}
-      <WebGLHero>
-        <div className="reveal-up visible">
-          <h1 className="text-6xl md:text-8xl lg:text-9xl font-serif font-light mb-8 luxury-gradient leading-none tracking-wider" data-testid="hero-title">
+      <Navigation onBookSession={() => setIsModalOpen(true)} />
+      {/* Hero Section - Optimized for LCP */}
+      {isMobile ? (
+        <MobileHero>
+          <div>
+            <h1 className="hero-title" data-testid="hero-title">
+              DEFINE YOUR<br />
+              <span className="font-normal italic">Luxury</span>
+            </h1>
+            <div className="elegant-divider w-32 mx-auto mb-8"></div>
+            <p className="text-lg sm:text-xl md:text-2xl text-foreground/70 mb-6 font-sans font-light tracking-wide" data-testid="hero-subtitle">
+              UK PREMIER LUXURY PHOTOGRAPHY STUDIOS
+            </p>
+            <p className="text-base text-foreground/60 mb-16 max-w-2xl mx-auto font-sans tracking-wide leading-relaxed" data-testid="hero-description">
+              Specializing in Boudoir · Maternity · Family · Bestie Photography
+            </p>
+            
+            {/* Trust Indicators */}
+            <div className="flex flex-wrap justify-center items-center gap-8 text-foreground/50 text-sm tracking-wider">
+              <div className="flex items-center gap-2">
+                <svg className="w-4 h-4 text-accent" fill="currentColor" viewBox="0 0 20 20">
+                  <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
+                </svg>
+                <span>5+ Years Experience</span>
+              </div>
+              <div className="flex items-center gap-2">
+                <svg className="w-4 h-4 text-accent" fill="currentColor" viewBox="0 0 20 20">
+                  <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
+                </svg>
+                <span>500+ Happy Clients</span>
+              </div>
+              <div className="flex items-center gap-2">
+                <svg className="w-4 h-4 text-accent" fill="currentColor" viewBox="0 0 20 20">
+                  <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
+                </svg>
+                <span>Award Winning</span>
+              </div>
+            </div>
+          </div>
+        </MobileHero>
+      ) : (
+        <WebGLHero>
+        <div>
+          <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-8xl xl:text-9xl font-serif font-light mb-8 luxury-gradient leading-none tracking-wider" data-testid="hero-title">
             DEFINE YOUR<br />
             <span className="font-normal italic">Luxury</span>
           </h1>
           <div className="elegant-divider w-32 mx-auto mb-8"></div>
-          <p className="text-xl md:text-2xl text-foreground/70 mb-6 font-sans font-light tracking-wide" data-testid="hero-subtitle">
-            LONDON'S PREMIER LUXURY PHOTOGRAPHY ATELIER
+          <p className="text-lg sm:text-xl md:text-2xl text-foreground/70 mb-6 font-sans font-light tracking-wide" data-testid="hero-subtitle">
+            UK PREMIER LUXURY PHOTOGRAPHY STUDIOS
           </p>
           <p className="text-base text-foreground/60 mb-16 max-w-2xl mx-auto font-sans tracking-wide leading-relaxed" data-testid="hero-description">
             Specializing in Boudoir · Maternity · Family · Bestie Photography
           </p>
-          <div className="flex flex-col sm:flex-row gap-6 items-center justify-center mb-8">
-            <Button 
-              onClick={() => handleButtonClick('hero-consultation')}
-              className="premium-button px-12 py-4 text-sm font-medium tracking-widest text-accent-foreground cursor-pointer"
-              data-testid="book-consultation-button"
-            >
-              GET FREE CONSULTATION
-            </Button>
-            <Button 
-              onClick={() => handleButtonClick('find-studio')}
-              className="px-8 py-4 text-sm font-medium tracking-widest text-foreground border border-accent/50 hover:bg-accent/10 transition-all duration-300 cursor-pointer"
-            >
-              FIND MY STUDIO
-            </Button>
-            <button 
-              onClick={() => handleButtonClick('view-galleries')}
-              className="text-accent font-sans text-sm tracking-widest hover:text-foreground transition-colors duration-300 underline decoration-1 underline-offset-4 cursor-pointer"
-            >
-              VIEW GALLERIES
-            </button>
-          </div>
-          
-          {/* Additional CTA Row */}
-          <div className="flex flex-col sm:flex-row gap-4 items-center justify-center mb-12">
-            <button 
-              onClick={() => handleButtonClick('view-gallery')}
-              className="text-foreground/70 font-sans text-sm tracking-wide hover:text-accent transition-colors duration-300 flex items-center gap-2 cursor-pointer"
-            >
-              <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
-                <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-8.293l-3-3a1 1 0 00-1.414 0l-3 3a1 1 0 001.414 1.414L9 9.414V13a1 1 0 102 0V9.414l1.293 1.293a1 1 0 001.414-1.414z" clipRule="evenodd" />
-              </svg>
-              VIEW GALLERY
-            </button>
-            <span className="text-foreground/30">•</span>
-            <button 
-              onClick={() => handleButtonClick('learn-more')}
-              className="text-foreground/70 font-sans text-sm tracking-wide hover:text-accent transition-colors duration-300 flex items-center gap-2 cursor-pointer"
-            >
-              <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
-                <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-8.293l-3-3a1 1 0 00-1.414 0l-3 3a1 1 0 001.414 1.414L9 9.414V13a1 1 0 102 0V9.414l1.293 1.293a1 1 0 001.414-1.414z" clipRule="evenodd" />
-              </svg>
-              LEARN MORE
-            </button>
-          </div>
           
           {/* Trust Indicators */}
           <div className="flex flex-wrap justify-center items-center gap-8 text-foreground/50 text-sm tracking-wider">
@@ -236,10 +240,11 @@ export default function Home() {
             </div>
           </div>
         </div>
-      </WebGLHero>
+        </WebGLHero>
+      )}
 
       {/* Services Section */}
-      <section className="py-32 px-8">
+      <section className="py-16 md:py-32 px-4 md:px-8">
         <div className="max-w-7xl mx-auto">
           <div className="text-center mb-24 reveal-up visible">
             <h2 className="text-5xl md:text-6xl font-serif font-light mb-8 luxury-gradient tracking-wide" data-testid="services-title">
@@ -264,22 +269,95 @@ export default function Home() {
             ))}
           </div>
           
-          {/* Services CTA */}
-          <div className="text-center mt-16 reveal-up visible">
-            <div className="premium-card p-8 max-w-2xl mx-auto">
-              <h3 className="text-2xl font-serif font-light mb-4 luxury-gradient tracking-wide">
-                READY TO BOOK YOUR SESSION?
-              </h3>
-              <p className="text-foreground/60 mb-6 font-sans text-sm tracking-wide">
-                Choose your preferred photography experience and let's create something extraordinary together
+          {/* CTA Section - Moved up */}
+          <div className="text-center mt-16 reveal-up visible relative overflow-hidden">
+            <div className="absolute inset-0 bg-cover bg-center bg-no-repeat opacity-10" 
+                 style={{ backgroundImage: "url('https://i.imgur.com/QFajmcc.jpeg')" }}>
+            </div>
+            <div className="premium-card p-12 max-w-4xl mx-auto relative z-10">
+              <h2 className="text-4xl md:text-5xl font-serif font-light mb-8 luxury-gradient leading-tight tracking-wide">
+                READY TO FIND YOUR<br />
+                <span className="italic font-normal">Perfect Studio?</span>
+              </h2>
+              <div className="elegant-divider w-24 mx-auto mb-8"></div>
+              <p className="text-lg text-foreground/60 mb-12 font-sans leading-relaxed tracking-wide max-w-2xl mx-auto">
+                Let us connect you with the ideal luxury photography studio<br />
+                that matches your vision and style perfectly
               </p>
-              <div className="flex flex-col sm:flex-row gap-4 justify-center">
-                <Button className="premium-button px-8 py-3 text-sm font-medium tracking-widest text-accent-foreground">
-                  BOOK CONSULTATION
-                </Button>
-                <Button className="px-8 py-3 text-sm font-medium tracking-widest text-foreground border border-accent/50 hover:bg-accent/10 transition-all duration-300">
-                  VIEW GALLERY
-                </Button>
+              
+              {/* Lead Capture Form */}
+              <div className="max-w-2xl mx-auto">
+                <h3 className="text-2xl font-serif font-light mb-6 luxury-gradient tracking-wide">
+                  GET YOUR FREE CONSULTATION
+                </h3>
+                <p className="text-foreground/60 mb-8 font-sans text-sm tracking-wide">
+                  Book a complimentary 30-minute consultation to discuss your vision and connect you with the perfect studio
+                </p>
+                
+                {/* Success Message */}
+                {submitStatus === 'success' && (
+                  <div className="mb-6 p-4 bg-green-900/20 border border-green-500/30 text-green-400 text-sm text-center">
+                    ✅ Thank you! We'll contact you within 24 hours to schedule your consultation.
+                  </div>
+                )}
+                
+                {/* Error Message */}
+                {submitStatus === 'error' && (
+                  <div className="mb-6 p-4 bg-red-900/20 border border-red-500/30 text-red-400 text-sm text-center">
+                    ❌ Something went wrong. Please try again or contact us directly.
+                  </div>
+                )}
+
+                <form onSubmit={handleSubmit} className="space-y-6">
+                  <div className="grid md:grid-cols-2 gap-6">
+                    <Input
+                      type="text"
+                      name="name"
+                      value={formData.name}
+                      onChange={handleInputChange}
+                      placeholder="Your Name"
+                      className="w-full px-4 py-3 bg-white border-2 border-accent/20 rounded cursor-text text-black focus:border-accent"
+                    />
+                    <Input
+                      type="email"
+                      name="email"
+                      value={formData.email}
+                      onChange={handleInputChange}
+                      placeholder="Email Address"
+                      className="w-full px-4 py-3 bg-white border-2 border-accent/20 rounded cursor-text text-black focus:border-accent"
+                    />
+                  </div>
+                  <div className="grid md:grid-cols-2 gap-6">
+                    <Input
+                      type="tel"
+                      name="phone"
+                      value={formData.phone}
+                      onChange={handleInputChange}
+                      placeholder="Phone Number"
+                      className="w-full px-4 py-3 bg-white border-2 border-accent/20 rounded cursor-text text-black focus:border-accent"
+                    />
+                    <Select value={formData.serviceType} onValueChange={handleSelectChange}>
+                      <SelectTrigger className="w-full px-4 py-3 bg-white border-2 border-accent/20 rounded cursor-pointer text-black focus:border-accent">
+                        <SelectValue placeholder="Select Service Type" />
+                      </SelectTrigger>
+                      <SelectContent className="bg-white">
+                        <SelectItem value="boudoir" className="text-black">Boudoir</SelectItem>
+                        <SelectItem value="maternity" className="text-black">Maternity</SelectItem>
+                        <SelectItem value="family" className="text-black">Family</SelectItem>
+                        <SelectItem value="bestie" className="text-black">Bestie</SelectItem>
+                      </SelectContent>
+                    </Select>
+                  </div>
+
+                  <Button
+                    type="submit"
+                    disabled={isSubmitting}
+                    className="w-full px-8 py-3 bg-accent text-accent-foreground rounded text-lg font-semibold hover:scale-105 transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed"
+                    data-testid="book-consultation-button"
+                  >
+                    {isSubmitting ? 'SUBMITTING...' : 'BOOK FREE CONSULTATION'}
+                  </Button>
+                </form>
               </div>
             </div>
           </div>
@@ -290,11 +368,11 @@ export default function Home() {
       <HomeGallery />
 
       {/* Statistics Section */}
-      <section className="py-32 bg-gradient-to-b from-background via-secondary to-background relative overflow-hidden">
+      <section className="py-16 md:py-32 bg-gradient-to-b from-background via-secondary to-background relative overflow-hidden">
         <div className="absolute inset-0 bg-cover bg-center bg-no-repeat opacity-10" 
              style={{ backgroundImage: "url('https://i.imgur.com/nGTCJ8l.jpeg')" }}>
         </div>
-        <div className="max-w-7xl mx-auto px-8 relative z-10">
+        <div className="max-w-7xl mx-auto px-4 md:px-8 relative z-10">
           <div className="text-center mb-24 reveal-up visible">
             <h2 className="text-5xl md:text-6xl font-serif font-light mb-8 luxury-gradient tracking-wide">
               BY THE NUMBERS
@@ -357,11 +435,11 @@ export default function Home() {
       </section>
 
       {/* Process Section */}
-      <section className="py-32 bg-gradient-to-b from-background to-secondary relative overflow-hidden">
+      <section className="py-16 md:py-32 bg-gradient-to-b from-background to-secondary relative overflow-hidden">
         <div className="absolute inset-0 bg-cover bg-center bg-no-repeat opacity-5" 
              style={{ backgroundImage: "url('https://i.imgur.com/KFMpwj9.jpeg')" }}>
         </div>
-        <div className="max-w-7xl mx-auto px-8 relative z-10">
+        <div className="max-w-7xl mx-auto px-4 md:px-8 relative z-10">
           <div className="text-center mb-24 reveal-up visible">
             <h2 className="text-5xl md:text-6xl font-serif font-light mb-8 luxury-gradient tracking-wide" data-testid="process-title">
               THE ATELIER EXPERIENCE
@@ -376,13 +454,15 @@ export default function Home() {
           <div className="grid md:grid-cols-3 gap-16">
             <div className="text-center reveal-up visible premium-card p-12 group">
               <div className="relative mb-8">
-                <div className="w-32 h-32 mx-auto relative overflow-hidden rounded-lg">
-                  <img 
-                    src="https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&h=400" 
-                    alt="Consultation process"
-                    className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
-                  />
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent"></div>
+                <div className="w-32 h-32 mx-auto relative overflow-hidden rounded-lg bg-gradient-to-br from-accent/20 to-accent/5 flex items-center justify-center">
+                  <svg 
+                    className="w-16 h-16 text-accent transition-transform duration-700 group-hover:scale-110" 
+                    fill="none" 
+                    stroke="currentColor" 
+                    viewBox="0 0 24 24"
+                  >
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z" />
+                  </svg>
                   <div className="absolute top-4 left-4 w-8 h-8 bg-accent/90 flex items-center justify-center rounded-full">
                     <span className="text-sm font-serif font-light text-accent-foreground tracking-wider">I</span>
                   </div>
@@ -397,13 +477,16 @@ export default function Home() {
 
             <div className="text-center reveal-up visible premium-card p-12 md:mt-12 group">
               <div className="relative mb-8">
-                <div className="w-32 h-32 mx-auto relative overflow-hidden rounded-lg">
-                  <img 
-                    src="https://images.unsplash.com/photo-1606983340126-99ab4feaa64a?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&h=400" 
-                    alt="Atelier session"
-                    className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
-                  />
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent"></div>
+                <div className="w-32 h-32 mx-auto relative overflow-hidden rounded-lg bg-gradient-to-br from-accent/20 to-accent/5 flex items-center justify-center">
+                  <svg 
+                    className="w-16 h-16 text-accent transition-transform duration-700 group-hover:scale-110" 
+                    fill="none" 
+                    stroke="currentColor" 
+                    viewBox="0 0 24 24"
+                  >
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M3 9a2 2 0 012-2h.93a2 2 0 001.664-.89l.812-1.22A2 2 0 0110.07 4h3.86a2 2 0 011.664.89l.812 1.22A2 2 0 0018.07 7H19a2 2 0 012 2v9a2 2 0 01-2 2H5a2 2 0 01-2-2V9z" />
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M15 13a3 3 0 11-6 0 3 3 0 016 0z" />
+                  </svg>
                   <div className="absolute top-4 left-4 w-8 h-8 bg-accent/90 flex items-center justify-center rounded-full">
                     <span className="text-sm font-serif font-light text-accent-foreground tracking-wider">II</span>
                   </div>
@@ -418,13 +501,15 @@ export default function Home() {
 
             <div className="text-center reveal-up visible premium-card p-12 group">
               <div className="relative mb-8">
-                <div className="w-32 h-32 mx-auto relative overflow-hidden rounded-lg">
-                  <img 
-                    src="https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&h=400" 
-                    alt="Curation process"
-                    className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
-                  />
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent"></div>
+                <div className="w-32 h-32 mx-auto relative overflow-hidden rounded-lg bg-gradient-to-br from-accent/20 to-accent/5 flex items-center justify-center">
+                  <svg 
+                    className="w-16 h-16 text-accent transition-transform duration-700 group-hover:scale-110" 
+                    fill="none" 
+                    stroke="currentColor" 
+                    viewBox="0 0 24 24"
+                  >
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M4 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2V6zM14 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2V6zM4 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2v-2zM14 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2v-2z" />
+                  </svg>
                   <div className="absolute top-4 left-4 w-8 h-8 bg-accent/90 flex items-center justify-center rounded-full">
                     <span className="text-sm font-serif font-light text-accent-foreground tracking-wider">III</span>
                   </div>
@@ -448,7 +533,10 @@ export default function Home() {
                 Ready to begin your luxury photography journey? Book your consultation today.
               </p>
               <div className="flex flex-col sm:flex-row gap-4 justify-center">
-                <Button className="premium-button px-8 py-3 text-sm font-medium tracking-widest text-accent-foreground">
+                <Button 
+                  onClick={() => setIsModalOpen(true)}
+                  className="premium-button px-8 py-3 text-sm font-medium tracking-widest text-accent-foreground"
+                >
                   BOOK CONSULTATION
                 </Button>
                 <Button className="px-8 py-3 text-sm font-medium tracking-widest text-foreground border border-accent/50 hover:bg-accent/10 transition-all duration-300">
@@ -462,115 +550,72 @@ export default function Home() {
         <div className="absolute bottom-0 left-0 right-0 h-24 bg-gradient-to-t from-background to-transparent z-10"></div>
       </section>
 
-      {/* CTA Section */}
-      <section className="py-32 px-8 relative overflow-hidden">
-        <div className="absolute inset-0 bg-cover bg-center bg-no-repeat opacity-10" 
-             style={{ backgroundImage: "url('https://i.imgur.com/QFajmcc.jpeg')" }}>
-        </div>
-        <div className="max-w-6xl mx-auto text-center relative z-10">
-          <div className="reveal-up visible">
-            <h2 className="text-6xl md:text-7xl font-serif font-light mb-12 luxury-gradient leading-tight tracking-wide" data-testid="cta-title">
-              READY TO FIND YOUR<br />
-              <span className="italic font-normal">Perfect Studio?</span>
+      {/* Additional Gallery Section */}
+      <section className="py-16 md:py-24 px-4 md:px-8 relative overflow-hidden">
+        <div className="absolute inset-0 bg-gradient-to-b from-background via-secondary/20 to-background"></div>
+        <div className="max-w-6xl mx-auto relative z-10">
+          <div className="text-center mb-16">
+            <h2 className="text-4xl md:text-5xl font-serif font-light mb-6 luxury-gradient tracking-wide">
+              FEATURED PORTFOLIO
             </h2>
-            <div className="elegant-divider w-32 mx-auto mb-12"></div>
-            <p className="text-xl text-foreground/60 mb-16 font-sans leading-relaxed tracking-wide max-w-3xl mx-auto" data-testid="cta-subtitle">
-              Let us connect you with the ideal luxury photography studio<br />
-              that matches your vision and style perfectly
+            <div className="elegant-divider w-16 mx-auto mb-6"></div>
+            <p className="text-base text-foreground/60 max-w-2xl mx-auto font-sans leading-relaxed tracking-wide">
+              Discover more of our signature work across all photography categories
             </p>
-            
-            {/* Lead Capture Form */}
-            <div className="premium-card p-12 mb-16 max-w-2xl mx-auto">
-              <h3 className="text-2xl font-serif font-light mb-8 luxury-gradient tracking-wide">
-                GET YOUR FREE CONSULTATION
-              </h3>
-              <p className="text-foreground/60 mb-8 font-sans text-sm tracking-wide">
-                Book a complimentary 30-minute consultation to discuss your vision and connect you with the perfect studio
-              </p>
-              
-              {/* Success Message */}
-              {submitStatus === 'success' && (
-                <div className="mb-6 p-4 bg-green-900/20 border border-green-500/30 text-green-400 text-sm text-center">
-                  ✅ Thank you! We'll contact you within 24 hours to schedule your consultation.
-                </div>
-              )}
-              
-              {/* Error Message */}
-              {submitStatus === 'error' && (
-                <div className="mb-6 p-4 bg-red-900/20 border border-red-500/30 text-red-400 text-sm text-center">
-                  ❌ Something went wrong. Please try again or contact us directly.
-                </div>
-              )}
+          </div>
 
-              <form onSubmit={handleSubmit} className="space-y-6">
-
-                <div className="grid md:grid-cols-2 gap-6">
-                  <Input
-                    type="text"
-                    name="name"
-                    value={formData.name}
-                    onChange={handleInputChange}
-                    placeholder="Your Name"
-                    className="w-full px-4 py-3 bg-white border-2 border-blue-500 rounded cursor-text text-black"
-                  />
-                  <Input
-                    type="email"
-                    name="email"
-                    value={formData.email}
-                    onChange={handleInputChange}
-                    placeholder="Email Address"
-                    className="w-full px-4 py-3 bg-white border-2 border-blue-500 rounded cursor-text text-black"
-                  />
-                </div>
-                <div className="grid md:grid-cols-2 gap-6">
-                  <Input
-                    type="tel"
-                    name="phone"
-                    value={formData.phone}
-                    onChange={handleInputChange}
-                    placeholder="Phone Number"
-                    className="w-full px-4 py-3 bg-white border-2 border-blue-500 rounded cursor-text text-black"
-                  />
-                  <Select value={formData.serviceType} onValueChange={handleSelectChange}>
-                    <SelectTrigger className="w-full px-4 py-3 bg-white border-2 border-blue-500 rounded cursor-pointer text-black">
-                      <SelectValue placeholder="Select Service Type" />
-                    </SelectTrigger>
-                    <SelectContent className="bg-white">
-                      <SelectItem value="boudoir" className="text-black">Boudoir</SelectItem>
-                      <SelectItem value="maternity" className="text-black">Maternity</SelectItem>
-                      <SelectItem value="family" className="text-black">Family</SelectItem>
-                      <SelectItem value="bestie" className="text-black">Bestie</SelectItem>
-                    </SelectContent>
-                  </Select>
-                </div>
-                <Button
-                  type="submit"
-                  disabled={isSubmitting}
-                  className="w-full px-8 py-3 bg-accent text-accent-foreground rounded text-lg font-semibold hover:scale-105 transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed"
-                >
-                  {isSubmitting ? 'SUBMITTING...' : 'BOOK FREE CONSULTATION'}
-                </Button>
-              </form>
-            </div>
-
-            <div className="flex flex-col sm:flex-row gap-8 justify-center items-center">
-              <Button 
-                className="premium-button px-16 py-5 text-sm font-medium tracking-widest text-accent-foreground"
-                data-testid="book-consultation-button"
+          {/* Additional Gallery Grid */}
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-3 md:gap-6">
+            {[
+              { src: "https://i.imgur.com/at3tBrT.jpeg", alt: "Luxury family portrait", category: "family" },
+              { src: "https://i.imgur.com/qDxWCbT.jpeg", alt: "Luxury family photography", category: "family" },
+              { src: "https://i.imgur.com/13FUUst.jpeg", alt: "Luxury bestie photography", category: "bestie" },
+              { src: "https://i.imgur.com/TtZomX5.jpeg", alt: "Professional friends photography", category: "bestie" },
+              { src: "https://i.imgur.com/v1l1YoN.jpeg", alt: "Luxury boudoir photography", category: "boudoir" },
+              { src: "https://i.imgur.com/ocClmHz.jpeg", alt: "Luxury boudoir styling", category: "boudoir" },
+              { src: "https://i.imgur.com/q6JDXQ6.jpeg", alt: "Elegant maternity photography", category: "maternity" },
+              { src: "https://i.imgur.com/ug5k3AN.jpeg", alt: "Sophisticated maternity portrait", category: "maternity" }
+            ].map((image, index) => (
+              <div
+                key={index}
+                className="group cursor-pointer transform transition-all duration-500 hover:scale-105"
+                style={{ animationDelay: `${index * 0.05}s` }}
               >
-                GET FREE CONSULTATION
-              </Button>
-              <button className="text-accent font-sans text-sm tracking-widest hover:text-foreground transition-colors duration-300 underline decoration-1 underline-offset-4">
-                VIEW STUDIO GALLERIES
-              </button>
-            </div>
+                <div className="relative aspect-[3/4] overflow-hidden rounded-lg premium-card">
+                  <img
+                    src={image.src}
+                    alt={image.alt}
+                    className="w-full h-full object-cover transition-all duration-700 group-hover:scale-110"
+                    loading="lazy"
+                    decoding="async"
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500">
+                    <div className="absolute bottom-4 left-4 right-4">
+                      <p className="text-white font-serif text-sm tracking-wide capitalize">
+                        {image.category}
+                      </p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            ))}
+          </div>
+
+          {/* Call to Action */}
+          <div className="text-center mt-12">
+            <button
+              onClick={() => setIsModalOpen(true)}
+              className="premium-button px-8 py-3 text-sm font-medium tracking-widest text-accent-foreground hover:scale-105 transition-all duration-300"
+            >
+              BOOK YOUR SESSION
+            </button>
           </div>
         </div>
       </section>
 
       {/* Testimonials Section */}
-      <section className="py-32 bg-gradient-to-b from-secondary to-background relative overflow-hidden">
-        <div className="max-w-7xl mx-auto px-8 relative z-10">
+      <section className="py-16 md:py-32 bg-gradient-to-b from-secondary to-background relative overflow-hidden">
+        <div className="max-w-7xl mx-auto px-4 md:px-8 relative z-10">
           <div className="text-center mb-24 reveal-up visible">
             <h2 className="text-5xl md:text-6xl font-serif font-light mb-8 luxury-gradient tracking-wide">
               CLIENT TESTIMONIALS
@@ -645,7 +690,10 @@ export default function Home() {
                 Experience the same level of excellence and artistry that our clients rave about
               </p>
               <div className="flex flex-col sm:flex-row gap-4 justify-center">
-                <Button className="premium-button px-8 py-3 text-sm font-medium tracking-widest text-accent-foreground">
+                <Button 
+                  onClick={() => setIsModalOpen(true)}
+                  className="premium-button px-8 py-3 text-sm font-medium tracking-widest text-accent-foreground"
+                >
                   BOOK YOUR SESSION
                 </Button>
                 <Button className="px-8 py-3 text-sm font-medium tracking-widest text-foreground border border-accent/50 hover:bg-accent/10 transition-all duration-300">
@@ -658,7 +706,7 @@ export default function Home() {
       </section>
 
       {/* Awards Section */}
-      <section className="py-32 px-8">
+      <section className="py-16 md:py-32 px-4 md:px-8">
         <div className="max-w-7xl mx-auto">
           <div className="text-center mb-24 reveal-up visible">
             <h2 className="text-5xl md:text-6xl font-serif font-light mb-8 luxury-gradient tracking-wide">
@@ -715,7 +763,10 @@ export default function Home() {
                 Trust your precious moments to industry-recognized professionals
               </p>
               <div className="flex flex-col sm:flex-row gap-4 justify-center">
-                <Button className="premium-button px-8 py-3 text-sm font-medium tracking-widest text-accent-foreground">
+                <Button 
+                  onClick={() => setIsModalOpen(true)}
+                  className="premium-button px-8 py-3 text-sm font-medium tracking-widest text-accent-foreground"
+                >
                   BOOK CONSULTATION
                 </Button>
                 <Button className="px-8 py-3 text-sm font-medium tracking-widest text-foreground border border-accent/50 hover:bg-accent/10 transition-all duration-300">

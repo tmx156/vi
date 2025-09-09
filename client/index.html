@@ -2,13 +2,258 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1" />
-    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1, user-scalable=no" />
+    <meta name="theme-color" content="#dcb876" />
+    <meta name="mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+    <meta name="format-detection" content="telephone=no" />
+    
+    <!-- Preload critical resources -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" crossorigin>
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Architects+Daughter&family=DM+Sans:ital,opsz,wght@0,9..40,100..1000;1,9..40,100..1000&family=Fira+Code:wght@300..700&family=Geist+Mono:wght@100..900&family=Geist:wght@100..900&family=IBM+Plex+Mono:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;1,100;1,200;1,300;1,400;1,500;1,600;1,700&family=IBM+Plex+Sans:ital,wght@0,100..700;1,100..700&family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=JetBrains+Mono:ital,wght@0,100..800;1,100..800&family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&family=Lora:ital,wght@0,400..700;1,400..700&family=Merriweather:ital,opsz,wght@0,18..144,300..900;1,18..144,300..900&family=Montserrat:ital,wght@0,100..900;1,100..900&family=Open+Sans:ital,wght@0,300..800;1,300..800&family=Outfit:wght@100..900&family=Oxanium:wght@200..800&family=Playfair+Display:ital,wght@0,400..900;1,400..900&family=Plus+Jakarta+Sans:ital,wght@0,200..800;1,200..800&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Roboto+Mono:ital,wght@0,100..700;1,100..700&family=Roboto:ital,wght@0,100..900;1,100..900&family=Source+Code+Pro:ital,wght@0,200..900;1,200..900&family=Source+Serif+4:ital,opsz,wght@0,8..60,200..900;1,8..60,200..900&family=Space+Grotesk:wght@300..700&family=Space+Mono:ital,wght@0,400;0,700;1,400;1,700&display=swap" rel="stylesheet">
+    <link rel="preconnect" href="https://i.imgur.com" crossorigin>
+    <link rel="preconnect" href="https://d1q70pf5vjeyhc.cloudfront.net" crossorigin>
+    
+    <!-- Preload LCP image with mobile-optimized sizes -->
+    <link rel="preload" as="image" href="https://i.imgur.com/MRGNjyIl.jpeg" fetchpriority="high" media="(max-width: 768px)">
+    <link rel="preload" as="image" href="https://i.imgur.com/MRGNjyI.jpeg" fetchpriority="high" media="(min-width: 769px)">
+    
+    <!-- Additional mobile image preload with better quality -->
+    <script>
+      if (window.innerWidth <= 768) {
+        const link = document.createElement('link');
+        link.rel = 'preload';
+        link.as = 'image';
+        link.href = 'https://i.imgur.com/MRGNjyIl.jpeg'; // Better quality mobile image
+        link.fetchPriority = 'high';
+        document.head.appendChild(link);
+      }
+    </script>
+    
+    
+    <!-- Preload critical fonts -->
+    <link rel="preload" href="https://fonts.gstatic.com/s/cormorantgaramond/v16/co3WmX5slCNuHLi8bLeY9MK7whWMhyjQrEtE.woff2" as="font" type="font/woff2" crossorigin>
+    <link rel="preload" href="https://fonts.gstatic.com/s/montserrat/v26/JTUHjIg1_i6t8kCHKm4532VJOt5-QNFgpCtr6Hw5aXpsog.woff2" as="font" type="font/woff2" crossorigin>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400&family=Montserrat:wght@200;300;400;500;600;700&display=swap">
+    
+    <!-- Critical CSS inline for faster rendering -->
+    <style>
+      /* Critical above-the-fold styles */
+      body { 
+        margin: 0; 
+        font-family: 'Montserrat', sans-serif; 
+        background: #0f0f19; 
+        color: #f2f0e6; 
+        -webkit-font-smoothing: antialiased;
+        -moz-osx-font-smoothing: grayscale;
+      }
+      
+      /* Hero section critical styles */
+      .hero-section {
+        position: relative;
+        height: 100vh;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        overflow: hidden;
+      }
+      
+      .hero-bg {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        z-index: 0;
+      }
+      
+      .hero-overlay {
+        position: absolute;
+        inset: 0;
+        background: rgba(0, 0, 0, 0.4);
+        z-index: 10;
+      }
+      
+      .hero-content {
+        position: relative;
+        z-index: 20;
+        text-align: center;
+        max-width: 64rem;
+        margin: 0 auto;
+        padding: 0 1.5rem;
+      }
+      
+      .hero-title {
+        font-size: 2.5rem;
+        font-weight: 300;
+        margin-bottom: 2rem;
+        line-height: 1;
+        letter-spacing: 0.05em;
+        background: linear-gradient(135deg, #dcb876 0%, #e8d5a3 25%, #dcb876 50%, #c9a96e 75%, #dcb876 100%);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+        contain: layout style paint;
+        opacity: 1 !important;
+        transform: none !important;
+        animation: none !important;
+        transition: none !important;
+        visibility: visible !important;
+        display: block !important;
+        background-size: 100% 100% !important;
+        will-change: auto !important;
+      }
+      
+      /* Mobile-specific optimizations */
+      @media (max-width: 768px) {
+        .hero-section {
+          height: 100vh;
+          height: 100dvh; /* Dynamic viewport height for mobile */
+        }
+        
+        .hero-title {
+          font-size: 2.25rem;
+          margin-bottom: 1.5rem;
+          contain: layout style paint;
+          will-change: auto;
+        }
+        
+        .hero-content {
+          padding: 0 1rem;
+          contain: layout style paint;
+        }
+        
+        /* Aggressive mobile LCP optimizations */
+        .hero-bg {
+          transform: translateZ(0);
+          backface-visibility: hidden;
+          contain: layout style paint;
+          will-change: auto;
+          image-rendering: optimizeSpeed;
+          image-rendering: -webkit-optimize-contrast;
+        }
+        
+        /* Mobile-specific performance optimizations */
+        .hero-overlay {
+          contain: layout style paint;
+          transform: translateZ(0);
+        }
+        
+        .hero-content {
+          contain: layout style paint;
+          transform: translateZ(0);
+        }
+        
+        /* Reduce repaints on mobile - only apply to hero elements */
+        .hero-bg,
+        .hero-overlay,
+        .hero-content,
+        .hero-title {
+          -webkit-transform: translateZ(0);
+          transform: translateZ(0);
+          -webkit-backface-visibility: hidden;
+          backface-visibility: hidden;
+        }
+        
+        /* Mobile-specific text optimization */
+        .hero-title {
+          text-rendering: optimizeSpeed;
+          -webkit-font-smoothing: antialiased;
+          -moz-osx-font-smoothing: grayscale;
+        }
+      }
+      
+      @media (min-width: 640px) {
+        .hero-title { font-size: 3rem; }
+      }
+      
+      @media (min-width: 768px) {
+        .hero-title { font-size: 3.75rem; }
+      }
+      
+      @media (min-width: 1024px) {
+        .hero-title { font-size: 5rem; }
+      }
+      
+      @media (min-width: 1280px) {
+        .hero-title { font-size: 6rem; }
+      }
+      
+      /* Desktop-specific optimizations */
+      @media (min-width: 769px) {
+        .hero-bg {
+          /* Remove mobile optimizations on desktop */
+          contain: none;
+          will-change: auto;
+          transform: none;
+          backface-visibility: visible;
+        }
+        
+        .hero-overlay {
+          contain: none;
+        }
+        
+        .hero-content {
+          contain: none;
+        }
+        
+        .hero-title {
+          contain: none;
+        }
+      }
+      
+      .loading { opacity: 0; transition: opacity 0.3s ease; }
+      .loaded { opacity: 1; }
+    </style>
   </head>
   <body>
     <div id="root"></div>
+    
+    <!-- Aggressive mobile optimization script -->
+    <script>
+      // Mobile performance optimizations
+      if (window.innerWidth <= 768) {
+        // Disable all animations and effects on mobile
+        document.documentElement.style.setProperty('--mobile-optimized', '1');
+        
+        // Disable hover effects on mobile
+        document.addEventListener('DOMContentLoaded', () => {
+          const style = document.createElement('style');
+          style.textContent = `
+            @media (max-width: 768px) {
+              * { transition: none !important; animation: none !important; }
+              .premium-card:hover, .premium-button:hover, .group:hover { transform: none !important; }
+              .luxury-gradient { animation: none !important; }
+            }
+          `;
+          document.head.appendChild(style);
+        });
+        
+        // Preload critical resources immediately
+        const criticalResources = [
+          'https://i.imgur.com/MRGNjyIl.jpeg'
+        ];
+        
+        criticalResources.forEach(src => {
+          const link = document.createElement('link');
+          link.rel = 'preload';
+          link.as = 'image';
+          link.href = src;
+          link.fetchPriority = 'high';
+          document.head.appendChild(link);
+        });
+      }
+      
+      // Font loading optimization
+      if ('fonts' in document) {
+        document.fonts.ready.then(() => {
+          document.body.classList.add('fonts-loaded');
+        });
+      }
+    </script>
+    
     <script type="module" src="/src/main.tsx"></script>
     <!-- This is a replit script which adds a banner on the top of the page when opened in development mode outside the replit environment -->
     <script type="text/javascript" src="https://replit.com/public/js/replit-dev-banner.js"></script>

@@ -1,11 +1,14 @@
 import GalleryGrid from "@/components/GalleryGrid";
+import Navigation from "@/components/Navigation";
+import { useState } from "react";
 
 export default function Gallery() {
+  const [isModalOpen, setIsModalOpen] = useState(false);
   const galleryImages = [
     // Featured Portfolio Images
     {
       id: "boudoir-1",
-      src: "https://i.imgur.com/hBhVQ3Q.jpeg",
+      src: "https://i.imgur.com/v1l1YoN.jpeg",
       alt: "Luxury boudoir photography",
       category: "boudoir"
     },
@@ -108,7 +111,7 @@ export default function Gallery() {
     // Additional Portfolio Images
     {
       id: "boudoir-4",
-      src: "https://i.imgur.com/izlmqIa.jpeg",
+      src: "https://i.imgur.com/JmjTg5I.jpeg",
       alt: "Elegant boudoir portrait",
       category: "boudoir"
     },
@@ -188,6 +191,7 @@ export default function Gallery() {
 
   return (
     <div className="min-h-screen">
+      <Navigation onBookSession={() => setIsModalOpen(true)} />
       <section className="pt-32 pb-24 px-6">
         <div className="max-w-7xl mx-auto">
           <div className="text-center mb-16">
@@ -204,6 +208,83 @@ export default function Gallery() {
           <GalleryGrid images={galleryImages} />
         </div>
       </section>
+
+      {/* Consultation Modal */}
+      {isModalOpen && (
+        <div className="fixed inset-0 bg-black/50 backdrop-blur-sm z-50 flex items-center justify-center p-4">
+          <div className="premium-card max-w-md w-full max-h-[90vh] overflow-y-auto">
+            {/* Modal Header */}
+            <div className="flex items-center justify-between p-6 border-b border-accent/10">
+              <h3 className="text-2xl font-serif font-light luxury-gradient tracking-wide">
+                FREE CONSULTATION
+              </h3>
+              <button
+                onClick={() => setIsModalOpen(false)}
+                className="text-foreground/60 hover:text-accent transition-colors duration-300"
+              >
+                <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                </svg>
+              </button>
+            </div>
+
+            {/* Modal Body */}
+            <div className="p-6">
+              <p className="text-foreground/60 mb-6 font-sans text-sm tracking-wide">
+                Book a complimentary 30-minute consultation to discuss your vision and connect you with the perfect studio
+              </p>
+
+              <form className="space-y-4">
+                <input
+                  type="text"
+                  name="name"
+                  placeholder="Your Name"
+                  className="w-full px-4 py-3 bg-white border-2 border-accent/20 rounded cursor-text text-black focus:border-accent"
+                />
+
+                <input
+                  type="email"
+                  name="email"
+                  placeholder="Email Address"
+                  className="w-full px-4 py-3 bg-white border-2 border-accent/20 rounded cursor-text text-black focus:border-accent"
+                />
+
+                <input
+                  type="tel"
+                  name="phone"
+                  placeholder="Phone Number"
+                  className="w-full px-4 py-3 bg-white border-2 border-accent/20 rounded cursor-text text-black focus:border-accent"
+                />
+
+                <select className="w-full px-4 py-3 bg-white border-2 border-accent/20 rounded cursor-pointer text-black focus:border-accent">
+                  <option value="">Select Service Type</option>
+                  <option value="boudoir">Boudoir</option>
+                  <option value="maternity">Maternity</option>
+                  <option value="family">Family</option>
+                  <option value="bestie">Bestie</option>
+                </select>
+
+                <button
+                  type="submit"
+                  className="w-full px-8 py-3 bg-accent text-accent-foreground rounded text-lg font-semibold hover:scale-105 transition-all duration-300"
+                >
+                  BOOK FREE CONSULTATION
+                </button>
+              </form>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Floating CTA */}
+      <div className="fixed bottom-8 right-8 z-50">
+        <button 
+          onClick={() => setIsModalOpen(true)}
+          className="premium-button px-6 py-3 text-sm font-medium tracking-widest text-accent-foreground shadow-2xl hover:scale-105 transition-all duration-300 cursor-pointer"
+        >
+          GET CONSULTATION
+        </button>
+      </div>
     </div>
   );
 }

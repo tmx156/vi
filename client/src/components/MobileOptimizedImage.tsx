@@ -6,7 +6,7 @@ interface MobileOptimizedImageProps {
   className?: string;
   style?: React.CSSProperties;
   loading?: 'eager' | 'lazy';
-  fetchPriority?: 'high' | 'low' | 'auto';
+  fetchpriority?: 'high' | 'low' | 'auto';
   decoding?: 'sync' | 'async' | 'auto';
   onLoad?: () => void;
 }
@@ -17,7 +17,7 @@ export default function MobileOptimizedImage({
   className = '',
   style = {},
   loading = 'lazy',
-  fetchPriority = 'low',
+  fetchpriority = 'low',
   decoding = 'async',
   onLoad
 }: MobileOptimizedImageProps) {
@@ -30,16 +30,16 @@ export default function MobileOptimizedImage({
 
   const getOptimizedSrc = (originalSrc: string) => {
     if (!isMobile) return originalSrc;
-    
-    // Convert imgur URLs to mobile versions with better quality
+
+    // Convert imgur URLs to mobile versions with WebP for better compression
     if (originalSrc.includes('i.imgur.com')) {
       const imageId = originalSrc.split('/').pop()?.split('.')[0];
       if (imageId) {
-        // Use 'l' size for mobile (large - better quality but still smaller than original)
-        return `https://i.imgur.com/${imageId}l.jpeg`;
+        // Use 'l' size with WebP for mobile (better compression and quality)
+        return `https://i.imgur.com/${imageId}l.webp`;
       }
     }
-    
+
     return originalSrc;
   };
 
@@ -59,7 +59,7 @@ export default function MobileOptimizedImage({
         transition: 'opacity 0.3s ease'
       }}
       loading={loading}
-      fetchPriority={fetchPriority}
+      fetchpriority={fetchpriority}
       decoding={decoding}
       onLoad={handleLoad}
     />

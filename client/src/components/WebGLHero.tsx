@@ -1,6 +1,5 @@
 
 import { useEffect, useRef, useState } from 'react';
-import { initializeHeroCanvas } from '@/lib/webgl-utils';
 
 interface WebGLHeroProps {
   children?: React.ReactNode;
@@ -41,9 +40,13 @@ export default function WebGLHero({ children }: WebGLHeroProps) {
     const isMobile = window.innerWidth <= 768;
     if (isMobile) return;
 
-    const cleanup = initializeHeroCanvas(canvasRef.current);
-    
-    return cleanup;
+    // Dynamic import Three.js only for desktop to reduce mobile bundle size
+    import('@/lib/webgl-utils').then(({ initializeHeroCanvas }) => {
+      if (canvasRef.current) {
+        const cleanup = initializeHeroCanvas(canvasRef.current);
+        return cleanup;
+      }
+    });
   }, []);
 
   useEffect(() => {
@@ -99,7 +102,7 @@ export default function WebGLHero({ children }: WebGLHeroProps) {
                   alt=""
                   className="absolute top-0 left-0 w-full h-full object-cover"
                   loading={index === 0 ? 'eager' : 'lazy'}
-                  fetchPriority={index === 0 ? 'high' : 'low'}
+                  fetchpriority={index === 0 ? 'high' : 'low'}
                   onLoad={() => index === 0 && setIsFirstSlideLoaded(true)}
                 />
               )}
@@ -108,8 +111,8 @@ export default function WebGLHero({ children }: WebGLHeroProps) {
         })}
       </div>
 
-      {/* Dark overlay for better text readability */}
-      <div className="absolute inset-0 bg-black/40 z-10"></div>
+      {/* Subtle overlay for better text readability */}
+      <div className="absolute inset-0 bg-black/20 z-10"></div>
       
       {/* WebGL Canvas */}
       <canvas

@@ -47,7 +47,7 @@ export default function OptimizedHero({ children }: OptimizedHeroProps) {
         alt=""
         className="hero-bg"
         loading="eager"
-        fetchPriority="high"
+        fetchpriority="high"
         decoding="sync"
         onLoad={() => setIsLoaded(true)}
         style={{ 

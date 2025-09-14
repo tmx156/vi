@@ -21,32 +21,28 @@ export default function About() {
       role: "Lead Photographer & Creative Director",
       description: "Award-winning photographer with 15+ years of experience in luxury portraiture. Trained at Central Saint Martins and former Vogue contributor.",
       credentials: "MA Photography, Royal College of Art",
-      specialties: ["Fashion Portrait", "Editorial", "Celebrity Photography"],
-      imageUrl: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&h=400"
+      specialties: ["Fashion Portrait", "Editorial", "Celebrity Photography"]
     },
     {
       name: "Sophia Martinez",
       role: "Senior Portrait Photographer",
       description: "Specializes in boudoir and maternity photography, creating intimate and empowering experiences. International award winner.",
       credentials: "BA Fine Arts, Parsons School of Design",
-      specialties: ["Boudoir", "Maternity", "Fine Art Portraiture"],
-      imageUrl: "https://images.unsplash.com/photo-1494790108755-2616b612b789?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&h=400"
+      specialties: ["Boudoir", "Maternity", "Fine Art Portraiture"]
     },
     {
       name: "James Wellington",
       role: "Family & Lifestyle Photographer",
       description: "Expert in capturing authentic family moments with natural, documentary-style approach. Former photojournalist.",
       credentials: "BA Photojournalism, London College of Communication",
-      specialties: ["Family Portraits", "Lifestyle", "Children Photography"],
-      imageUrl: "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&h=400"
+      specialties: ["Family Portraits", "Lifestyle", "Children Photography"]
     },
     {
       name: "Isabella Chen",
       role: "Luxury Styling Director",
       description: "Former fashion stylist for Harper's Bazaar and Elle. Curates wardrobes and sets for each photography session.",
       credentials: "Styling Diploma, Fashion Institute of Technology",
-      specialties: ["Luxury Styling", "Wardrobe Curation", "Set Design"],
-      imageUrl: "https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&h=400"
+      specialties: ["Luxury Styling", "Wardrobe Curation", "Set Design"]
     }
   ];
 
@@ -82,47 +78,35 @@ export default function About() {
   return (
     <div className="min-h-screen">
       <Navigation onBookSession={() => setIsModalOpen(true)} />
-      <section className="pt-32 pb-24 px-6">
+      <section className="pt-20 sm:pt-24 md:pt-32 pb-16 sm:pb-20 md:pb-24 px-4 sm:px-6">
         <div className="max-w-7xl mx-auto">
-          <div className="grid lg:grid-cols-2 gap-16 items-center">
-            <div>
-              <h1 className="text-6xl font-serif font-light mb-8 luxury-gradient tracking-wide" data-testid="about-title">
-                ABOUT VIP PHOTOSHOOTS
-              </h1>
-              <div className="elegant-divider w-16 mb-8"></div>
-              <p className="text-xl text-foreground/70 mb-8 leading-relaxed font-sans tracking-wide" data-testid="about-intro">
-                Founded in 2019 on the unwavering belief that every individual deserves to experience the extraordinary, VIP Photoshoots has ascended to become London's most distinguished luxury photography atelier.
-              </p>
-              <p className="text-lg text-foreground/60 mb-8 leading-relaxed font-sans" data-testid="about-description">
-                Our state-of-the-art studios, nestled in the heart of Mayfair and the creative pulse of Shoreditch, combined with our team of internationally acclaimed photographers, create sanctuaries where artistry transcends the ordinary. We specialize in capturing the ineffable essence of our distinguished clientele through sophisticated portraiture that becomes timeless legacy.
-              </p>
-              <p className="text-lg text-foreground/60 mb-12 leading-relaxed font-sans">
-                Each session is a bespoke journey, meticulously crafted to reflect your unique narrative. From Fortune 500 executives to celebrated artists, our diverse clientele trusts us to create imagery that defines their personal and professional legacy.
-              </p>
-              <div className="grid grid-cols-3 gap-8 mb-12">
-                <div className="text-center premium-card p-6">
-                  <div className="text-4xl font-serif font-light text-accent mb-3" data-testid="stat-sessions">1,200+</div>
-                  <div className="text-sm text-foreground/60 tracking-widest uppercase">Luxury Sessions</div>
-                </div>
-                <div className="text-center premium-card p-6">
-                  <div className="text-4xl font-serif font-light text-accent mb-3" data-testid="stat-years">5</div>
-                  <div className="text-sm text-foreground/60 tracking-widest uppercase">Years Excellence</div>
-                </div>
-                <div className="text-center premium-card p-6">
-                  <div className="text-4xl font-serif font-light text-accent mb-3" data-testid="stat-satisfaction">99%</div>
-                  <div className="text-sm text-foreground/60 tracking-widest uppercase">Client Satisfaction</div>
-                </div>
+          <div className="text-center max-w-5xl mx-auto">
+            <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-serif font-light mb-6 sm:mb-8 luxury-gradient tracking-wide leading-tight" data-testid="about-title">
+              ABOUT VIP PHOTOSHOOTS
+            </h1>
+            <div className="elegant-divider w-12 sm:w-16 mx-auto mb-6 sm:mb-8"></div>
+            <p className="text-base sm:text-lg md:text-xl text-foreground/70 mb-6 sm:mb-8 leading-relaxed font-sans tracking-wide" data-testid="about-intro">
+              Founded in 2019 on the unwavering belief that every individual deserves to experience the extraordinary, VIP Photoshoots has ascended to become London's most distinguished luxury photography atelier.
+            </p>
+            <p className="text-sm sm:text-base md:text-lg text-foreground/60 mb-6 sm:mb-8 leading-relaxed font-sans" data-testid="about-description">
+              Our state-of-the-art studios, nestled in the heart of Mayfair and the creative pulse of Shoreditch, combined with our team of internationally acclaimed photographers, create sanctuaries where artistry transcends the ordinary. We specialize in capturing the ineffable essence of our distinguished clientele through sophisticated portraiture that becomes timeless legacy.
+            </p>
+            <p className="text-sm sm:text-base md:text-lg text-foreground/60 mb-8 sm:mb-12 leading-relaxed font-sans">
+              Each session is a bespoke journey, meticulously crafted to reflect your unique narrative. From Fortune 500 executives to celebrated artists, our diverse clientele trusts us to create imagery that defines their personal and professional legacy.
+            </p>
+            <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 sm:gap-6 md:gap-8 mb-8 sm:mb-12">
+              <div className="text-center premium-card p-4 sm:p-6">
+                <div className="text-2xl sm:text-3xl md:text-4xl font-serif font-light text-accent mb-2 sm:mb-3" data-testid="stat-sessions">1,200+</div>
+                <div className="text-xs sm:text-sm text-foreground/60 tracking-widest uppercase">Luxury Sessions</div>
               </div>
-            </div>
-            <div className="relative">
-              <img 
-                src="https://images.unsplash.com/photo-1606983340126-99ab4feaa64a?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&h=600" 
-                alt="VIP Photoshoots luxury studio interior" 
-                className="rounded-2xl shadow-2xl"
-                data-testid="studio-image"
-              />
-              <div className="absolute -bottom-6 -left-6 w-32 h-32 bg-accent rounded-full opacity-20"></div>
-              <div className="absolute -top-6 -right-6 w-24 h-24 bg-accent rounded-full opacity-30"></div>
+              <div className="text-center premium-card p-4 sm:p-6">
+                <div className="text-2xl sm:text-3xl md:text-4xl font-serif font-light text-accent mb-2 sm:mb-3" data-testid="stat-years">5</div>
+                <div className="text-xs sm:text-sm text-foreground/60 tracking-widest uppercase">Years Excellence</div>
+              </div>
+              <div className="text-center premium-card p-4 sm:p-6">
+                <div className="text-2xl sm:text-3xl md:text-4xl font-serif font-light text-accent mb-2 sm:mb-3" data-testid="stat-satisfaction">99%</div>
+                <div className="text-xs sm:text-sm text-foreground/60 tracking-widest uppercase">Client Satisfaction</div>
+              </div>
             </div>
           </div>
         </div>
@@ -189,32 +173,23 @@ export default function About() {
             </p>
           </div>
 
-          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
+          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6 sm:gap-8">
             {teamMembers.map((member, index) => (
-              <div key={member.name} className="premium-card group cursor-pointer">
-                <div className="image-overlay relative mb-6">
-                  <img 
-                    src={member.imageUrl} 
-                    alt={`${member.name} at VIP Photoshoots`} 
-                    className="w-full h-80 object-cover transition-transform duration-700 group-hover:scale-105"
-                    data-testid={`team-member-image-${index}`}
-                  />
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent"></div>
-                </div>
-                <div className="p-6">
-                  <h3 className="text-xl font-serif font-light mb-2 text-accent" data-testid={`team-member-name-${index}`}>
+              <div key={member.name} className="premium-card group">
+                <div className="p-4 sm:p-6">
+                  <h3 className="text-lg sm:text-xl font-serif font-light mb-2 text-accent" data-testid={`team-member-name-${index}`}>
                     {member.name}
                   </h3>
-                  <p className="text-foreground/60 text-sm tracking-wider uppercase mb-4" data-testid={`team-member-role-${index}`}>
+                  <p className="text-foreground/60 text-xs sm:text-sm tracking-wider uppercase mb-3 sm:mb-4" data-testid={`team-member-role-${index}`}>
                     {member.role}
                   </p>
-                  <p className="text-foreground/70 text-sm font-sans leading-relaxed mb-4" data-testid={`team-member-description-${index}`}>
+                  <p className="text-foreground/70 text-xs sm:text-sm font-sans leading-relaxed mb-3 sm:mb-4" data-testid={`team-member-description-${index}`}>
                     {member.description}
                   </p>
                   <div className="text-xs text-foreground/50 mb-3">
                     <strong>Credentials:</strong> {member.credentials}
                   </div>
-                  <div className="flex flex-wrap gap-2">
+                  <div className="flex flex-wrap gap-1 sm:gap-2">
                     {member.specialties.map((specialty, i) => (
                       <span key={i} className="text-xs bg-accent/10 text-accent px-2 py-1 tracking-wider">
                         {specialty}

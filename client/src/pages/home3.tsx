@@ -1,6 +1,4 @@
 import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import WebGLHero from "@/components/WebGLHero";
 import OptimizedHero from "@/components/OptimizedHero";
 import MobileHero from "@/components/MobileHero";
@@ -10,20 +8,20 @@ import Navigation from "@/components/Navigation";
 import { useMobilePerformance } from "@/hooks/use-mobile-performance";
 import { useEffect, useState } from "react";
 
+// Type declarations for JotForm
+declare global {
+  interface Window {
+    jotformEmbedHandler: (selector: string, baseUrl: string) => void;
+    JotformFeedback: any;
+  }
+}
+
+
 export default function Home() {
   // Mobile performance optimizations
   const { isMobile, isReducedMotion } = useMobilePerformance();
 
-  // Form state
-  const [formData, setFormData] = useState({
-    name: '',
-    email: '',
-    phone: '',
-    serviceType: ''
-  });
-  const [formErrors, setFormErrors] = useState<Record<string, string>>({});
-  const [isSubmitting, setIsSubmitting] = useState(false);
-  const [submitStatus, setSubmitStatus] = useState(''); // 'success', 'error', or ''
+  // Modal state for JotForm
   const [isModalOpen, setIsModalOpen] = useState(false);
 
 
@@ -51,91 +49,73 @@ export default function Home() {
     return () => observer.disconnect();
   }, [isMobile, isReducedMotion]);
 
-  // Form validation
-  const validateForm = () => {
-    const errors: Record<string, string> = {};
-    if (!formData.name.trim()) errors.name = 'Name is required';
-    if (!formData.email.trim()) {
-      errors.email = 'Email is required';
-    } else if (!/\S+@\S+\.\S+/.test(formData.email)) {
-      errors.email = 'Email is invalid';
-    }
-    if (!formData.phone.trim()) errors.phone = 'Phone is required';
-    if (!formData.serviceType) errors.serviceType = 'Service type is required';
-
-    setFormErrors(errors);
-    return Object.keys(errors).length === 0;
-  };
-
-  // Handle input changes
-  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const name = e.target.name;
-    const value = e.target.value;
-
-    console.log('Input changed:', name, value); // Debug log
-    setFormData(prev => ({
-      ...prev,
-      [name]: value
-    }));
-
-    // Clear error for this field
-    if (formErrors[name]) {
-      setFormErrors(prev => ({
-        ...prev,
-        [name]: ''
-      }));
-    }
-  };
-
-  // Handle select changes
-  const handleSelectChange = (value: string) => {
-    console.log('Select changed:', 'serviceType', value);
-    setFormData(prev => ({
-      ...prev,
-      serviceType: value
-    }));
-
-    if (formErrors.serviceType) {
-      setFormErrors(prev => ({
-        ...prev,
-        serviceType: ''
-      }));
-    }
-  };
-
-  // Handle form submission
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    
-    if (!validateForm()) {
+  // Load JotForm scripts
+  useEffect(() => {
+    // Check if scripts are already loaded
+    if (document.querySelector('script[src="https://cdn.jotfor.ms/s/static/latest/static/feedback2.js"]')) {
       return;
     }
 
-    setIsSubmitting(true);
-    setSubmitStatus('');
+    // Load feedback script
+    const feedbackScript = document.createElement('script');
+    feedbackScript.src = 'https://cdn.jotfor.ms/s/static/latest/static/feedback2.js';
+    feedbackScript.type = 'text/javascript';
+    feedbackScript.async = true;
 
-    try {
-      // Simulate API call
-      await new Promise(resolve => setTimeout(resolve, 2000));
-      
-      // Simulate success
-      setSubmitStatus('success');
-      setFormData({ name: '', email: '', phone: '', serviceType: '' });
-      setIsModalOpen(false);
-    } catch (error) {
-      setSubmitStatus('error');
-    } finally {
-      setIsSubmitting(false);
-    }
-  };
+    // Load embed handler script
+    const embedScript = document.createElement('script');
+    embedScript.src = 'https://cdn.jotfor.ms/s/umd/latest/for-form-embed-handler.js';
+    embedScript.async = true;
 
-  // Handle other button clicks
+    document.head.appendChild(feedbackScript);
+    document.head.appendChild(embedScript);
+
+    // Initialize the form handler after scripts load
+    embedScript.onload = () => {
+      if (window.jotformEmbedHandler) {
+        window.jotformEmbedHandler("iframe[id='252563602964360']", "https://form.jotform.com/");
+      }
+    };
+
+    // Initialize JotformFeedback after feedback script loads
+    feedbackScript.onload = () => {
+      if (window.JotformFeedback) {
+        new window.JotformFeedback({
+          formId: '252563602964360',
+          base: 'https://form.jotform.com/',
+          windowTitle: 'Clone of Form',
+          backgroundColor: '#FFA500',
+          fontColor: '#FFFFFF',
+          type: '0',
+          height: 500,
+          width: 700,
+          openOnLoad: false
+        });
+      }
+    };
+
+    return () => {
+      const existingFeedbackScript = document.querySelector('script[src="https://cdn.jotfor.ms/s/static/latest/static/feedback2.js"]');
+      const existingEmbedScript = document.querySelector('script[src="https://cdn.jotfor.ms/s/umd/latest/for-form-embed-handler.js"]');
+      if (existingFeedbackScript) {
+        document.head.removeChild(existingFeedbackScript);
+      }
+      if (existingEmbedScript) {
+        document.head.removeChild(existingEmbedScript);
+      }
+    };
+  }, []);
+
+  // Handle button clicks for modal
   const handleButtonClick = (action: string) => {
-    console.log('Button clicked:', action);
     if (action === 'floating-consultation') {
       setIsModalOpen(true);
     }
-    // You can add different actions for different buttons here
+  };
+
+  // Handle modal close
+  const handleModalClose = () => {
+    setIsModalOpen(false);
   };
 
   const services = [
@@ -244,8 +224,8 @@ export default function Home() {
       )}
 
       {/* Services Section */}
-      <section className="py-16 md:py-32 px-4 md:px-8">
-        <div className="max-w-7xl mx-auto">
+      <section className="py-16 md:py-32">
+        <div className="max-w-7xl mx-auto px-4 md:px-8">
           <div className="text-center mb-24 reveal-up visible">
             <h2 className="text-5xl md:text-6xl font-serif font-light mb-8 luxury-gradient tracking-wide" data-testid="services-title">
               SIGNATURE COLLECTIONS
@@ -268,97 +248,46 @@ export default function Home() {
               </div>
             ))}
           </div>
+          </div>
           
-          {/* CTA Section - Moved up */}
-          <div className="text-center mt-16 reveal-up visible relative overflow-hidden">
+        {/* CTA Section - Full Width */}
+        <div className="text-center mt-16 reveal-up visible relative overflow-hidden">
             <div className="absolute inset-0 bg-cover bg-center bg-no-repeat opacity-10" 
                  style={{ backgroundImage: "url('https://i.imgur.com/QFajmcc.jpeg')" }}>
             </div>
-            <div className="premium-card p-12 max-w-4xl mx-auto relative z-10">
+          <div className="premium-card p-12 w-full max-w-none mx-auto relative z-10">
               <h2 className="text-4xl md:text-5xl font-serif font-light mb-8 luxury-gradient leading-tight tracking-wide">
-                READY TO FIND YOUR<br />
-                <span className="italic font-normal">Perfect Studio?</span>
-              </h2>
+                  READY TO FIND YOUR<br />
+                  <span className="italic font-normal">Perfect Studio?</span>
+                </h2>
               <div className="elegant-divider w-24 mx-auto mb-8"></div>
               <p className="text-lg text-foreground/60 mb-12 font-sans leading-relaxed tracking-wide max-w-2xl mx-auto">
-                Let us connect you with the ideal luxury photography studio<br />
-                that matches your vision and style perfectly
-              </p>
-              
-              {/* Lead Capture Form */}
-              <div className="max-w-2xl mx-auto">
+                  Let us connect you with the ideal luxury photography studio<br />
+                  that matches your vision and style perfectly
+                </p>
+
+              {/* JotForm Integration */}
+              <div className="w-full">
                 <h3 className="text-2xl font-serif font-light mb-6 luxury-gradient tracking-wide">
                   GET YOUR FREE CONSULTATION
                 </h3>
                 <p className="text-foreground/60 mb-8 font-sans text-sm tracking-wide">
                   Book a complimentary 30-minute consultation to discuss your vision and connect you with the perfect studio
                 </p>
-                
-                {/* Success Message */}
-                {submitStatus === 'success' && (
-                  <div className="mb-6 p-4 bg-green-900/20 border border-green-500/30 text-green-400 text-sm text-center">
-                    ✅ Thank you! We'll contact you within 24 hours to schedule your consultation.
-                  </div>
-                )}
-                
-                {/* Error Message */}
-                {submitStatus === 'error' && (
-                  <div className="mb-6 p-4 bg-red-900/20 border border-red-500/30 text-red-400 text-sm text-center">
-                    ❌ Something went wrong. Please try again or contact us directly.
-                  </div>
-                )}
 
-                <form onSubmit={handleSubmit} className="space-y-6">
-                  <div className="grid md:grid-cols-2 gap-6">
-                    <Input
-                      type="text"
-                      name="name"
-                      value={formData.name}
-                      onChange={handleInputChange}
-                      placeholder="Your Name"
-                      className="w-full px-4 py-3 bg-white border-2 border-accent/20 rounded cursor-text text-black focus:border-accent"
-                    />
-                    <Input
-                      type="email"
-                      name="email"
-                      value={formData.email}
-                      onChange={handleInputChange}
-                      placeholder="Email Address"
-                      className="w-full px-4 py-3 bg-white border-2 border-accent/20 rounded cursor-text text-black focus:border-accent"
-                    />
-                  </div>
-                  <div className="grid md:grid-cols-2 gap-6">
-                    <Input
-                      type="tel"
-                      name="phone"
-                      value={formData.phone}
-                      onChange={handleInputChange}
-                      placeholder="Phone Number"
-                      className="w-full px-4 py-3 bg-white border-2 border-accent/20 rounded cursor-text text-black focus:border-accent"
-                    />
-                    <Select value={formData.serviceType} onValueChange={handleSelectChange}>
-                      <SelectTrigger className="w-full px-4 py-3 bg-white border-2 border-accent/20 rounded cursor-pointer text-black focus:border-accent">
-                        <SelectValue placeholder="Select Service Type" />
-                      </SelectTrigger>
-                      <SelectContent className="bg-white">
-                        <SelectItem value="boudoir" className="text-black">Boudoir</SelectItem>
-                        <SelectItem value="maternity" className="text-black">Maternity</SelectItem>
-                        <SelectItem value="family" className="text-black">Family</SelectItem>
-                        <SelectItem value="bestie" className="text-black">Bestie</SelectItem>
-                      </SelectContent>
-                    </Select>
-                  </div>
-
-                  <Button
-                    type="submit"
-                    disabled={isSubmitting}
-                    className="w-full px-8 py-3 bg-accent text-accent-foreground rounded text-lg font-semibold hover:scale-105 transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed"
-                    data-testid="book-consultation-button"
-                  >
-                    {isSubmitting ? 'SUBMITTING...' : 'BOOK FREE CONSULTATION'}
-                  </Button>
-                </form>
-              </div>
+                {/* JotForm Iframe Embed */}
+                <iframe
+                  id="252563602964360"
+                  title="Clone of Form"
+                  onLoad={() => window.parent.scrollTo(0,0)}
+                  allowTransparency={true}
+                  allow="geolocation; microphone; camera; fullscreen; payment"
+                  src="https://form.jotform.com/252563602964360"
+                  frameBorder="0"
+                  style={{ minWidth: '100%', maxWidth: '100%', height: '539px', border: 'none' }}
+                  scrolling="no"
+                >
+                </iframe>
             </div>
           </div>
         </div>
@@ -778,17 +707,17 @@ export default function Home() {
         </div>
       </section>
 
-      {/* Consultation Modal */}
+      {/* Consultation Modal - Full Screen */}
       {isModalOpen && (
-        <div className="fixed inset-0 bg-black/50 backdrop-blur-sm z-50 flex items-center justify-center p-4">
-          <div className="premium-card max-w-md w-full max-h-[90vh] overflow-y-auto">
+        <div className="fixed inset-0 bg-black/50 backdrop-blur-sm z-50 flex items-center justify-center p-0 md:p-4">
+          <div className="premium-card w-full h-full max-w-none max-h-none md:max-w-4xl md:max-h-[90vh] overflow-hidden rounded-none md:rounded-lg flex flex-col">
             {/* Modal Header */}
-            <div className="flex items-center justify-between p-6 border-b border-accent/10">
+            <div className="flex items-center justify-between p-6 border-b border-accent/10 flex-shrink-0">
               <h3 className="text-2xl font-serif font-light luxury-gradient tracking-wide">
                 FREE CONSULTATION
               </h3>
               <button
-                onClick={() => setIsModalOpen(false)}
+                onClick={handleModalClose}
                 className="text-foreground/60 hover:text-accent transition-colors duration-300"
               >
                 <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -797,88 +726,36 @@ export default function Home() {
               </button>
             </div>
 
-            {/* Modal Body */}
-            <div className="p-6">
-              <p className="text-foreground/60 mb-6 font-sans text-sm tracking-wide">
-                Book a complimentary 30-minute consultation to discuss your vision and connect you with the perfect studio
-              </p>
-
-              {/* Success Message */}
-              {submitStatus === 'success' && (
-                <div className="mb-6 p-4 bg-green-900/20 border border-green-500/30 text-green-400 text-sm text-center">
-                  ✅ Thank you! We'll contact you within 24 hours to schedule your consultation.
-                </div>
-              )}
-
-              {/* Error Message */}
-              {submitStatus === 'error' && (
-                <div className="mb-6 p-4 bg-red-900/20 border border-red-500/30 text-red-400 text-sm text-center">
-                  ❌ Something went wrong. Please try again or contact us directly.
-                </div>
-              )}
-
-              <form onSubmit={handleSubmit} className="space-y-4">
-                <Input
-                  type="text"
-                  name="name"
-                  value={formData.name}
-                  onChange={handleInputChange}
-                  placeholder="Your Name"
-                  className="w-full px-4 py-3 bg-white border-2 border-accent/20 rounded cursor-text text-black focus:border-accent"
-                />
-
-                <Input
-                  type="email"
-                  name="email"
-                  value={formData.email}
-                  onChange={handleInputChange}
-                  placeholder="Email Address"
-                  className="w-full px-4 py-3 bg-white border-2 border-accent/20 rounded cursor-text text-black focus:border-accent"
-                />
-
-                <Input
-                  type="tel"
-                  name="phone"
-                  value={formData.phone}
-                  onChange={handleInputChange}
-                  placeholder="Phone Number"
-                  className="w-full px-4 py-3 bg-white border-2 border-accent/20 rounded cursor-text text-black focus:border-accent"
-                />
-
-                <Select value={formData.serviceType} onValueChange={handleSelectChange}>
-                  <SelectTrigger className="w-full px-4 py-3 bg-white border-2 border-accent/20 rounded cursor-pointer text-black focus:border-accent">
-                    <SelectValue placeholder="Select Service Type" />
-                  </SelectTrigger>
-                  <SelectContent className="bg-white">
-                    <SelectItem value="boudoir" className="text-black">Boudoir</SelectItem>
-                    <SelectItem value="maternity" className="text-black">Maternity</SelectItem>
-                    <SelectItem value="family" className="text-black">Family</SelectItem>
-                    <SelectItem value="bestie" className="text-black">Bestie</SelectItem>
-                  </SelectContent>
-                </Select>
-
-                <Button
-                  type="submit"
-                  disabled={isSubmitting}
-                  className="w-full px-8 py-3 bg-accent text-accent-foreground rounded text-lg font-semibold hover:scale-105 transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed"
-                >
-                  {isSubmitting ? 'SUBMITTING...' : 'BOOK FREE CONSULTATION'}
-                </Button>
-              </form>
+            {/* Modal Body with JotForm - Full screen on mobile, scrollable on desktop */}
+            <div className="flex-1 overflow-y-auto p-0">
+              <iframe
+                id="252563602964360-modal"
+                title="Clone of Form"
+                onLoad={() => window.parent.scrollTo(0,0)}
+                allowTransparency={true}
+                allow="geolocation; microphone; camera; fullscreen; payment"
+                src="https://form.jotform.com/252563602964360"
+                frameBorder="0"
+                style={{ minWidth: '100%', maxWidth: '100%', height: '100%', border: 'none' }}
+                scrolling="yes"
+              >
+              </iframe>
             </div>
           </div>
         </div>
       )}
 
       {/* Floating CTA */}
-      <div className="fixed bottom-8 right-8 z-50">
-        <Button 
-          onClick={() => handleButtonClick('floating-consultation')}
-          className="premium-button px-6 py-3 text-sm font-medium tracking-widest text-accent-foreground shadow-2xl hover:scale-105 transition-all duration-300 cursor-pointer"
-        >
-          GET CONSULTATION
-        </Button>
-      </div>
+      {!isModalOpen && (
+        <div className="fixed bottom-8 right-8 z-50">
+          <Button 
+            onClick={() => handleButtonClick('floating-consultation')}
+            className="premium-button px-6 py-3 text-sm font-medium tracking-widest text-accent-foreground shadow-2xl hover:scale-105 transition-all duration-300 cursor-pointer"
+          >
+            GET CONSULTATION
+          </Button>
+        </div>
+      )}
     </div>
   );
 }

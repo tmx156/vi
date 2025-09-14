@@ -3,17 +3,19 @@ import { queryClient } from "./lib/queryClient";
 import { QueryClientProvider } from "@tanstack/react-query";
 import { Toaster } from "@/components/ui/toaster";
 import { TooltipProvider } from "@/components/ui/tooltip";
-import { useEffect } from "react";
+import { useEffect, lazy, Suspense } from "react";
 import NotFound from "@/pages/not-found";
-import Home from "@/pages/home";
-import About from "@/pages/about";
-import Gallery from "@/pages/gallery";
-import Locations from "@/pages/locations";
-import Privacy from "@/pages/privacy";
-import Terms from "@/pages/terms";
+import Home3 from "@/pages/home3";
 import Navigation from "@/components/Navigation";
 import Footer from "@/components/Footer";
 import { ModalProvider } from "@/contexts/ModalContext";
+
+// Lazy load non-critical pages to reduce initial bundle size
+const About = lazy(() => import("@/pages/about"));
+const Gallery = lazy(() => import("@/pages/gallery"));
+const Locations = lazy(() => import("@/pages/locations"));
+const Privacy = lazy(() => import("@/pages/privacy"));
+const Terms = lazy(() => import("@/pages/terms"));
 
 function ScrollToTop() {
   const [location] = useLocation();
@@ -29,15 +31,17 @@ function Router() {
   return (
     <>
       <ScrollToTop />
-      <Switch>
-        <Route path="/" component={Home} />
-        <Route path="/about" component={About} />
-        <Route path="/gallery" component={Gallery} />
-        <Route path="/locations" component={Locations} />
-        <Route path="/privacy" component={Privacy} />
-        <Route path="/terms" component={Terms} />
-        <Route component={NotFound} />
-      </Switch>
+      <Suspense fallback={<div className="min-h-screen flex items-center justify-center">Loading...</div>}>
+        <Switch>
+          <Route path="/" component={Home3} />
+          <Route path="/about" component={About} />
+          <Route path="/gallery" component={Gallery} />
+          <Route path="/locations" component={Locations} />
+          <Route path="/privacy" component={Privacy} />
+          <Route path="/terms" component={Terms} />
+          <Route component={NotFound} />
+        </Switch>
+      </Suspense>
       <Footer />
     </>
   );

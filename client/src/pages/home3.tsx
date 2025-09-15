@@ -8,27 +8,29 @@ import Navigation from "@/components/Navigation";
 import { useMobilePerformance } from "@/hooks/use-mobile-performance";
 import { useEffect, useState } from "react";
 
-// Type declarations for JotForm
-declare global {
-  interface Window {
-    jotformEmbedHandler: (selector: string, baseUrl: string) => void;
-    JotformFeedback: any;
-  }
-}
 
 
 export default function Home() {
   // Mobile performance optimizations
   const { isMobile, isReducedMotion } = useMobilePerformance();
 
-  // Modal state for JotForm
+  // Modal state
   const [isModalOpen, setIsModalOpen] = useState(false);
 
+  // JotForm scripts are now loaded at app level to persist across route changes
 
   useEffect(() => {
     // Skip animations on mobile for better performance
     if (isMobile || isReducedMotion) {
-      return; // No animations needed on mobile
+      // On mobile, immediately show all elements without animations
+      const revealElements = document.querySelectorAll('.reveal-up');
+      revealElements.forEach((el) => {
+        el.classList.add('visible');
+        // Disable all transitions and animations on mobile
+        (el as HTMLElement).style.transition = 'none';
+        (el as HTMLElement).style.animation = 'none';
+      });
+      return;
     }
 
     // Add scroll trigger for reveal animations on desktop only
@@ -49,73 +51,33 @@ export default function Home() {
     return () => observer.disconnect();
   }, [isMobile, isReducedMotion]);
 
-  // Load JotForm scripts
-  useEffect(() => {
-    // Check if scripts are already loaded
-    if (document.querySelector('script[src="https://cdn.jotfor.ms/s/static/latest/static/feedback2.js"]')) {
-      return;
-    }
 
-    // Load feedback script
-    const feedbackScript = document.createElement('script');
-    feedbackScript.src = 'https://cdn.jotfor.ms/s/static/latest/static/feedback2.js';
-    feedbackScript.type = 'text/javascript';
-    feedbackScript.async = true;
-
-    // Load embed handler script
-    const embedScript = document.createElement('script');
-    embedScript.src = 'https://cdn.jotfor.ms/s/umd/latest/for-form-embed-handler.js';
-    embedScript.async = true;
-
-    document.head.appendChild(feedbackScript);
-    document.head.appendChild(embedScript);
-
-    // Initialize the form handler after scripts load
-    embedScript.onload = () => {
-      if (window.jotformEmbedHandler) {
-        window.jotformEmbedHandler("iframe[id='252563602964360']", "https://form.jotform.com/");
-      }
-    };
-
-    // Initialize JotformFeedback after feedback script loads
-    feedbackScript.onload = () => {
-      if (window.JotformFeedback) {
-        new window.JotformFeedback({
-          formId: '252563602964360',
-          base: 'https://form.jotform.com/',
-          windowTitle: 'Clone of Form',
-          backgroundColor: '#FFA500',
-          fontColor: '#FFFFFF',
-          type: '0',
-          height: 500,
-          width: 700,
-          openOnLoad: false
-        });
-      }
-    };
-
-    return () => {
-      const existingFeedbackScript = document.querySelector('script[src="https://cdn.jotfor.ms/s/static/latest/static/feedback2.js"]');
-      const existingEmbedScript = document.querySelector('script[src="https://cdn.jotfor.ms/s/umd/latest/for-form-embed-handler.js"]');
-      if (existingFeedbackScript) {
-        document.head.removeChild(existingFeedbackScript);
-      }
-      if (existingEmbedScript) {
-        document.head.removeChild(existingEmbedScript);
-      }
-    };
-  }, []);
 
   // Handle button clicks for modal
   const handleButtonClick = (action: string) => {
     if (action === 'floating-consultation') {
-      setIsModalOpen(true);
+      handleModalOpen();
     }
   };
 
   // Handle modal close
   const handleModalClose = () => {
     setIsModalOpen(false);
+    // Re-enable body scroll
+    document.body.classList.remove('modal-open');
+    document.body.style.overflow = '';
+    document.body.style.position = '';
+  };
+
+  // Handle modal open
+  const handleModalOpen = () => {
+    setIsModalOpen(true);
+    // Prevent body scroll when modal is open
+    document.body.classList.add('modal-open');
+    document.body.style.overflow = 'hidden';
+    document.body.style.position = 'fixed';
+    document.body.style.width = '100%';
+    document.body.style.height = '100%';
   };
 
   const services = [
@@ -266,7 +228,6 @@ export default function Home() {
                   that matches your vision and style perfectly
                 </p>
 
-              {/* JotForm Integration */}
               <div className="w-full">
                 <h3 className="text-2xl font-serif font-light mb-6 luxury-gradient tracking-wide">
                   GET YOUR FREE CONSULTATION
@@ -274,22 +235,37 @@ export default function Home() {
                 <p className="text-foreground/60 mb-8 font-sans text-sm tracking-wide">
                   Book a complimentary 30-minute consultation to discuss your vision and connect you with the perfect studio
                 </p>
-
-                {/* JotForm Iframe Embed */}
-                <iframe
-                  id="252563602964360"
-                  title="Clone of Form"
-                  onLoad={() => window.parent.scrollTo(0,0)}
-                  allowTransparency={true}
-                  allow="geolocation; microphone; camera; fullscreen; payment"
-                  src="https://form.jotform.com/252563602964360"
-                  frameBorder="0"
-                  style={{ minWidth: '100%', maxWidth: '100%', height: '539px', border: 'none' }}
-                  scrolling="no"
+                <Button 
+                  onClick={handleModalOpen}
+                  className="premium-button px-8 py-3 text-sm font-medium tracking-widest text-accent-foreground"
                 >
-                </iframe>
-            </div>
+                  BOOK FREE CONSULTATION
+                </Button>
+              </div>
           </div>
+        </div>
+      </section>
+
+      {/* JotForm Section - Mobile Viewport Optimized */}
+      <section className="w-full bg-background" style={{ height: '100svh' }}>
+        <div className="w-full h-full">
+          {/* JotForm embedded via iframe - Dynamic Mobile Height */}
+          <iframe
+            id="JotFormIFrame-252563602964360"
+            title="Book Your Session"
+            onLoad={() => window.parent.scrollTo(0,0)}
+            allowTransparency={true}
+            allowFullScreen={true}
+            allow="geolocation; microphone; camera"
+            src="https://eu.jotform.com/252563602964360"
+            frameBorder="0"
+            className="w-full h-full block"
+            style={{
+              height: '100%',
+              width: '100%',
+              border: 'none'
+            }}
+          />
         </div>
       </section>
 
@@ -385,7 +361,7 @@ export default function Home() {
               <div className="relative mb-8">
                 <div className="w-32 h-32 mx-auto relative overflow-hidden rounded-lg bg-gradient-to-br from-accent/20 to-accent/5 flex items-center justify-center">
                   <svg 
-                    className="w-16 h-16 text-accent transition-transform duration-700 group-hover:scale-110" 
+                    className="w-16 h-16 text-accent" 
                     fill="none" 
                     stroke="currentColor" 
                     viewBox="0 0 24 24"
@@ -408,7 +384,7 @@ export default function Home() {
               <div className="relative mb-8">
                 <div className="w-32 h-32 mx-auto relative overflow-hidden rounded-lg bg-gradient-to-br from-accent/20 to-accent/5 flex items-center justify-center">
                   <svg 
-                    className="w-16 h-16 text-accent transition-transform duration-700 group-hover:scale-110" 
+                    className="w-16 h-16 text-accent" 
                     fill="none" 
                     stroke="currentColor" 
                     viewBox="0 0 24 24"
@@ -432,7 +408,7 @@ export default function Home() {
               <div className="relative mb-8">
                 <div className="w-32 h-32 mx-auto relative overflow-hidden rounded-lg bg-gradient-to-br from-accent/20 to-accent/5 flex items-center justify-center">
                   <svg 
-                    className="w-16 h-16 text-accent transition-transform duration-700 group-hover:scale-110" 
+                    className="w-16 h-16 text-accent" 
                     fill="none" 
                     stroke="currentColor" 
                     viewBox="0 0 24 24"
@@ -463,7 +439,7 @@ export default function Home() {
               </p>
               <div className="flex flex-col sm:flex-row gap-4 justify-center">
                 <Button 
-                  onClick={() => setIsModalOpen(true)}
+                  onClick={handleModalOpen}
                   className="premium-button px-8 py-3 text-sm font-medium tracking-widest text-accent-foreground"
                 >
                   BOOK CONSULTATION
@@ -533,8 +509,8 @@ export default function Home() {
           {/* Call to Action */}
           <div className="text-center mt-12">
             <button
-              onClick={() => setIsModalOpen(true)}
-              className="premium-button px-8 py-3 text-sm font-medium tracking-widest text-accent-foreground hover:scale-105 transition-all duration-300"
+              onClick={handleModalOpen}
+              className="premium-button px-8 py-3 text-sm font-medium tracking-widest text-accent-foreground hover:scale-105 transition-all duration-300 cursor-pointer"
             >
               BOOK YOUR SESSION
             </button>
@@ -561,8 +537,8 @@ export default function Home() {
               <div className="relative mb-6">
                 <div className="flex justify-center mb-4">
                   {[...Array(5)].map((_, i) => (
-                    <svg key={i} className="w-5 h-5 text-accent" fill="currentColor" viewBox="0 0 20 20">
-                      <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
+                    <svg key={i} className="w-5 h-5 text-accent" fill="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
                     </svg>
                   ))}
                 </div>
@@ -578,8 +554,8 @@ export default function Home() {
               <div className="relative mb-6">
                 <div className="flex justify-center mb-4">
                   {[...Array(5)].map((_, i) => (
-                    <svg key={i} className="w-5 h-5 text-accent" fill="currentColor" viewBox="0 0 20 20">
-                      <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
+                    <svg key={i} className="w-5 h-5 text-accent" fill="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
                     </svg>
                   ))}
                 </div>
@@ -595,8 +571,8 @@ export default function Home() {
               <div className="relative mb-6">
                 <div className="flex justify-center mb-4">
                   {[...Array(5)].map((_, i) => (
-                    <svg key={i} className="w-5 h-5 text-accent" fill="currentColor" viewBox="0 0 20 20">
-                      <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
+                    <svg key={i} className="w-5 h-5 text-accent" fill="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
                     </svg>
                   ))}
                 </div>
@@ -620,7 +596,7 @@ export default function Home() {
               </p>
               <div className="flex flex-col sm:flex-row gap-4 justify-center">
                 <Button 
-                  onClick={() => setIsModalOpen(true)}
+                  onClick={handleModalOpen}
                   className="premium-button px-8 py-3 text-sm font-medium tracking-widest text-accent-foreground"
                 >
                   BOOK YOUR SESSION
@@ -693,7 +669,7 @@ export default function Home() {
               </p>
               <div className="flex flex-col sm:flex-row gap-4 justify-center">
                 <Button 
-                  onClick={() => setIsModalOpen(true)}
+                  onClick={handleModalOpen}
                   className="premium-button px-8 py-3 text-sm font-medium tracking-widest text-accent-foreground"
                 >
                   BOOK CONSULTATION
@@ -707,18 +683,33 @@ export default function Home() {
         </div>
       </section>
 
-      {/* Consultation Modal - Full Screen */}
+      {/* Consultation Modal - Enhanced Full Screen */}
       {isModalOpen && (
-        <div className="fixed inset-0 bg-black/50 backdrop-blur-sm z-50 flex items-center justify-center p-0 md:p-4">
-          <div className="premium-card w-full h-full max-w-none max-h-none md:max-w-4xl md:max-h-[90vh] overflow-hidden rounded-none md:rounded-lg flex flex-col">
-            {/* Modal Header */}
-            <div className="flex items-center justify-between p-6 border-b border-accent/10 flex-shrink-0">
-              <h3 className="text-2xl font-serif font-light luxury-gradient tracking-wide">
+        <div className="fixed inset-0 bg-black/80 backdrop-blur-sm z-50 flex items-center justify-center p-0">
+          <div className="mobile-modal w-full h-full max-w-none max-h-none md:max-w-5xl md:max-h-[95vh] overflow-hidden rounded-none md:rounded-xl flex flex-col bg-background shadow-2xl">
+            {/* Modal Header - Enhanced */}
+            <div className="hidden md:flex items-center justify-between p-6 border-b border-accent/20 flex-shrink-0 bg-gradient-to-r from-background to-secondary">
+              <h3 className="text-3xl font-serif font-light luxury-gradient tracking-wide">
                 FREE CONSULTATION
               </h3>
               <button
                 onClick={handleModalClose}
-                className="text-foreground/60 hover:text-accent transition-colors duration-300"
+                className="text-foreground/60 hover:text-accent transition-colors duration-300 p-2 rounded-full hover:bg-accent/10"
+              >
+                <svg className="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                </svg>
+              </button>
+            </div>
+
+            {/* Mobile Header - Enhanced */}
+            <div className="md:hidden flex items-center justify-between p-4 border-b border-accent/20 flex-shrink-0 bg-gradient-to-r from-background to-secondary">
+              <h3 className="text-xl font-serif font-light luxury-gradient tracking-wide">
+                FREE CONSULTATION
+              </h3>
+              <button
+                onClick={handleModalClose}
+                className="text-foreground/60 hover:text-accent transition-colors duration-300 p-2 rounded-full hover:bg-accent/10"
               >
                 <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
@@ -726,21 +717,68 @@ export default function Home() {
               </button>
             </div>
 
-            {/* Modal Body with JotForm - Full screen on mobile, scrollable on desktop */}
-            <div className="flex-1 overflow-y-auto p-0">
-              <iframe
-                id="252563602964360-modal"
-                title="Clone of Form"
-                onLoad={() => window.parent.scrollTo(0,0)}
-                allowTransparency={true}
-                allow="geolocation; microphone; camera; fullscreen; payment"
-                src="https://form.jotform.com/252563602964360"
-                frameBorder="0"
-                style={{ minWidth: '100%', maxWidth: '100%', height: '100%', border: 'none' }}
-                scrolling="yes"
-              >
-              </iframe>
-            </div>
+            {/* Modal Body - Mobile vs Desktop */}
+            <div className="flex-1 w-full h-full flex flex-col md:flex-row overflow-hidden">
+              {/* Desktop: Left Side - Form Info */}
+              <div className="hidden md:flex md:w-1/3 bg-gradient-to-br from-accent/10 to-accent/5 p-8 flex-col justify-center">
+                <div className="space-y-6">
+                      <div>
+                    <h4 className="text-2xl font-serif font-light luxury-gradient mb-4">Why Choose Us?</h4>
+                    <ul className="space-y-3 text-foreground/70">
+                      <li className="flex items-start gap-3">
+                        <svg className="w-5 h-5 text-accent mt-0.5 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
+                          <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
+                        </svg>
+                        <span>5+ Years Experience</span>
+                      </li>
+                      <li className="flex items-start gap-3">
+                        <svg className="w-5 h-5 text-accent mt-0.5 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
+                          <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
+                        </svg>
+                        <span>500+ Happy Clients</span>
+                      </li>
+                      <li className="flex items-start gap-3">
+                        <svg className="w-5 h-5 text-accent mt-0.5 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
+                          <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
+                        </svg>
+                        <span>Award Winning Studio</span>
+                      </li>
+                      <li className="flex items-start gap-3">
+                        <svg className="w-5 h-5 text-accent mt-0.5 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
+                          <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
+                        </svg>
+                        <span>Free Consultation</span>
+                      </li>
+                    </ul>
+                      </div>
+                  <div className="pt-6 border-t border-accent/20">
+                    <p className="text-sm text-foreground/60 leading-relaxed">
+                      Book your complimentary 30-minute consultation to discuss your vision and connect with the perfect studio for your luxury photography needs.
+                    </p>
+                      </div>
+                    </div>
+                    </div>
+                    
+              {/* Form Container - Simple Message */}
+              <div className="flex-1 flex flex-col overflow-hidden">
+                <div className="w-full h-full flex items-center justify-center p-8">
+                  <div className="text-center">
+                    <h4 className="text-xl font-serif font-light luxury-gradient mb-4">
+                      Contact Us
+                    </h4>
+                    <p className="text-foreground/60 mb-6">
+                      Please scroll down to use our booking form.
+                    </p>
+                    <Button 
+                      onClick={handleModalClose}
+                      className="premium-button px-6 py-2 text-sm font-medium tracking-widest text-accent-foreground"
+                    >
+                      CLOSE
+                    </Button>
+                  </div>
+                </div>
+              </div>
+                    </div>
           </div>
         </div>
       )}

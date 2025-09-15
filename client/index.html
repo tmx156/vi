@@ -15,17 +15,33 @@
     <link rel="preconnect" href="https://i.imgur.com" crossorigin>
     <link rel="preconnect" href="https://d1q70pf5vjeyhc.cloudfront.net" crossorigin>
     
-    <!-- Preload LCP image with mobile-optimized sizes -->
-    <link rel="preload" as="image" href="https://i.imgur.com/MRGNjyIl.jpeg" fetchpriority="high" media="(max-width: 768px)">
+    <!-- Preload critical resources for LCP optimization -->
+    <link rel="preload" as="image" href="https://i.imgur.com/MRGNjyIm.jpeg" fetchpriority="high" media="(max-width: 768px)">
     <link rel="preload" as="image" href="https://i.imgur.com/MRGNjyI.jpeg" fetchpriority="high" media="(min-width: 769px)">
-    
-    <!-- Additional mobile image preload with better quality -->
+
+    <!-- Ultra-fast mobile LCP strategy -->
     <script>
       if (window.innerWidth <= 768) {
+        // Instant gradient background for LCP
+        document.documentElement.style.background = 'linear-gradient(135deg, #1a1a2e, #16213e)';
+        
+        // Wait for body to be available
+        if (document.body) {
+          document.body.style.background = 'linear-gradient(135deg, #1a1a2e, #16213e)';
+        } else {
+          // Fallback: wait for DOMContentLoaded
+          document.addEventListener('DOMContentLoaded', () => {
+            if (document.body) {
+              document.body.style.background = 'linear-gradient(135deg, #1a1a2e, #16213e)';
+            }
+          });
+        }
+
+        // Minimal poster image preload
         const link = document.createElement('link');
         link.rel = 'preload';
         link.as = 'image';
-        link.href = 'https://i.imgur.com/MRGNjyIl.jpeg'; // Better quality mobile image
+        link.href = 'https://i.imgur.com/MRGNjyIm.jpeg'; // Tiny poster for instant LCP
         link.fetchPriority = 'high';
         document.head.appendChild(link);
       }
@@ -229,11 +245,11 @@
           document.head.appendChild(style);
         });
         
-        // Preload critical resources immediately
+        // Preload critical resources immediately - tiny images only
         const criticalResources = [
-          'https://i.imgur.com/MRGNjyIl.jpeg'
+          'https://i.imgur.com/MRGNjyIm.jpeg' // Tiny 'm' size for instant LCP
         ];
-        
+
         criticalResources.forEach(src => {
           const link = document.createElement('link');
           link.rel = 'preload';

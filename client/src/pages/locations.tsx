@@ -4,73 +4,29 @@ import HomeGallery from "@/components/HomeGallery";
 import Navigation from "@/components/Navigation";
 import { useState, useEffect } from "react";
 
-// Type declarations for JotForm
+// Type declarations for JotForm scripts
 declare global {
   interface Window {
-    jotformEmbedHandler: (selector: string, baseUrl: string) => void;
-    JotformFeedback: any;
+    jotformEmbedHandler?: (selector: string, base: string) => void;
+    JotformFeedback?: new (config: {
+      formId: string;
+      base: string;
+      windowTitle: string;
+      backgroundColor: string;
+      fontColor: string;
+      type: string;
+      height: number;
+      width: number;
+      openOnLoad: boolean;
+    }) => void;
   }
 }
+
 
 export default function Locations() {
   const [isModalOpen, setIsModalOpen] = useState(false);
 
-  // Load JotForm scripts
-  useEffect(() => {
-    // Check if scripts are already loaded
-    if (document.querySelector('script[src="https://cdn.jotfor.ms/s/static/latest/static/feedback2.js"]')) {
-      return;
-    }
-
-    // Load feedback script
-    const feedbackScript = document.createElement('script');
-    feedbackScript.src = 'https://cdn.jotfor.ms/s/static/latest/static/feedback2.js';
-    feedbackScript.type = 'text/javascript';
-    feedbackScript.async = true;
-
-    // Load embed handler script
-    const embedScript = document.createElement('script');
-    embedScript.src = 'https://cdn.jotfor.ms/s/umd/latest/for-form-embed-handler.js';
-    embedScript.async = true;
-
-    document.head.appendChild(feedbackScript);
-    document.head.appendChild(embedScript);
-
-    // Initialize the form handler after scripts load
-    embedScript.onload = () => {
-      if (window.jotformEmbedHandler) {
-        window.jotformEmbedHandler("iframe[id='252563602964360']", "https://form.jotform.com/");
-      }
-    };
-
-    // Initialize JotformFeedback after feedback script loads
-    feedbackScript.onload = () => {
-      if (window.JotformFeedback) {
-        new window.JotformFeedback({
-          formId: '252563602964360',
-          base: 'https://form.jotform.com/',
-          windowTitle: 'Clone of Form',
-          backgroundColor: '#FFA500',
-          fontColor: '#FFFFFF',
-          type: '0',
-          height: 500,
-          width: 700,
-          openOnLoad: false
-        });
-      }
-    };
-
-    return () => {
-      const existingFeedbackScript = document.querySelector('script[src="https://cdn.jotfor.ms/s/static/latest/static/feedback2.js"]');
-      const existingEmbedScript = document.querySelector('script[src="https://cdn.jotfor.ms/s/umd/latest/for-form-embed-handler.js"]');
-      if (existingFeedbackScript) {
-        document.head.removeChild(existingFeedbackScript);
-      }
-      if (existingEmbedScript) {
-        document.head.removeChild(existingEmbedScript);
-      }
-    };
-  }, []);
+  // JotForm scripts are now loaded at app level to persist across route changes
   
   const studios = [
     {

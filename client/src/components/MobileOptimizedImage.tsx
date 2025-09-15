@@ -59,7 +59,7 @@ export default function MobileOptimizedImage({
         transition: 'opacity 0.3s ease'
       }}
       loading={loading}
-      fetchpriority={fetchpriority}
+      fetchPriority={fetchpriority}
       decoding={decoding}
       onLoad={handleLoad}
     />

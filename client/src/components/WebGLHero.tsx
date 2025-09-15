@@ -102,7 +102,7 @@ export default function WebGLHero({ children }: WebGLHeroProps) {
                   alt=""
                   className="absolute top-0 left-0 w-full h-full object-cover"
                   loading={index === 0 ? 'eager' : 'lazy'}
-                  fetchpriority={index === 0 ? 'high' : 'low'}
+                  fetchPriority={index === 0 ? 'high' : 'low'}
                   onLoad={() => index === 0 && setIsFirstSlideLoaded(true)}
                 />
               )}

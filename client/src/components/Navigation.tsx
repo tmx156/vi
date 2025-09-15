@@ -17,6 +17,7 @@ export default function Navigation({ onBookSession }: NavigationProps) {
     { path: "/about", label: "ABOUT" },
     { path: "/gallery", label: "GALLERY" },
     { path: "/locations", label: "LOCATIONS" },
+    { path: "/test", label: "TEST" },
   ];
 
   return (

@@ -10,8 +10,8 @@ export function useMobileLCP() {
       setIsMobile(mobile);
       
       // Detect low-end devices for additional optimizations
-      const lowEnd = navigator.hardwareConcurrency <= 2 || 
-                    navigator.deviceMemory <= 2 ||
+      const lowEnd = navigator.hardwareConcurrency <= 2 ||
+                    (navigator as any).deviceMemory <= 2 ||
                     /Android.*Chrome\/[.0-9]* (Mobile|mini)/.test(navigator.userAgent);
       setIsLowEndDevice(lowEnd);
     };

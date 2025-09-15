@@ -1,41 +1,60 @@
 import { useState, useEffect } from 'react';
 
-interface MobileHeroProps {
+interface UltraFastMobileHeroProps {
   children?: React.ReactNode;
 }
 
-export default function MobileHero({ children }: MobileHeroProps) {
+export default function UltraFastMobileHero({ children }: UltraFastMobileHeroProps) {
   const [imageLoaded, setImageLoaded] = useState(false);
-  const [useVideo, setUseVideo] = useState(false);
+  const [highQualityLoaded, setHighQualityLoaded] = useState(false);
   
-  // High-quality strategy: Premium image → Optional video enhancement
-  const placeholderColor = 'linear-gradient(135deg, #1a1a2e, #16213e)'; // Instant render
-  
-  // Use full resolution images for photography company quality
-  const heroImageUrl = 'https://i.imgur.com/MRGNjyI.webp'; // Full resolution WebP
-  const fallbackImageUrl = 'https://i.imgur.com/MRGNjyI.jpeg'; // Full resolution JPEG
-  const tinyImageUrl = 'https://i.imgur.com/MRGNjyIm.webp'; // Medium placeholder for instant LCP
-  const videoUrl = 'https://d1q70pf5vjeyhc.cloudfront.net/predictions/349b3be9e3314770ae89b8fe0620c835/1.mp4';
+  // Ultra-fast LCP strategy with instant placeholder - Full resolution for photography
+  const instantPlaceholder = 'https://i.imgur.com/MRGNjyIm.webp'; // Medium placeholder for instant LCP
+  const mobileOptimized = 'https://i.imgur.com/MRGNjyI.webp'; // Full resolution WebP
+  const fallbackJpeg = 'https://i.imgur.com/MRGNjyI.jpeg'; // Full resolution JPEG
+
+  // Preload critical resources immediately
+  useEffect(() => {
+    // Preload the instant placeholder
+    const link = document.createElement('link');
+    link.rel = 'preload';
+    link.as = 'image';
+    link.href = instantPlaceholder;
+    link.fetchPriority = 'high';
+    link.crossOrigin = 'anonymous';
+    document.head.appendChild(link);
+
+    // Preload mobile optimized image
+    const mobileLink = document.createElement('link');
+    mobileLink.rel = 'preload';
+    mobileLink.as = 'image';
+    mobileLink.href = mobileOptimized;
+    mobileLink.fetchPriority = 'high';
+    mobileLink.crossOrigin = 'anonymous';
+    document.head.appendChild(mobileLink);
+  }, []);
 
   return (
     <section
       className="relative w-full flex items-center justify-center overflow-hidden"
       style={{
-        height: '100vh',
-        minHeight: '100vh',
+        height: '100dvh',
+        minHeight: '100dvh',
         width: '100vw',
         maxWidth: '100vw',
-        background: placeholderColor, // Instant LCP candidate
+        background: 'linear-gradient(135deg, #1a1a2e, #16213e)',
         contain: 'layout style paint',
+        transform: 'translateZ(0)',
+        backfaceVisibility: 'hidden',
         margin: 0,
         padding: 0,
         border: 'none',
         outline: 'none'
       }}
     >
-      {/* Tiny placeholder for instant LCP */}
+      {/* INSTANT LCP: Tiny placeholder loads immediately */}
       <img
-        src={tinyImageUrl}
+        src={instantPlaceholder}
         alt=""
         className="absolute inset-0 w-full h-full object-cover"
         style={{
@@ -51,19 +70,21 @@ export default function MobileHero({ children }: MobileHeroProps) {
           outline: 'none',
           margin: 0,
           padding: 0,
-          imageRendering: 'auto' as any,
+          imageRendering: 'auto',
           opacity: 1,
-          filter: 'blur(2px)',
-          scale: '1.1'
+          filter: 'blur(1px)',
+          scale: '1.05',
+          willChange: 'auto'
         }}
         loading="eager"
         fetchPriority="high"
         decoding="sync"
+        onLoad={() => setImageLoaded(true)}
       />
 
-      {/* High-quality hero image - loads after tiny placeholder */}
+      {/* HIGH QUALITY: Mobile-optimized image loads after placeholder */}
       <img
-        src={heroImageUrl}
+        src={mobileOptimized}
         alt="Luxury Photography Hero"
         className="absolute inset-0 w-full h-full object-cover"
         style={{
@@ -79,60 +100,23 @@ export default function MobileHero({ children }: MobileHeroProps) {
           outline: 'none',
           margin: 0,
           padding: 0,
-          imageRendering: 'auto' as any,
-          opacity: imageLoaded ? 1 : 0,
-          transition: 'opacity 0.6s ease-in-out'
+          imageRendering: 'auto',
+          opacity: highQualityLoaded ? 1 : 0,
+          transition: 'opacity 0.4s ease-in-out',
+          willChange: 'auto'
         }}
         loading="eager"
         fetchPriority="high"
         decoding="sync"
-        onLoad={() => setImageLoaded(true)}
+        onLoad={() => setHighQualityLoaded(true)}
         onError={(e) => {
           // Fallback to JPEG if WebP fails
           const img = e.target as HTMLImageElement;
-          if (img.src !== fallbackImageUrl) {
-            img.src = fallbackImageUrl;
+          if (img.src !== fallbackJpeg) {
+            img.src = fallbackJpeg;
           }
         }}
       />
-      
-      {/* Optional video overlay for enhanced experience (loads after image) */}
-      {imageLoaded && (
-        <video
-          autoPlay
-          muted
-          loop
-          playsInline
-          preload="none"
-          className="absolute inset-0 w-full h-full object-cover opacity-0"
-          style={{
-            objectPosition: 'center center',
-            transform: 'translateZ(0)',
-            backfaceVisibility: 'hidden',
-            contain: 'layout style paint',
-            width: '100vw',
-            height: '100vh',
-            minWidth: '100%',
-            minHeight: '100%',
-            border: 'none',
-            outline: 'none',
-            margin: 0,
-            padding: 0,
-            transition: 'opacity 2s ease-in-out'
-          }}
-          onLoadedData={() => {
-            // Fade in video after image is loaded and video is ready
-            setTimeout(() => {
-              const video = document.querySelector('video');
-              if (video) {
-                video.style.opacity = '0.3'; // Subtle video overlay
-              }
-            }, 1000);
-          }}
-        >
-          <source src={videoUrl} type="video/mp4" />
-        </video>
-      )}
 
       {/* Enhanced overlay for better visual quality */}
       <div
@@ -149,7 +133,8 @@ export default function MobileHero({ children }: MobileHeroProps) {
               rgba(0,0,0,0.35) 100%
             )
           `,
-          clipPath: 'polygon(0 0, 100% 0, 100% 100%, 35% 100%)'
+          clipPath: 'polygon(0 0, 100% 0, 100% 100%, 35% 100%)',
+          willChange: 'auto'
         }}
       />
       
@@ -167,7 +152,8 @@ export default function MobileHero({ children }: MobileHeroProps) {
               rgba(0,0,0,0.2) 100%
             )
           `,
-          opacity: 0.6
+          opacity: 0.6,
+          willChange: 'auto'
         }}
       />
 
@@ -177,7 +163,8 @@ export default function MobileHero({ children }: MobileHeroProps) {
         style={{
           contain: 'layout style paint',
           transform: 'translateZ(0)',
-          backfaceVisibility: 'hidden'
+          backfaceVisibility: 'hidden',
+          willChange: 'auto'
         }}
       >
         {children}

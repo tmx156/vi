@@ -20,27 +20,40 @@ export default defineConfig({
   build: {
     outDir: path.resolve(__dirname, "dist/public"),
     emptyOutDir: true,
-    // Mobile optimization settings
+    // Aggressive mobile optimization settings
     target: 'es2015',
     minify: 'terser',
     terserOptions: {
       compress: {
         drop_console: true,
         drop_debugger: true,
+        dead_code: true,
+      },
+      mangle: {
+        safari10: true,
+      },
+      format: {
+        comments: false,
       },
     },
     rollupOptions: {
       output: {
-        manualChunks: {
-          vendor: ['react', 'react-dom'],
-          ui: ['@radix-ui/react-dialog', '@radix-ui/react-select', '@radix-ui/react-toast'],
-          utils: ['wouter', 'framer-motion', 'three'],
-        },
+        // Let Vite handle chunking automatically
+        chunkFileNames: 'assets/[name]-[hash].js',
+        entryFileNames: 'assets/[name]-[hash].js',
+        assetFileNames: 'assets/[name]-[hash].[ext]',
+      },
+      // Tree shaking optimizations
+      treeshake: {
+        moduleSideEffects: false,
       },
     },
-    // Optimize for mobile
-    chunkSizeWarningLimit: 1000,
-    assetsInlineLimit: 4096,
+    // Ultra-aggressive optimizations for mobile
+    chunkSizeWarningLimit: 500, // Smaller chunks for mobile
+    assetsInlineLimit: 2048, // Smaller inline limit for mobile networks
+    sourcemap: false, // Disable sourcemaps in production for smaller files
+    reportCompressedSize: false, // Disable to speed up build
+    cssCodeSplit: true, // Enable CSS code splitting
   },
   server: {
     port: 5173,
@@ -58,6 +71,28 @@ export default defineConfig({
   },
   // Mobile performance optimizations
   optimizeDeps: {
-    include: ['react', 'react-dom', 'wouter', 'framer-motion'],
+    include: ['react', 'react-dom', 'wouter'],
+    // Exclude heavy dependencies from pre-bundling for faster dev start
+    exclude: ['framer-motion', 'three'],
+  },
+  // Critical performance settings
+  esbuild: {
+    target: 'es2015',
+    treeShaking: true,
+    // Remove console logs in production
+    drop: process.env.NODE_ENV === 'production' ? ['console', 'debugger'] : [],
+  },
+  // Aggressive CSS optimizations
+  css: {
+    devSourcemap: false,
+    preprocessorOptions: {
+      // Optimize CSS for mobile
+      scss: {
+        additionalData: `
+          $mobile-first: true;
+          $performance-mode: true;
+        `,
+      },
+    },
   },
 });

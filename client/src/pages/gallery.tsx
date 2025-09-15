@@ -1,9 +1,13 @@
 import GalleryGrid from "@/components/GalleryGrid";
+import MobileOptimizedGallery from "@/components/MobileOptimizedGallery";
 import Navigation from "@/components/Navigation";
-import { useState } from "react";
+import BookingModal from "@/components/BookingModal";
+import { useState, useEffect } from "react";
+import { useMobilePerformance } from "@/hooks/use-mobile-performance";
 
 export default function Gallery() {
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const { isMobile, isLowEndDevice, connectionType } = useMobilePerformance();
   const galleryImages = [
     // Featured Portfolio Images
     {
@@ -205,76 +209,30 @@ export default function Gallery() {
             </p>
           </div>
 
-          <GalleryGrid images={galleryImages} />
+          {isMobile ? (
+            <MobileOptimizedGallery 
+              images={galleryImages.map(img => ({
+                id: img.id,
+                src: img.src,
+                alt: img.alt,
+                category: img.category,
+                mobileSrc: img.src.replace('.jpeg', 'm.webp'),
+                lowEndSrc: img.src.replace('.jpeg', 's.jpeg')
+              }))}
+              maxImages={isLowEndDevice ? 4 : connectionType === 'slow' ? 6 : 8}
+              showFilters={true}
+            />
+          ) : (
+            <GalleryGrid images={galleryImages} />
+          )}
         </div>
       </section>
 
-      {/* Consultation Modal */}
-      {isModalOpen && (
-        <div className="fixed inset-0 bg-black/50 backdrop-blur-sm z-50 flex items-center justify-center p-4">
-          <div className="premium-card max-w-md w-full max-h-[90vh] overflow-y-auto">
-            {/* Modal Header */}
-            <div className="flex items-center justify-between p-6 border-b border-accent/10">
-              <h3 className="text-2xl font-serif font-light luxury-gradient tracking-wide">
-                FREE CONSULTATION
-              </h3>
-              <button
-                onClick={() => setIsModalOpen(false)}
-                className="text-foreground/60 hover:text-accent transition-colors duration-300"
-              >
-                <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
-                </svg>
-              </button>
-            </div>
-
-            {/* Modal Body */}
-            <div className="p-6">
-              <p className="text-foreground/60 mb-6 font-sans text-sm tracking-wide">
-                Book a complimentary 30-minute consultation to discuss your vision and connect you with the perfect studio
-              </p>
-
-              <form className="space-y-4">
-                <input
-                  type="text"
-                  name="name"
-                  placeholder="Your Name"
-                  className="w-full px-4 py-3 bg-white border-2 border-accent/20 rounded cursor-text text-black focus:border-accent"
-                />
-
-                <input
-                  type="email"
-                  name="email"
-                  placeholder="Email Address"
-                  className="w-full px-4 py-3 bg-white border-2 border-accent/20 rounded cursor-text text-black focus:border-accent"
-                />
-
-                <input
-                  type="tel"
-                  name="phone"
-                  placeholder="Phone Number"
-                  className="w-full px-4 py-3 bg-white border-2 border-accent/20 rounded cursor-text text-black focus:border-accent"
-                />
-
-                <select className="w-full px-4 py-3 bg-white border-2 border-accent/20 rounded cursor-pointer text-black focus:border-accent">
-                  <option value="">Select Service Type</option>
-                  <option value="boudoir">Boudoir</option>
-                  <option value="maternity">Maternity</option>
-                  <option value="family">Family</option>
-                  <option value="bestie">Bestie</option>
-                </select>
-
-                <button
-                  type="submit"
-                  className="w-full px-8 py-3 bg-accent text-accent-foreground rounded text-lg font-semibold hover:scale-105 transition-all duration-300"
-                >
-                  BOOK FREE CONSULTATION
-                </button>
-              </form>
-            </div>
-          </div>
-        </div>
-      )}
+      {/* Unified Booking Modal */}
+      <BookingModal
+        isOpen={isModalOpen}
+        onClose={() => setIsModalOpen(false)}
+      />
 
       {/* Floating CTA */}
       <div className="fixed bottom-8 right-8 z-50">

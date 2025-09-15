@@ -1,5 +1,6 @@
 import { cn } from "@/lib/utils";
 import MobileOptimizedImage from "./MobileOptimizedImage";
+import PhotographyImage from "./PhotographyImage";
 
 interface ServiceCardProps {
   title: string;
@@ -12,12 +13,13 @@ export default function ServiceCard({ title, description, imageUrl, className }:
   return (
     <div className={cn("premium-card group cursor-pointer", className)}>
       <div className="image-overlay h-96 relative">
-        <MobileOptimizedImage
+        <PhotographyImage
           src={imageUrl}
           alt={`${title} photography session`}
           className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
           loading="lazy"
           decoding="async"
+          priority={false}
           style={{ willChange: 'transform' }}
         />
         <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent"></div>

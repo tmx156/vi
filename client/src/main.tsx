@@ -1,6 +1,10 @@
 import { createRoot } from "react-dom/client";
 import App from "./App";
 import "./index.css";
+import { injectMobileCriticalCSS } from "./utils/mobile-critical-css";
+
+// CRITICAL: Inject mobile CSS immediately for ultra-fast FCP
+injectMobileCriticalCSS();
 
 // Register service worker for mobile performance
 if ('serviceWorker' in navigator) {

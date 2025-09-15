@@ -17,11 +17,10 @@ export default function Navigation({ onBookSession }: NavigationProps) {
     { path: "/about", label: "ABOUT" },
     { path: "/gallery", label: "GALLERY" },
     { path: "/locations", label: "LOCATIONS" },
-    { path: "/test", label: "TEST" },
   ];
 
   return (
-    <nav className="fixed top-0 left-0 right-0 z-50 bg-background/95 backdrop-blur-sm border-b border-border/50">
+    <nav className="fixed top-0 left-0 right-0 z-50 bg-background/95 backdrop-blur-sm border-b border-border/50 mobile-nav">
       <div className="max-w-7xl mx-auto px-6">
         <div className="flex items-center justify-between h-16">
           {/* Logo */}
@@ -53,13 +52,6 @@ export default function Navigation({ onBookSession }: NavigationProps) {
                 )}
               </Link>
             ))}
-            <button
-              onClick={onBookSession}
-              className="bg-accent text-accent-foreground px-6 py-2 rounded-md text-sm font-medium hover:bg-accent/90 transition-colors"
-              data-testid="nav-contact"
-            >
-              BOOK SESSION
-            </button>
           </div>
 
           {/* Mobile Menu Button */}
@@ -92,16 +84,6 @@ export default function Navigation({ onBookSession }: NavigationProps) {
                   {item.label}
                 </Link>
               ))}
-              <button
-                onClick={() => {
-                  setIsOpen(false);
-                  onBookSession?.();
-                }}
-                className="block mx-3 mt-4 bg-accent text-accent-foreground px-6 py-2 rounded-md text-base font-medium text-center hover:bg-accent/90 transition-colors w-full"
-                data-testid="nav-mobile-contact"
-              >
-                BOOK SESSION
-              </button>
             </div>
           </div>
         )}

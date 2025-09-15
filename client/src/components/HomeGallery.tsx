@@ -85,10 +85,10 @@ export default function HomeGallery() {
   }, []);
 
   return (
-    <section className="py-24 px-8 relative overflow-hidden home-gallery-section reveal-up">
+    <section className="py-24 px-4 md:px-8 relative overflow-hidden home-gallery-section reveal-up">
       <div className="absolute inset-0 bg-gradient-to-b from-background via-secondary/20 to-background"></div>
 
-      <div className="max-w-6xl mx-auto relative z-10">
+      <div className="max-w-7xl mx-auto relative z-10 px-0">
         <div className="text-center mb-16">
           <h2 className="text-4xl md:text-5xl font-serif font-light mb-6 luxury-gradient tracking-wide">
             FEATURED WORK
@@ -100,7 +100,7 @@ export default function HomeGallery() {
         </div>
 
         {/* 2x4 Grid Layout */}
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-6">
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-3 md:gap-6 w-full">
           {galleryImages.map((image, index) => (
             <div
               key={image.id}

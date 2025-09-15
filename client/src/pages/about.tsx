@@ -1,19 +1,10 @@
 import Navigation from "@/components/Navigation";
+import BookingModal from "@/components/BookingModal";
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 
 export default function About() {
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [formData, setFormData] = useState({
-    name: '',
-    email: '',
-    phone: '',
-    serviceType: ''
-  });
-  const [isSubmitting, setIsSubmitting] = useState(false);
-  const [submitStatus, setSubmitStatus] = useState('');
 
   const teamMembers = [
     {
@@ -46,34 +37,6 @@ export default function About() {
     }
   ];
 
-  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const { name, value } = e.target;
-    setFormData(prev => ({ ...prev, [name]: value }));
-  };
-
-  const handleSelectChange = (value: string) => {
-    setFormData(prev => ({ ...prev, serviceType: value }));
-  };
-
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    setIsSubmitting(true);
-    setSubmitStatus('');
-
-    try {
-      await new Promise(resolve => setTimeout(resolve, 2000));
-      setSubmitStatus('success');
-      setFormData({ name: '', email: '', phone: '', serviceType: '' });
-      setTimeout(() => {
-        setIsModalOpen(false);
-        setSubmitStatus('');
-      }, 3000);
-    } catch (error) {
-      setSubmitStatus('error');
-    } finally {
-      setIsSubmitting(false);
-    }
-  };
 
   return (
     <div className="min-h-screen">
@@ -203,97 +166,11 @@ export default function About() {
         </div>
       </section>
 
-      {/* Consultation Modal */}
-      {isModalOpen && (
-        <div className="fixed inset-0 bg-black/50 backdrop-blur-sm z-50 flex items-center justify-center p-4">
-          <div className="premium-card max-w-md w-full max-h-[90vh] overflow-y-auto">
-            {/* Modal Header */}
-            <div className="flex items-center justify-between p-6 border-b border-accent/10">
-              <h3 className="text-2xl font-serif font-light luxury-gradient tracking-wide">
-                FREE CONSULTATION
-              </h3>
-              <button
-                onClick={() => setIsModalOpen(false)}
-                className="text-foreground/60 hover:text-accent transition-colors duration-300"
-              >
-                <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
-                </svg>
-              </button>
-            </div>
-
-            {/* Modal Body */}
-            <div className="p-6">
-              <p className="text-foreground/60 mb-6 font-sans text-sm tracking-wide">
-                Book a complimentary 30-minute consultation to discuss your vision and connect you with the perfect studio
-              </p>
-
-              {/* Success Message */}
-              {submitStatus === 'success' && (
-                <div className="mb-6 p-4 bg-green-900/20 border border-green-500/30 text-green-400 text-sm text-center">
-                  ✅ Thank you! We'll contact you within 24 hours to schedule your consultation.
-                </div>
-              )}
-
-              {/* Error Message */}
-              {submitStatus === 'error' && (
-                <div className="mb-6 p-4 bg-red-900/20 border border-red-500/30 text-red-400 text-sm text-center">
-                  ❌ Something went wrong. Please try again or contact us directly.
-                </div>
-              )}
-
-              <form onSubmit={handleSubmit} className="space-y-4">
-                <Input
-                  type="text"
-                  name="name"
-                  value={formData.name}
-                  onChange={handleInputChange}
-                  placeholder="Your Name"
-                  className="w-full px-4 py-3 bg-white border-2 border-accent/20 rounded cursor-text text-black focus:border-accent"
-                />
-
-                <Input
-                  type="email"
-                  name="email"
-                  value={formData.email}
-                  onChange={handleInputChange}
-                  placeholder="Email Address"
-                  className="w-full px-4 py-3 bg-white border-2 border-accent/20 rounded cursor-text text-black focus:border-accent"
-                />
-
-                <Input
-                  type="tel"
-                  name="phone"
-                  value={formData.phone}
-                  onChange={handleInputChange}
-                  placeholder="Phone Number"
-                  className="w-full px-4 py-3 bg-white border-2 border-accent/20 rounded cursor-text text-black focus:border-accent"
-                />
-
-                <Select value={formData.serviceType} onValueChange={handleSelectChange}>
-                  <SelectTrigger className="w-full px-4 py-3 bg-white border-2 border-accent/20 rounded cursor-pointer text-black focus:border-accent">
-                    <SelectValue placeholder="Select Service Type" />
-                  </SelectTrigger>
-                  <SelectContent className="bg-white">
-                    <SelectItem value="boudoir" className="text-black">Boudoir</SelectItem>
-                    <SelectItem value="maternity" className="text-black">Maternity</SelectItem>
-                    <SelectItem value="family" className="text-black">Family</SelectItem>
-                    <SelectItem value="bestie" className="text-black">Bestie</SelectItem>
-                  </SelectContent>
-                </Select>
-
-                <Button
-                  type="submit"
-                  disabled={isSubmitting}
-                  className="w-full px-8 py-3 bg-accent text-accent-foreground rounded text-lg font-semibold hover:scale-105 transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed"
-                >
-                  {isSubmitting ? 'SUBMITTING...' : 'BOOK FREE CONSULTATION'}
-                </Button>
-              </form>
-            </div>
-          </div>
-        </div>
-      )}
+      {/* Unified Booking Modal */}
+      <BookingModal
+        isOpen={isModalOpen}
+        onClose={() => setIsModalOpen(false)}
+      />
 
       {/* Floating CTA */}
       <div className="fixed bottom-8 right-8 z-50">

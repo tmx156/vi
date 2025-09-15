@@ -1,8 +1,75 @@
-/* Font loading optimized for mobile performance */
+/* CRITICAL CSS for ultra-fast mobile FCP/LCP */
+
+/* Font loading optimized for mobile performance - swap display for instant text */
 @import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400&family=Montserrat:wght@200;300;400;500;600;700&display=swap&text=ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789&subset=latin');
 
+/* Critical above-the-fold styles - load first for instant FCP */
+.hero-section {
+  position: relative;
+  height: 100vh;
+  height: 100dvh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  contain: layout style paint;
+}
+
+.hero-title {
+  font-size: 2.5rem;
+  font-weight: 300;
+  line-height: 1;
+  letter-spacing: 0.05em;
+  background: linear-gradient(135deg, #dcb876 0%, #e8d5a3 25%, #dcb876 50%, #c9a96e 75%, #dcb876 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  margin-bottom: 2rem;
+  text-align: center;
+  /* Ultra-fast mobile optimizations */
+  contain: layout style paint;
+  will-change: auto;
+  transform: translateZ(0);
+  backface-visibility: hidden;
+}
+
+/* Mobile-specific critical optimizations */
+@media (max-width: 768px) {
+  .hero-section {
+    height: 100vh;
+    height: 100dvh;
+    contain: layout style paint;
+  }
+
+  .hero-title {
+    font-size: 2.25rem;
+    contain: layout style paint;
+    transform: translateZ(0);
+    will-change: auto;
+  }
+
+  /* Disable all animations and transitions on mobile for performance */
+  * {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    transition-delay: 0ms !important;
+  }
+
+  /* Remove expensive effects on mobile */
+  .premium-card:hover,
+  .premium-button:hover,
+  .group:hover {
+    transform: none !important;
+    box-shadow: none !important;
+  }
+}
+
+/* stylelint-disable-next-line at-rule-no-unknown */
 @tailwind base;
+/* stylelint-disable-next-line at-rule-no-unknown */
 @tailwind components;
+/* stylelint-disable-next-line at-rule-no-unknown */
 @tailwind utilities;
 
 /* JotForm mobile responsiveness */
@@ -89,6 +156,12 @@
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
     text-rendering: optimizeSpeed;
+    /* Prevent horizontal scroll on mobile */
+    overflow-x: hidden;
+    /* Optimize touch scrolling */
+    -webkit-overflow-scrolling: touch;
+    /* Reduce motion for better performance */
+    scroll-behavior: smooth;
   }
 
   .font-serif {
@@ -628,8 +701,9 @@
     /* Target the JotForm iframe */
     iframe[id^="jf-form-iframe"],
     iframe[id^="JotFormIFrame"],
-    iframe#252563602964360,
-    iframe[id*="252563602964360"] {
+    iframe[id="252563602964360"],
+    iframe[id*="252563602964360"],
+    iframe[id*="JotFormIFrame"] {
       width: 100vw !important;
       min-width: 100vw !important;
       max-width: 100vw !important;
@@ -834,3 +908,223 @@
     }
   }
 }
+
+/* ULTRA-AGGRESSIVE mobile performance optimizations */
+@media (max-width: 768px) {
+  /* CRITICAL: Optimize images for mobile LCP */
+  img {
+    max-width: 100%;
+    height: auto;
+    image-rendering: optimizeSpeed;
+    image-rendering: -webkit-optimize-contrast;
+    image-rendering: -moz-crisp-edges;
+    image-rendering: crisp-edges;
+    contain: layout style paint;
+    transform: translateZ(0);
+    backface-visibility: hidden;
+    will-change: auto;
+  }
+  
+  /* CRITICAL: Disable ALL animations on mobile for Speed Index */
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    transition-delay: 0ms !important;
+    animation-delay: 0ms !important;
+    animation-fill-mode: none !important;
+    transition-timing-function: linear !important;
+  }
+  
+  /* CRITICAL: Optimize touch interactions for FCP */
+  button, a, input, select, textarea {
+    touch-action: manipulation;
+    -webkit-tap-highlight-color: transparent;
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    user-select: none;
+    contain: layout style paint;
+    transform: translateZ(0);
+  }
+  
+  /* CRITICAL: Improve scrolling performance */
+  .scroll-container, body, html {
+    -webkit-overflow-scrolling: touch;
+    scroll-behavior: auto;
+    overscroll-behavior: contain;
+  }
+  
+  /* CRITICAL: Optimize text rendering for FCP */
+  h1, h2, h3, h4, h5, h6, p, span, div, a, button {
+    text-rendering: optimizeSpeed;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    font-smooth: never;
+    -webkit-font-smooth: never;
+    contain: layout style paint;
+    transform: translateZ(0);
+    backface-visibility: hidden;
+    will-change: auto;
+  }
+  
+  /* CRITICAL: Reduce repaints and reflows */
+  .mobile-optimized, .hero-section, .hero-bg, .hero-content, .hero-title {
+    contain: layout style paint;
+    transform: translateZ(0);
+    backface-visibility: hidden;
+    will-change: auto;
+    isolation: isolate;
+  }
+  
+  /* CRITICAL: Optimize video elements */
+  video {
+    object-fit: cover;
+    contain: layout style paint;
+    transform: translateZ(0);
+    backface-visibility: hidden;
+    will-change: auto;
+  }
+  
+  /* CRITICAL: Better mobile navigation */
+  .mobile-nav {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 1000;
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    contain: layout style paint;
+    transform: translateZ(0);
+    backface-visibility: hidden;
+    will-change: auto;
+  }
+  
+  /* CRITICAL: Optimize modal performance */
+  .modal-overlay {
+    contain: layout style paint;
+    transform: translateZ(0);
+    backface-visibility: hidden;
+    will-change: auto;
+  }
+  
+  /* CRITICAL: Reduce layout thrashing */
+  .gallery-grid, .gallery-container {
+    contain: layout style;
+    transform: translateZ(0);
+    backface-visibility: hidden;
+  }
+  
+  /* Mobile Gallery Optimization */
+  .mobile-optimized {
+    contain: layout style paint;
+    transform: translateZ(0);
+    backface-visibility: hidden;
+    will-change: auto;
+  }
+  
+  /* Mobile Gallery Grid - Bigger Images */
+  @media (max-width: 640px) {
+    .gallery-grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 1.5rem;
+      padding: 0;
+      margin: 0;
+      width: 100%;
+    }
+  }
+  
+  @media (min-width: 641px) and (max-width: 768px) {
+    .gallery-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 1.5rem;
+      padding: 0;
+      margin: 0;
+      width: 100%;
+    }
+  }
+    
+    .gallery-container {
+      width: 100%;
+      padding: 0 1rem;
+    }
+    
+    .mobile-optimized {
+      border-radius: 1rem;
+      overflow: hidden;
+      box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+      transition: all 0.3s ease;
+    }
+    
+    .mobile-optimized:hover {
+      box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+      transform: translateY(-2px);
+    }
+    
+    /* Mobile Filter Buttons */
+    .mobile-filter-button {
+      min-height: 44px; /* iOS touch target minimum */
+      min-width: 44px;
+      touch-action: manipulation;
+      -webkit-tap-highlight-color: transparent;
+    }
+    
+    .mobile-filter-button:active {
+      transform: scale(0.95);
+    }
+  }
+  
+  @media (min-width: 769px) and (max-width: 1024px) {
+    .gallery-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1.5rem;
+    }
+  }
+  
+  @media (min-width: 1025px) {
+    .gallery-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 1.5rem;
+    }
+  }
+  
+  /* CRITICAL: Optimize service cards */
+  .service-card {
+    contain: layout style paint;
+    transform: translateZ(0);
+    backface-visibility: hidden;
+    will-change: auto;
+  }
+  
+  /* CRITICAL: Optimize hero elements for LCP */
+  .hero-title {
+    contain: layout style paint !important;
+    transform: translateZ(0) !important;
+    backface-visibility: hidden !important;
+    will-change: auto !important;
+    text-rendering: optimizeSpeed !important;
+    -webkit-font-smoothing: antialiased !important;
+    -moz-osx-font-smoothing: grayscale !important;
+    font-smooth: never !important;
+    -webkit-font-smooth: never !important;
+  }
+  
+  /* CRITICAL: Disable hover effects on mobile */
+  .premium-card:hover, .premium-button:hover, .group:hover {
+    transform: none !important;
+    scale: 1 !important;
+  }
+  
+  /* CRITICAL: Optimize luxury gradient for mobile */
+  .luxury-gradient {
+    animation: none !important;
+    background-size: 100% 100% !important;
+    contain: layout style paint !important;
+    transform: translateZ(0) !important;
+    backface-visibility: hidden !important;
+    will-change: auto !important;
+  }

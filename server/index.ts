@@ -1,5 +1,4 @@
 import express, { type Request, Response, NextFunction } from "express";
-import { registerRoutes } from "./routes";
 import { setupVite, serveStatic, log } from "./vite";
 
 const app = express();
@@ -38,11 +37,14 @@ app.use((req, res, next) => {
 
 // Initialize the app
 let server: any = null;
+let appInitialized = false;
 
 async function initializeApp() {
-  if (server) return server;
-  
-  server = await registerRoutes(app);
+  if (appInitialized) return server;
+
+  // Create HTTP server
+  const { createServer } = await import("http");
+  server = createServer(app);
 
   app.use((err: any, _req: Request, res: Response, _next: NextFunction) => {
     const status = err.status || err.statusCode || 500;
@@ -61,14 +63,22 @@ async function initializeApp() {
     serveStatic(app);
   }
 
+  appInitialized = true;
   return server;
 }
 
-// For Vercel serverless functions
-export default async function handler(req: Request, res: Response) {
-  const server = await initializeApp();
-  return app(req, res);
+// Initialize app for production/Vercel synchronously
+if (process.env.NODE_ENV === "production") {
+  app.use((err: any, _req: Request, res: Response, _next: NextFunction) => {
+    const status = err.status || err.statusCode || 500;
+    const message = err.message || "Internal Server Error";
+    res.status(status).json({ message });
+  });
+  serveStatic(app);
 }
+
+// For Vercel serverless functions - export the Express app directly
+export default app;
 
 // For local development
 if (process.env.NODE_ENV !== "production") {

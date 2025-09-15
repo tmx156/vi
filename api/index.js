@@ -53,20 +53,15 @@ var vite_config_default = defineConfig({
       },
       // Tree shaking optimizations
       treeshake: {
-        moduleSideEffects: false
+        moduleSideEffects: "no-external"
       }
     },
-    // Ultra-aggressive optimizations for mobile
-    chunkSizeWarningLimit: 500,
-    // Smaller chunks for mobile
-    assetsInlineLimit: 2048,
-    // Smaller inline limit for mobile networks
+    // Mobile optimizations
+    chunkSizeWarningLimit: 1e3,
+    assetsInlineLimit: 4096,
     sourcemap: false,
-    // Disable sourcemaps in production for smaller files
     reportCompressedSize: false,
-    // Disable to speed up build
     cssCodeSplit: true
-    // Enable CSS code splitting
   },
   server: {
     port: 5173,

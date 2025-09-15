@@ -45,15 +45,15 @@ export default defineConfig({
       },
       // Tree shaking optimizations
       treeshake: {
-        moduleSideEffects: false,
+        moduleSideEffects: 'no-external',
       },
     },
-    // Ultra-aggressive optimizations for mobile
-    chunkSizeWarningLimit: 500, // Smaller chunks for mobile
-    assetsInlineLimit: 2048, // Smaller inline limit for mobile networks
-    sourcemap: false, // Disable sourcemaps in production for smaller files
-    reportCompressedSize: false, // Disable to speed up build
-    cssCodeSplit: true, // Enable CSS code splitting
+    // Mobile optimizations
+    chunkSizeWarningLimit: 1000,
+    assetsInlineLimit: 4096,
+    sourcemap: false,
+    reportCompressedSize: false,
+    cssCodeSplit: true,
   },
   server: {
     port: 5173,

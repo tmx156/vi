@@ -1,13 +1,8 @@
-import GalleryGrid from "@/components/GalleryGrid";
-import MobileOptimizedGallery from "@/components/MobileOptimizedGallery";
-import Navigation from "@/components/Navigation";
-import BookingModal from "@/components/BookingModal";
-import { useState, useEffect } from "react";
-import { useMobilePerformance } from "@/hooks/use-mobile-performance";
+import { useState } from "react";
 
 export default function Gallery() {
-  const [isModalOpen, setIsModalOpen] = useState(false);
-  const { isMobile, isLowEndDevice, connectionType } = useMobilePerformance();
+  const [selectedCategory, setSelectedCategory] = useState('all');
+  const [selectedImage, setSelectedImage] = useState<string | null>(null);
   const galleryImages = [
     // Featured Portfolio Images
     {
@@ -193,10 +188,15 @@ export default function Gallery() {
     },
   ];
 
+  const categories = ['all', 'boudoir', 'maternity', 'family', 'bestie'];
+
+  const filteredImages = selectedCategory === 'all'
+    ? galleryImages
+    : galleryImages.filter(img => img.category === selectedCategory);
+
   return (
-    <div className="min-h-screen">
-      <Navigation onBookSession={() => setIsModalOpen(true)} />
-      <section className="pt-32 pb-24 px-6">
+    <div className="min-h-screen pt-16">
+      <section className="py-24 px-6">
         <div className="max-w-7xl mx-auto">
           <div className="text-center mb-16">
             <h1 className="text-6xl md:text-7xl font-serif font-light mb-8 luxury-gradient tracking-wide" data-testid="gallery-title">
@@ -209,40 +209,81 @@ export default function Gallery() {
             </p>
           </div>
 
-          {isMobile ? (
-            <MobileOptimizedGallery 
-              images={galleryImages.map(img => ({
-                id: img.id,
-                src: img.src,
-                alt: img.alt,
-                category: img.category,
-                mobileSrc: img.src.replace('.jpeg', 'm.webp'),
-                lowEndSrc: img.src.replace('.jpeg', 's.jpeg')
-              }))}
-              maxImages={isLowEndDevice ? 4 : connectionType === 'slow' ? 6 : 8}
-              showFilters={true}
-            />
-          ) : (
-            <GalleryGrid images={galleryImages} />
-          )}
+          {/* Filter Buttons */}
+          <div className="flex flex-wrap justify-center gap-4 mb-16">
+            {categories.map((category) => (
+              <button
+                key={category}
+                onClick={() => setSelectedCategory(category)}
+                className={`px-6 py-2 text-sm font-medium transition-all duration-300 rounded-lg ${
+                  selectedCategory === category
+                    ? 'bg-accent text-background'
+                    : 'text-foreground/60 hover:text-accent border border-accent/30 hover:border-accent'
+                }`}
+              >
+                {category.toUpperCase()}
+              </button>
+            ))}
+          </div>
+
+          {/* Gallery Grid */}
+          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+            {filteredImages.map((image, index) => (
+              <div
+                key={image.id}
+                className="group cursor-pointer transform transition-all duration-500 hover:scale-105"
+                onClick={() => setSelectedImage(image.src)}
+                style={{
+                  animationDelay: `${index * 0.05}s`
+                }}
+              >
+                <div className="relative aspect-[3/4] overflow-hidden rounded-lg premium-card">
+                  <img
+                    src={image.src}
+                    alt={image.alt}
+                    className="w-full h-full object-cover transition-all duration-700 group-hover:scale-110"
+                    loading="lazy"
+                    decoding="async"
+                  />
+                  {/* Overlay */}
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500">
+                    <div className="absolute bottom-4 left-4 right-4">
+                      <p className="text-white font-serif text-sm tracking-wide capitalize">
+                        {image.category}
+                      </p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            ))}
+          </div>
         </div>
       </section>
 
-      {/* Unified Booking Modal */}
-      <BookingModal
-        isOpen={isModalOpen}
-        onClose={() => setIsModalOpen(false)}
-      />
-
-      {/* Floating CTA */}
-      <div className="fixed bottom-8 right-8 z-50">
-        <button 
-          onClick={() => setIsModalOpen(true)}
-          className="premium-button px-6 py-3 text-sm font-medium tracking-widest text-accent-foreground shadow-2xl hover:scale-105 transition-all duration-300 cursor-pointer"
+      {/* Image Modal */}
+      {selectedImage && (
+        <div
+          className="fixed inset-0 bg-black/90 z-50 flex items-center justify-center p-4"
+          onClick={() => setSelectedImage(null)}
         >
-          GET CONSULTATION
-        </button>
-      </div>
+          <div className="relative max-w-4xl max-h-full">
+            <img
+              src={selectedImage}
+              alt="Gallery image"
+              className="max-w-full max-h-full object-contain"
+            />
+            <button
+              onClick={() => setSelectedImage(null)}
+              className="absolute top-4 right-4 text-white hover:text-accent transition-colors duration-300 p-2"
+            >
+              <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+              </svg>
+            </button>
+          </div>
+        </div>
+      )}
+
     </div>
   );
 }

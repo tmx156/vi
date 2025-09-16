@@ -1,7 +1,11 @@
 import { Link } from "wouter";
 import { Mail } from "lucide-react";
 
-export default function Footer() {
+interface FooterProps {
+  onBookingClick?: () => void;
+}
+
+export default function Footer({ onBookingClick }: FooterProps) {
   const currentYear = new Date().getFullYear();
 
   return (
@@ -22,7 +26,7 @@ export default function Footer() {
 
 
 
-            {/* Contact */}
+            {/* Contact & Booking */}
             <div>
               <h3 className="text-xl font-serif font-light mb-6 text-accent tracking-wide">CONTACT</h3>
               <div className="space-y-4">
@@ -32,6 +36,13 @@ export default function Footer() {
                     info@vipphotoshoots.co.uk
                   </a>
                 </div>
+
+                <button
+                  onClick={onBookingClick}
+                  className="premium-button px-6 py-3 text-sm font-medium text-background bg-accent hover:bg-accent/90 transition-all duration-300 rounded-lg w-full mt-6"
+                >
+                  BOOK YOUR SESSION
+                </button>
               </div>
             </div>
           </div>

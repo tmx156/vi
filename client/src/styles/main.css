@@ -1,11 +1,14 @@
-/* VIP PHOTOSHOOTS - OPTIMIZED STYLES */
+/* OPTIMIZED CSS FOR VIP PHOTOSHOOTS */
 
+/* Font loading optimized for performance */
 @import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400&family=Montserrat:wght@200;300;400;500;600;700&display=swap');
 
+/* Tailwind base */
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
+/* CSS Variables */
 :root {
   --background: hsl(240, 15%, 8%);
   --foreground: hsl(40, 15%, 95%);
@@ -31,6 +34,7 @@
   --font-serif: 'Cormorant Garamond', serif;
 }
 
+/* Base styles */
 @layer base {
   * {
     @apply border-border;
@@ -44,7 +48,6 @@
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
     text-rendering: optimizeSpeed;
-    scroll-behavior: smooth;
   }
 
   .font-serif {
@@ -54,52 +57,11 @@
   .font-sans {
     font-family: var(--font-sans);
   }
-
-  /* Mobile optimizations */
-  @media (max-width: 768px) {
-    * {
-      animation-duration: 0.1s !important;
-      transition-duration: 0.3s !important;
-    }
-
-    body {
-      text-rendering: optimizeSpeed;
-    }
-
-    html, body {
-      overflow-x: hidden;
-      max-width: 100vw;
-      width: 100vw;
-    }
-
-    section {
-      width: 100%;
-      max-width: 100vw;
-      box-sizing: border-box;
-    }
-
-    .container, .max-w-7xl, .max-w-6xl, .max-w-5xl, .max-w-4xl, .max-w-3xl, .max-w-2xl, .max-w-xl {
-      max-width: calc(100vw - 2rem);
-      margin-left: auto;
-      margin-right: auto;
-      padding-left: 1rem;
-      padding-right: 1rem;
-    }
-
-    img {
-      max-width: 100%;
-      height: auto;
-      image-rendering: optimizeSpeed;
-    }
-
-    button, a, input, select, textarea {
-      touch-action: manipulation;
-      -webkit-tap-highlight-color: transparent;
-    }
-  }
 }
 
+/* Component styles */
 @layer components {
+  /* Premium gradient text */
   .luxury-gradient {
     background: linear-gradient(135deg, #dcb876 0%, #e8d5a3 25%, #dcb876 50%, #c9a96e 75%, #dcb876 100%);
     -webkit-background-clip: text;
@@ -107,36 +69,25 @@
     background-clip: text;
   }
 
-  /* Mobile enhancement for better visibility */
-  @media (max-width: 768px) {
-    .luxury-gradient {
-      text-shadow: 2px 2px 8px rgba(0,0,0,0.8), 0 0 20px rgba(0,0,0,0.6);
-    }
-  }
-
+  /* Hero title optimization */
   .hero-title {
     font-size: 4rem;
     font-weight: 300;
     line-height: 1;
     letter-spacing: 0.05em;
     text-align: center;
+    contain: layout style paint;
+    transform: translateZ(0);
+    backface-visibility: hidden;
   }
 
   @media (max-width: 768px) {
     .hero-title {
-      font-size: 3.5rem;
-      font-weight: 700 !important;
-      color: white !important;
-      text-shadow: 3px 3px 12px rgba(0,0,0,0.9), 0 0 25px rgba(0,0,0,0.7), 1px 1px 3px rgba(0,0,0,0.8);
-      background: white !important;
-      -webkit-background-clip: text !important;
-      -webkit-text-fill-color: white !important;
-      background-clip: text !important;
-      letter-spacing: 0.02em;
-      line-height: 0.95;
+      font-size: 2.5rem;
     }
   }
 
+  /* Premium buttons */
   .premium-button {
     position: relative;
     background: linear-gradient(135deg, #dcb876, #c9a96e);
@@ -167,6 +118,7 @@
     box-shadow: 0 10px 30px rgba(220, 184, 120, 0.3);
   }
 
+  /* Premium cards */
   .premium-card {
     background: linear-gradient(145deg, rgba(15, 15, 25, 0.9), rgba(25, 25, 35, 0.7));
     border: 1px solid rgba(220, 184, 120, 0.1);
@@ -199,43 +151,83 @@
     opacity: 1;
   }
 
+  /* Elegant dividers */
   .elegant-divider {
     height: 1px;
     background: linear-gradient(90deg, transparent, rgba(220, 184, 120, 0.4), transparent);
   }
 
+  /* Navigation optimization */
   .mobile-nav {
     backdrop-filter: blur(10px);
     -webkit-backdrop-filter: blur(10px);
   }
+}
 
-  /* Remove hover effects on mobile */
-  @media (max-width: 768px) {
-    .premium-card:hover,
-    .premium-button:hover,
-    .group:hover {
-      transform: none !important;
-    }
+/* Mobile optimizations */
+@media (max-width: 768px) {
+  /* Disable expensive animations on mobile */
+  * {
+    animation-duration: 0.1s !important;
+    transition-duration: 0.3s !important;
+  }
+
+  /* Optimize text rendering */
+  body {
+    text-rendering: optimizeSpeed;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  /* Disable hover effects on touch devices */
+  .premium-card:hover,
+  .premium-button:hover,
+  .group:hover {
+    transform: none !important;
+  }
+
+  /* Mobile performance optimizations */
+  img {
+    max-width: 100%;
+    height: auto;
+    image-rendering: optimizeSpeed;
+  }
+
+  /* Touch optimizations */
+  button, a, input, select, textarea {
+    touch-action: manipulation;
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  /* Prevent horizontal scroll */
+  html, body {
+    overflow-x: hidden;
+    max-width: 100vw;
+    width: 100vw;
+  }
+
+  /* Optimize sections for mobile */
+  section {
+    width: 100%;
+    max-width: 100vw;
+    box-sizing: border-box;
+  }
+
+  /* Grid optimizations */
+  .grid {
+    overflow-x: hidden;
+  }
+
+  /* Container optimizations */
+  .container, .max-w-7xl, .max-w-6xl, .max-w-5xl, .max-w-4xl, .max-w-3xl, .max-w-2xl, .max-w-xl {
+    max-width: calc(100vw - 2rem);
+    margin-left: auto;
+    margin-right: auto;
+    padding-left: 1rem;
+    padding-right: 1rem;
   }
 }
 
-@layer utilities {
-  .text-balance {
-    text-wrap: balance;
-  }
-}
-
-/* Focus states for accessibility */
-button:focus-visible,
-a:focus-visible,
-input:focus-visible,
-select:focus-visible,
-textarea:focus-visible {
-  outline: 2px solid var(--accent);
-  outline-offset: 2px;
-}
-
-/* Loading animation */
+/* Loading states */
 .animate-pulse {
   animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
 }
@@ -249,29 +241,19 @@ textarea:focus-visible {
   }
 }
 
-/* Mobile-specific service card optimizations */
-@media (max-width: 768px) {
-  .image-overlay {
-    min-height: 300px;
-  }
-  
-  /* Ensure text overlay is visible on mobile */
-  .image-overlay .absolute.bottom-6 {
-    bottom: 1rem;
-    left: 1rem;
-    right: 1rem;
-  }
-  
-  .image-overlay h3 {
-    font-size: 1.5rem;
-    line-height: 1.2;
-  }
-  
-  /* Mobile form positioning - ensure consistent left positioning */
-  #booking-form .w-full {
-    margin-left: -1rem !important;
-  }
+/* Focus states for accessibility */
+button:focus-visible,
+a:focus-visible,
+input:focus-visible,
+select:focus-visible,
+textarea:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+}
 
+/* Smooth scrolling */
+html {
+  scroll-behavior: smooth;
 }
 
 /* Print styles */

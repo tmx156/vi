@@ -4,16 +4,25 @@ import UltraFastMobileHero from "@/components/UltraFastMobileHero";
 import ServiceCard from "@/components/ServiceCard";
 import HomeGallery from "@/components/HomeGallery";
 import Navigation from "@/components/Navigation";
-import BookingModal from "@/components/BookingModal";
 import { useMobilePerformance } from "@/hooks/use-mobile-performance";
 import { useEffect, useState } from "react";
 
-export default function Home() {
+interface HomeProps {
+  onBookingClick?: () => void;
+}
+
+export default function Home({ onBookingClick }: HomeProps = {}) {
   // Mobile performance optimizations
   const { isMobile, isReducedMotion, isLowEndDevice, connectionType } = useMobilePerformance();
 
-  // Modal state
-  const [isModalOpen, setIsModalOpen] = useState(false);
+  // Scroll to booking form function
+  const scrollToBooking = () => {
+    const bookingForm = document.getElementById('booking-form');
+    if (bookingForm) {
+      bookingForm.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
+  };
+
 
   // JotForm scripts are now loaded at app level to persist across route changes
 
@@ -59,10 +68,6 @@ export default function Home() {
     return () => observer.disconnect();
   }, [isMobile, isReducedMotion]);
 
-  // Handle modal open
-  const handleModalOpen = () => {
-    setIsModalOpen(true);
-  };
 
   const services = [
     {
@@ -89,90 +94,73 @@ export default function Home() {
 
   return (
     <div className="min-h-screen">
-      <Navigation onBookSession={() => setIsModalOpen(true)} />
+      <Navigation onBookingClick={onBookingClick} />
 
       {/* Hero Section - Ultra-fast LCP for mobile */}
       {isMobile ? (
         <UltraFastMobileHero>
-          <div>
-            <h1 className="hero-title" data-testid="hero-title">
-              DEFINE YOUR<br />
-              <span className="font-normal italic">Luxury</span>
-            </h1>
-            <div className="elegant-divider w-32 mx-auto mb-8"></div>
-            <p className="text-lg sm:text-xl md:text-2xl text-foreground/70 mb-6 font-sans font-light tracking-wide" data-testid="hero-subtitle">
-              UK PREMIER LUXURY PHOTOGRAPHY STUDIOS
-            </p>
-            <p className="text-base text-foreground/60 mb-16 max-w-2xl mx-auto font-sans tracking-wide leading-relaxed" data-testid="hero-description">
-              Specializing in Boudoir · Maternity · Family · Bestie Photography
-            </p>
-
-            {/* Trust Indicators */}
-            <div className="flex flex-wrap justify-center items-center gap-8 text-foreground/50 text-sm tracking-wider">
-              <div className="flex items-center gap-2">
-                <svg className="w-4 h-4 text-accent" fill="currentColor" viewBox="0 0 20 20">
-                  <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
-                </svg>
-                <span>5+ Years Experience</span>
+          <div className="flex flex-col h-full justify-between">
+            <div className="flex flex-col justify-center flex-1">
+              <div className="text-center">
+                <h1 className="text-5xl sm:text-6xl md:text-7xl lg:text-8xl font-serif font-light mb-6 luxury-gradient leading-none tracking-wider" style={{textShadow: '2px 2px 8px rgba(0,0,0,0.8), 0 0 20px rgba(0,0,0,0.6)'}} data-testid="hero-title">
+                  PREMIER LUXURY<br />
+                  <span className="font-normal italic">PHOTOGRAPHY STUDIO</span>
+                </h1>
+                <div className="elegant-divider w-24 mx-auto"></div>
               </div>
-              <div className="flex items-center gap-2">
-                <svg className="w-4 h-4 text-accent" fill="currentColor" viewBox="0 0 20 20">
-                  <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
-                </svg>
-                <span>500+ Happy Clients</span>
-              </div>
-              <div className="flex items-center gap-2">
-                <svg className="w-4 h-4 text-accent" fill="currentColor" viewBox="0 0 20 20">
-                  <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
-                </svg>
-                <span>Award Winning</span>
-              </div>
+            </div>
+            <div className="text-center">
+              <p className="text-xl sm:text-2xl md:text-3xl luxury-gradient max-w-xl mx-auto font-serif font-semibold tracking-wider leading-relaxed mb-4" data-testid="hero-description">
+                Specializing in Boudoir · Maternity · Family · Bestie Photography
+              </p>
             </div>
           </div>
         </UltraFastMobileHero>
       ) : (
         <WebGLHero>
-        <div>
-          <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-8xl xl:text-9xl font-serif font-light mb-8 luxury-gradient leading-none tracking-wider" data-testid="hero-title">
-            DEFINE YOUR<br />
-            <span className="font-normal italic">Luxury</span>
-          </h1>
-          <div className="elegant-divider w-32 mx-auto mb-8"></div>
-          <p className="text-lg sm:text-xl md:text-2xl text-foreground/70 mb-6 font-sans font-light tracking-wide" data-testid="hero-subtitle">
-            UK PREMIER LUXURY PHOTOGRAPHY STUDIOS
-          </p>
-          <p className="text-base text-foreground/60 mb-16 max-w-2xl mx-auto font-sans tracking-wide leading-relaxed" data-testid="hero-description">
-            Specializing in Boudoir · Maternity · Family · Bestie Photography
-          </p>
-
-          {/* Trust Indicators */}
-          <div className="flex flex-wrap justify-center items-center gap-8 text-foreground/50 text-sm tracking-wider">
-            <div className="flex items-center gap-2">
-              <svg className="w-4 h-4 text-accent" fill="currentColor" viewBox="0 0 20 20">
-                <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
-              </svg>
-              <span>5+ Years Experience</span>
-            </div>
-            <div className="flex items-center gap-2">
-              <svg className="w-4 h-4 text-accent" fill="currentColor" viewBox="0 0 20 20">
-                <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
-              </svg>
-              <span>500+ Happy Clients</span>
-            </div>
-            <div className="flex items-center gap-2">
-              <svg className="w-4 h-4 text-accent" fill="currentColor" viewBox="0 0 20 20">
-                <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
-              </svg>
-              <span>Award Winning</span>
-            </div>
+        <div className="flex flex-col h-full">
+          <div className="flex-1 flex flex-col justify-center">
+            <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl xl:text-8xl font-serif font-light mb-6 luxury-gradient leading-none tracking-wider" data-testid="hero-title">
+              PREMIER LUXURY<br />
+              <span className="font-normal italic">PHOTOGRAPHY STUDIO</span>
+            </h1>
+            <div className="elegant-divider w-24 mx-auto"></div>
+          </div>
+          <div className="pb-12">
+            <p className="text-lg text-foreground/70 max-w-xl mx-auto font-sans font-medium tracking-wide leading-relaxed" data-testid="hero-description">
+              Specializing in Boudoir · Maternity · Family · Bestie Photography
+            </p>
           </div>
         </div>
         </WebGLHero>
       )}
 
+      {/* Embedded JotForm Section - Positioned right after hero */}
+      <section id="booking-form" className="w-full bg-background py-8">
+        <div className="w-full -ml-4">
+          <iframe
+            id="JotFormIFrame-252563602964360"
+            title="Book Your Session"
+            allowTransparency={true}
+            allow="geolocation; microphone; camera"
+            src="https://form.jotform.com/252563602964360"
+            frameBorder="0"
+            style={{
+              height: '1200px',
+              width: '100%',
+              border: 'none'
+            }}
+            scrolling="no"
+            loading="eager"
+            className="w-full"
+            sandbox="allow-same-origin allow-scripts allow-forms allow-popups allow-popups-to-escape-sandbox"
+          />
+        </div>
+      </section>
+
       {/* Services Section */}
       <section className="py-16 md:py-32">
-        <div className="max-w-7xl mx-auto px-4 md:px-8">
+        <div className="max-w-7xl mx-auto px-0 md:px-8">
           <div className="text-center mb-24 reveal-up visible">
             <h2 className="text-5xl md:text-6xl font-serif font-light mb-8 luxury-gradient tracking-wide" data-testid="services-title">
               SIGNATURE COLLECTIONS
@@ -184,13 +172,14 @@ export default function Home() {
             </p>
           </div>
 
-          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 md:gap-8">
             {services.map((service, index) => (
               <div key={service.title} className="reveal-up visible">
                 <ServiceCard
                   title={service.title}
                   description={service.description}
                   imageUrl={service.imageUrl}
+                  onBookingClick={scrollToBooking}
                 />
               </div>
             ))}
@@ -216,28 +205,6 @@ export default function Home() {
         </div>
       </section>
 
-      {/* Embedded JotForm Section - Ultra-optimized for mobile */}
-      <section id="booking-form" className="w-full min-h-screen bg-background">
-        <div className="w-full h-full">
-          <iframe
-            id="JotFormIFrame-252563602964360"
-            title="Book Your Session"
-            allowTransparency={true}
-            allow="geolocation; microphone; camera"
-            src="https://form.jotform.com/252563602964360"
-            frameBorder="0"
-            style={{
-              minHeight: '1200px',
-              height: '1200px',
-              width: '100%',
-              border: 'none'
-            }}
-            scrolling="auto"
-            loading="lazy"
-            className="w-full"
-          />
-        </div>
-      </section>
 
       {/* Home Gallery Section */}
       <HomeGallery />
@@ -247,7 +214,7 @@ export default function Home() {
         <div className="absolute inset-0 bg-cover bg-center bg-no-repeat opacity-10"
              style={{ backgroundImage: "url('https://i.imgur.com/nGTCJ8l.jpeg')" }}>
         </div>
-        <div className="max-w-7xl mx-auto px-4 md:px-8 relative z-10">
+        <div className="max-w-7xl mx-auto px-0 md:px-8 relative z-10">
           <div className="text-center mb-24 reveal-up visible">
             <h2 className="text-5xl md:text-6xl font-serif font-light mb-8 luxury-gradient tracking-wide">
               BY THE NUMBERS
@@ -301,7 +268,10 @@ export default function Home() {
               <p className="text-foreground/60 mb-6 font-sans text-sm tracking-wide">
                 Be part of our exclusive community of satisfied clients
               </p>
-              <Button className="premium-button px-8 py-3 text-sm font-medium tracking-widest text-accent-foreground">
+              <Button
+                onClick={scrollToBooking}
+                className="premium-button px-8 py-3 text-sm font-medium tracking-widest text-accent-foreground cursor-pointer"
+              >
                 START YOUR JOURNEY
               </Button>
             </div>
@@ -314,7 +284,7 @@ export default function Home() {
         <div className="absolute inset-0 bg-cover bg-center bg-no-repeat opacity-5"
              style={{ backgroundImage: "url('https://i.imgur.com/KFMpwj9.jpeg')" }}>
         </div>
-        <div className="max-w-7xl mx-auto px-4 md:px-8 relative z-10">
+        <div className="max-w-7xl mx-auto px-0 md:px-8 relative z-10">
           <div className="text-center mb-24 reveal-up visible">
             <h2 className="text-5xl md:text-6xl font-serif font-light mb-8 luxury-gradient tracking-wide" data-testid="process-title">
               THE ATELIER EXPERIENCE
@@ -409,12 +379,15 @@ export default function Home() {
               </p>
               <div className="flex flex-col sm:flex-row gap-4 justify-center">
                 <Button
-                  onClick={handleModalOpen}
-                  className="premium-button px-8 py-3 text-sm font-medium tracking-widest text-accent-foreground"
+                  onClick={scrollToBooking}
+                  className="premium-button px-8 py-3 text-sm font-medium tracking-widest text-accent-foreground cursor-pointer"
                 >
                   BOOK CONSULTATION
                 </Button>
-                <Button className="px-8 py-3 text-sm font-medium tracking-widest text-foreground border border-accent/50 hover:bg-accent/10 transition-all duration-300">
+                <Button
+                  onClick={() => window.location.href = '/about'}
+                  className="px-8 py-3 text-sm font-medium tracking-widest text-foreground border border-accent/50 hover:bg-accent/10 transition-all duration-300 cursor-pointer"
+                >
                   LEARN MORE
                 </Button>
               </div>
@@ -426,7 +399,7 @@ export default function Home() {
       </section>
 
       {/* Additional Gallery Section */}
-      <section className="py-16 md:py-24 px-4 md:px-8 relative overflow-hidden">
+      <section className="py-16 md:py-24 px-0 md:px-8 relative overflow-hidden">
         <div className="absolute inset-0 bg-gradient-to-b from-background via-secondary/20 to-background"></div>
         <div className="max-w-6xl mx-auto relative z-10">
           <div className="text-center mb-16">
@@ -479,7 +452,7 @@ export default function Home() {
           {/* Call to Action */}
           <div className="text-center mt-12">
             <button
-              onClick={handleModalOpen}
+              onClick={scrollToBooking}
               className="premium-button px-8 py-3 text-sm font-medium tracking-widest text-accent-foreground hover:scale-105 transition-all duration-300 cursor-pointer"
             >
               BOOK YOUR SESSION
@@ -490,7 +463,7 @@ export default function Home() {
 
       {/* Testimonials Section */}
       <section className="py-16 md:py-32 bg-gradient-to-b from-secondary to-background relative overflow-hidden">
-        <div className="max-w-7xl mx-auto px-4 md:px-8 relative z-10">
+        <div className="max-w-7xl mx-auto px-0 md:px-8 relative z-10">
           <div className="text-center mb-24 reveal-up visible">
             <h2 className="text-5xl md:text-6xl font-serif font-light mb-8 luxury-gradient tracking-wide">
               CLIENT TESTIMONIALS
@@ -566,12 +539,15 @@ export default function Home() {
               </p>
               <div className="flex flex-col sm:flex-row gap-4 justify-center">
                 <Button
-                  onClick={handleModalOpen}
-                  className="premium-button px-8 py-3 text-sm font-medium tracking-widest text-accent-foreground"
+                  onClick={scrollToBooking}
+                  className="premium-button px-8 py-3 text-sm font-medium tracking-widest text-accent-foreground cursor-pointer"
                 >
                   BOOK YOUR SESSION
                 </Button>
-                <Button className="px-8 py-3 text-sm font-medium tracking-widest text-foreground border border-accent/50 hover:bg-accent/10 transition-all duration-300">
+                <Button
+                  onClick={() => window.location.href = '/gallery'}
+                  className="px-8 py-3 text-sm font-medium tracking-widest text-foreground border border-accent/50 hover:bg-accent/10 transition-all duration-300 cursor-pointer"
+                >
                   READ MORE REVIEWS
                 </Button>
               </div>
@@ -581,7 +557,7 @@ export default function Home() {
       </section>
 
       {/* Awards Section */}
-      <section className="py-16 md:py-32 px-4 md:px-8">
+      <section className="py-16 md:py-32 px-0 md:px-8">
         <div className="max-w-7xl mx-auto">
           <div className="text-center mb-24 reveal-up visible">
             <h2 className="text-5xl md:text-6xl font-serif font-light mb-8 luxury-gradient tracking-wide">
@@ -639,12 +615,15 @@ export default function Home() {
               </p>
               <div className="flex flex-col sm:flex-row gap-4 justify-center">
                 <Button
-                  onClick={handleModalOpen}
-                  className="premium-button px-8 py-3 text-sm font-medium tracking-widest text-accent-foreground"
+                  onClick={scrollToBooking}
+                  className="premium-button px-8 py-3 text-sm font-medium tracking-widest text-accent-foreground cursor-pointer"
                 >
                   BOOK CONSULTATION
                 </Button>
-                <Button className="px-8 py-3 text-sm font-medium tracking-widest text-foreground border border-accent/50 hover:bg-accent/10 transition-all duration-300">
+                <Button
+                  onClick={() => window.location.href = '/about'}
+                  className="px-8 py-3 text-sm font-medium tracking-widest text-foreground border border-accent/50 hover:bg-accent/10 transition-all duration-300 cursor-pointer"
+                >
                   VIEW AWARDS
                 </Button>
               </div>
@@ -653,23 +632,6 @@ export default function Home() {
         </div>
       </section>
 
-      {/* Booking Modal */}
-      <BookingModal
-        isOpen={isModalOpen}
-        onClose={() => setIsModalOpen(false)}
-      />
-
-      {/* Floating CTA */}
-      {!isModalOpen && (
-        <div className="fixed bottom-8 right-8 z-50">
-          <button
-            onClick={() => setIsModalOpen(true)}
-            className="premium-button px-6 py-3 text-sm font-medium tracking-widest text-accent-foreground shadow-2xl hover:scale-105 transition-all duration-300 cursor-pointer"
-          >
-            BOOK NOW
-          </button>
-        </div>
-      )}
     </div>
   );
 }

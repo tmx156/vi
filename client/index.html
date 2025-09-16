@@ -8,12 +8,113 @@
     <meta name="apple-mobile-web-app-capable" content="yes" />
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
     <meta name="format-detection" content="telephone=no" />
+
+    <!-- SEO Meta Tags -->
+    <title>VIP Photoshoots | Luxury Photography London | Boudoir, Maternity, Family</title>
+    <meta name="description" content="London's premier luxury photography studio. Professional boudoir, maternity, family & portrait sessions. Book your VIP photography experience today." />
+    <meta name="keywords" content="luxury photography London, boudoir photography, maternity photos, family portraits, professional photographer London" />
+    <meta name="author" content="VIP Photoshoots" />
+    <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1" />
+    <link rel="canonical" href="https://www.vipphotoshoots.co.uk/" />
+
+    <!-- Open Graph Meta Tags -->
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="VIP Photoshoots | Luxury Photography London" />
+    <meta property="og:description" content="London's premier luxury photography studio. Professional boudoir, maternity, family & portrait sessions." />
+    <meta property="og:url" content="https://www.vipphotoshoots.co.uk/" />
+    <meta property="og:site_name" content="VIP Photoshoots" />
+    <meta property="og:image" content="https://www.vipphotoshoots.co.uk/og-image.jpg" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:image:alt" content="VIP Photoshoots - Luxury Photography Studio London" />
+    <meta property="og:locale" content="en_GB" />
+
+    <!-- Twitter Card Meta Tags -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="VIP Photoshoots | Luxury Photography London" />
+    <meta name="twitter:description" content="London's premier luxury photography studio. Professional boudoir, maternity, family & portrait sessions." />
+    <meta name="twitter:image" content="https://www.vipphotoshoots.co.uk/og-image.jpg" />
+    <meta name="twitter:image:alt" content="VIP Photoshoots - Luxury Photography Studio" />
+
+    <!-- Structured Data -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "ProfessionalService",
+      "name": "VIP Photoshoots",
+      "description": "London's premier luxury photography studio specializing in boudoir, maternity, family and portrait sessions.",
+      "url": "https://www.vipphotoshoots.co.uk",
+      "telephone": "+44-20-7493-5555",
+      "email": "info@vipphotoshoots.co.uk",
+      "address": {
+        "@type": "PostalAddress",
+        "streetAddress": "15 Berkeley Square",
+        "addressLocality": "Mayfair",
+        "addressRegion": "London",
+        "postalCode": "W1J 6QQ",
+        "addressCountry": "GB"
+      },
+      "geo": {
+        "@type": "GeoCoordinates",
+        "latitude": 51.5074,
+        "longitude": -0.1278
+      },
+      "openingHours": "Mo-Sa 09:00-18:00",
+      "priceRange": "£££",
+      "serviceType": "Photography Services",
+      "areaServed": {
+        "@type": "City",
+        "name": "London"
+      },
+      "hasOfferCatalog": {
+        "@type": "OfferCatalog",
+        "name": "Photography Services",
+        "itemListElement": [
+          {
+            "@type": "Offer",
+            "itemOffered": {
+              "@type": "Service",
+              "name": "Boudoir Photography",
+              "description": "Intimate and elegant boudoir photography sessions"
+            }
+          },
+          {
+            "@type": "Offer",
+            "itemOffered": {
+              "@type": "Service",
+              "name": "Maternity Photography",
+              "description": "Beautiful maternity portrait sessions"
+            }
+          },
+          {
+            "@type": "Offer",
+            "itemOffered": {
+              "@type": "Service",
+              "name": "Family Photography",
+              "description": "Treasured family portrait sessions"
+            }
+          }
+        ]
+      },
+      "sameAs": [
+        "https://www.instagram.com/vipphotoshoots",
+        "https://www.facebook.com/vipphotoshoots"
+      ]
+    }
+    </script>
+    
+    <!-- Favicon -->
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg">
+    <link rel="icon" type="image/x-icon" href="/favicon.ico">
+    <link rel="apple-touch-icon" href="/favicon.svg">
     
     <!-- Preload critical resources -->
     <link rel="preconnect" href="https://fonts.googleapis.com" crossorigin>
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link rel="preconnect" href="https://i.imgur.com" crossorigin>
-    <link rel="preconnect" href="https://d1q70pf5vjeyhc.cloudfront.net" crossorigin>
+    <link rel="preconnect" href="https://form.jotform.com" crossorigin>
+    <link rel="dns-prefetch" href="//player.vimeo.com">
+    <link rel="dns-prefetch" href="//form.jotform.com">
     
     <!-- CRITICAL: Preload resources for ultra-fast mobile LCP -->
     <link rel="preload" as="image" href="https://i.imgur.com/MRGNjyIs.webp" fetchpriority="high" media="(max-width: 768px)" crossorigin="anonymous">
@@ -23,7 +124,9 @@
     <!-- Load Google Fonts properly -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;500;600;700&family=Montserrat:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Non-blocking font loading -->
+    <link rel="preload" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;500;600;700&family=Montserrat:wght@300;400;500;600;700&display=swap" as="style" onload="this.onload=null;this.rel='stylesheet'">
+    <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;500;600;700&family=Montserrat:wght@300;400;500;600;700&display=swap"></noscript>
     
     <!-- CRITICAL: DNS prefetch for external resources -->
     <link rel="dns-prefetch" href="//i.imgur.com">
@@ -355,6 +458,22 @@
     </script>
     
     <script type="module" src="/src/main.tsx"></script>
+
+    <!-- Service Worker Registration -->
+    <script>
+      if ('serviceWorker' in navigator) {
+        window.addEventListener('load', () => {
+          navigator.serviceWorker.register('/sw.js')
+            .then((registration) => {
+              console.log('SW registered: ', registration);
+            })
+            .catch((registrationError) => {
+              console.log('SW registration failed: ', registrationError);
+            });
+        });
+      }
+    </script>
+
     <!-- This is a replit script which adds a banner on the top of the page when opened in development mode outside the replit environment -->
     <script type="text/javascript" src="https://replit.com/public/js/replit-dev-banner.js"></script>
   </body>

@@ -1,39 +1,33 @@
 import { Switch, Route, useLocation } from "wouter";
-import { queryClient } from "./lib/queryClient";
-import { QueryClientProvider } from "@tanstack/react-query";
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { Toaster } from "@/components/ui/toaster";
-import { TooltipProvider } from "@/components/ui/tooltip";
 import { useEffect, lazy, Suspense } from "react";
-import NotFound from "@/pages/not-found";
-import Home3 from "@/pages/home3";
 import Navigation from "@/components/Navigation";
 import Footer from "@/components/Footer";
-import { ModalProvider } from "@/contexts/ModalContext";
+import BookingModal from "@/components/BookingModal";
+import { useState } from "react";
+import { Analytics } from '@vercel/analytics/react';
+import { SpeedInsights } from '@vercel/speed-insights/react';
 
-// Type declarations for JotForm scripts
-declare global {
-  interface Window {
-    jotformEmbedHandler?: (selector: string, base: string) => void;
-    JotformFeedback?: new (config: {
-      formId: string;
-      base: string;
-      windowTitle: string;
-      backgroundColor: string;
-      fontColor: string;
-      type: string;
-      height: number;
-      width: number;
-      openOnLoad: boolean;
-    }) => void;
-  }
-}
+// Create query client with optimized settings
+const queryClient = new QueryClient({
+  defaultOptions: {
+    queries: {
+      retry: 1,
+      staleTime: 5 * 60 * 1000, // 5 minutes
+      refetchOnWindowFocus: false,
+    },
+  },
+});
 
-// Lazy load non-critical pages to reduce initial bundle size
+// Lazy load pages for better performance
+const Home = lazy(() => import("@/pages/home3"));
 const About = lazy(() => import("@/pages/about"));
 const Gallery = lazy(() => import("@/pages/gallery"));
 const Locations = lazy(() => import("@/pages/locations"));
 const Privacy = lazy(() => import("@/pages/privacy"));
 const Terms = lazy(() => import("@/pages/terms"));
+const NotFound = lazy(() => import("@/pages/NotFound"));
 
 function ScrollToTop() {
   const [location] = useLocation();
@@ -45,14 +39,27 @@ function ScrollToTop() {
   return null;
 }
 
+// Loading component
+function Loading() {
+  return (
+    <div className="flex items-center justify-center min-h-[50vh]">
+      <div className="luxury-gradient text-xl font-serif animate-pulse">Loading...</div>
+    </div>
+  );
+}
+
 function Router() {
+  const [isBookingOpen, setIsBookingOpen] = useState(false);
+
+  const handleBookingClick = () => setIsBookingOpen(true);
+
   return (
     <>
       <ScrollToTop />
-      <Navigation />
-      <Suspense fallback={<div className="min-h-screen flex items-center justify-center">Loading...</div>}>
+      <Navigation onBookingClick={handleBookingClick} />
+      <Suspense fallback={<Loading />}>
         <Switch>
-          <Route path="/" component={Home3} />
+          <Route path="/" component={() => <Home onBookingClick={handleBookingClick} />} />
           <Route path="/about" component={About} />
           <Route path="/gallery" component={Gallery} />
           <Route path="/locations" component={Locations} />
@@ -61,29 +68,25 @@ function Router() {
           <Route component={NotFound} />
         </Switch>
       </Suspense>
-      <Footer />
+      <Footer onBookingClick={handleBookingClick} />
+      <BookingModal
+        isOpen={isBookingOpen}
+        onClose={() => setIsBookingOpen(false)}
+      />
     </>
   );
 }
 
-function App() {
-  // Modal handler function
-  const handleOpenModal = () => {
-    // This would typically open a modal, for now it's a placeholder
-    console.log('Modal opened');
-  };
-
-
+export default function App() {
   return (
     <QueryClientProvider client={queryClient}>
-      <TooltipProvider>
-        <ModalProvider openModal={handleOpenModal}>
-          <Toaster />
-          <Router />
-        </ModalProvider>
-      </TooltipProvider>
+      <div className="min-h-screen bg-background text-foreground font-sans antialiased">
+        <Router />
+        <Toaster />
+        <Analytics />
+        <SpeedInsights />
+      </div>
     </QueryClientProvider>
   );
 }
 
-export default App;

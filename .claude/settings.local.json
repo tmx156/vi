@@ -4,7 +4,8 @@
       "Bash(npx tsc:*)",
       "Read(//c/Users/Tin/Pictures/Screenshots/**)",
       "Bash(cp:*)",
-      "Bash(curl:*)"
+      "Bash(curl:*)",
+      "WebFetch(domain:raw.githubusercontent.com)"
     ],
     "deny": [],
     "ask": []

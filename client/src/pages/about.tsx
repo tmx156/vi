@@ -1,10 +1,4 @@
-import Navigation from "@/components/Navigation";
-import BookingModal from "@/components/BookingModal";
-import { useState } from "react";
-import { Button } from "@/components/ui/button";
-
 export default function About() {
-  const [isModalOpen, setIsModalOpen] = useState(false);
 
   const teamMembers = [
     {
@@ -39,8 +33,7 @@ export default function About() {
 
 
   return (
-    <div className="min-h-screen">
-      <Navigation onBookSession={() => setIsModalOpen(true)} />
+    <div className="min-h-screen pt-16">
       <section className="pt-20 sm:pt-24 md:pt-32 pb-16 sm:pb-20 md:pb-24 px-4 sm:px-6">
         <div className="max-w-7xl mx-auto">
           <div className="text-center max-w-5xl mx-auto">
@@ -166,21 +159,7 @@ export default function About() {
         </div>
       </section>
 
-      {/* Unified Booking Modal */}
-      <BookingModal
-        isOpen={isModalOpen}
-        onClose={() => setIsModalOpen(false)}
-      />
 
-      {/* Floating CTA */}
-      <div className="fixed bottom-8 right-8 z-50">
-        <Button 
-          onClick={() => setIsModalOpen(true)}
-          className="premium-button px-6 py-3 text-sm font-medium tracking-widest text-accent-foreground shadow-2xl hover:scale-105 transition-all duration-300 cursor-pointer"
-        >
-          GET CONSULTATION
-        </Button>
-      </div>
     </div>
   );
 }

@@ -1,18 +1,33 @@
 import { cn } from "@/lib/utils";
 import MobileOptimizedImage from "./MobileOptimizedImage";
 import PhotographyImage from "./PhotographyImage";
+import { useState, useEffect } from "react";
 
 interface ServiceCardProps {
   title: string;
   description: string;
   imageUrl: string;
   className?: string;
+  onBookingClick?: () => void;
 }
 
-export default function ServiceCard({ title, description, imageUrl, className }: ServiceCardProps) {
+export default function ServiceCard({ title, description, imageUrl, className, onBookingClick }: ServiceCardProps) {
+  const [isMobile, setIsMobile] = useState(false);
+
+  useEffect(() => {
+    const checkMobile = () => {
+      setIsMobile(window.innerWidth <= 768);
+    };
+    
+    checkMobile();
+    window.addEventListener('resize', checkMobile);
+    
+    return () => window.removeEventListener('resize', checkMobile);
+  }, []);
+
   return (
     <div className={cn("premium-card group cursor-pointer", className)}>
-      <div className="image-overlay h-96 relative">
+      <div className="image-overlay h-96 relative overflow-hidden bg-gray-100">
         <PhotographyImage
           src={imageUrl}
           alt={`${title} photography session`}
@@ -20,7 +35,10 @@ export default function ServiceCard({ title, description, imageUrl, className }:
           loading="lazy"
           decoding="async"
           priority={false}
-          style={{ willChange: 'transform' }}
+          style={{ 
+            willChange: 'transform',
+            objectPosition: isMobile ? 'center 15%' : 'center center'
+          }}
         />
         <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent"></div>
         <div className="absolute bottom-6 left-6 right-6">
@@ -46,7 +64,10 @@ export default function ServiceCard({ title, description, imageUrl, className }:
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M17 8l4 4m0 0l-4 4m4-4H3" />
             </svg>
           </div>
-          <button className="w-full px-4 py-2 text-xs font-medium tracking-widest text-foreground border border-accent/50 hover:bg-accent/10 transition-all duration-300 uppercase">
+          <button
+            onClick={onBookingClick}
+            className="w-full px-4 py-2 text-xs font-medium tracking-widest text-foreground border border-accent/50 hover:bg-accent/10 transition-all duration-300 uppercase cursor-pointer"
+          >
             Get {title} Consultation
           </button>
         </div>

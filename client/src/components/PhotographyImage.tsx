@@ -35,8 +35,8 @@ export default function PhotographyImage({
     if (originalSrc.includes('i.imgur.com')) {
       const imageId = originalSrc.split('/').pop()?.split('.')[0];
       if (imageId) {
-        // Always use full resolution for photography portfolio
-        return `https://i.imgur.com/${imageId}.webp`;
+        // Use Vercel Image Optimization for better performance
+        return `/_vercel/image?url=${encodeURIComponent(`https://i.imgur.com/${imageId}.jpeg`)}&w=1920&q=90`;
       }
     }
 

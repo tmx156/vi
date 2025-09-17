@@ -5,7 +5,12 @@
       "Read(//c/Users/Tin/Pictures/Screenshots/**)",
       "Bash(cp:*)",
       "Bash(curl:*)",
-      "WebFetch(domain:raw.githubusercontent.com)"
+      "WebFetch(domain:raw.githubusercontent.com)",
+      "WebFetch(domain:pagespeed.web.dev)",
+      "Bash(npm run build:*)",
+      "Bash(npm run dev:*)",
+      "Read(//c/Users/Tin/Downloads/WebsiteBuilder (1)/WebsiteBuilder/client/src/**)",
+      "WebFetch(domain:vip-photo-studio-9dblepuzk-tmx156s-projects.vercel.app)"
     ],
     "deny": [],
     "ask": []

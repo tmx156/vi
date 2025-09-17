@@ -38,14 +38,47 @@ export default defineConfig({
     },
     rollupOptions: {
       output: {
-        // Let Vite handle chunking automatically
-        chunkFileNames: 'assets/[name]-[hash].js',
+        // Optimized chunking for better caching
+        chunkFileNames: (chunkInfo) => {
+          // Vendor libraries get stable chunk names
+          if (chunkInfo.name === 'vendor' || chunkInfo.facadeModuleId?.includes('node_modules')) {
+            return 'assets/vendor-[hash].js';
+          }
+          // UI components get grouped together
+          if (chunkInfo.facadeModuleId?.includes('/ui/')) {
+            return 'assets/ui-[hash].js';
+          }
+          return 'assets/[name]-[hash].js';
+        },
         entryFileNames: 'assets/[name]-[hash].js',
         assetFileNames: 'assets/[name]-[hash].[ext]',
+        // Manual chunking for better cache efficiency
+        manualChunks: (id) => {
+          // Vendor chunk for core React libraries
+          if (id.includes('node_modules')) {
+            if (id.includes('react') || id.includes('wouter')) {
+              return 'vendor';
+            }
+            // UI chunk for Radix components
+            if (id.includes('@radix-ui')) {
+              return 'ui';
+            }
+            // Utils chunk for smaller utilities
+            if (id.includes('clsx') || id.includes('class-variance-authority') || id.includes('tailwind-merge')) {
+              return 'utils';
+            }
+            // Heavy libraries that should be separate
+            if (id.includes('three') || id.includes('framer-motion')) {
+              return 'heavy';
+            }
+          }
+        }
       },
-      // Tree shaking optimizations
+      // Enhanced tree shaking
       treeshake: {
-        moduleSideEffects: 'no-external',
+        moduleSideEffects: false,
+        propertyReadSideEffects: false,
+        unknownGlobalSideEffects: false
       },
     },
     // Mobile optimizations
@@ -69,11 +102,26 @@ export default defineConfig({
       },
     },
   },
-  // Mobile performance optimizations
+  // Enhanced dependency optimization
   optimizeDeps: {
-    include: ['react', 'react-dom', 'wouter'],
-    // Exclude heavy dependencies from pre-bundling for faster dev start
-    exclude: ['framer-motion', 'three'],
+    include: [
+      'react',
+      'react-dom',
+      'wouter',
+      'clsx',
+      'class-variance-authority',
+      'tailwind-merge'
+    ],
+    // Exclude heavy dependencies - will be dynamically imported
+    exclude: [
+      'framer-motion',
+      'three',
+      '@types/three',
+      'embla-carousel-react',
+      'recharts'
+    ],
+    // Force optimize critical UI components
+    force: true
   },
   // Critical performance settings
   esbuild: {

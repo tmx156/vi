@@ -1,12 +1,24 @@
 import { useState, useEffect, useRef } from 'react';
 import { useLocation } from 'wouter';
 import ThumbnailGallery from '@/components/ThumbnailGallery';
+import Navigation from '@/components/Navigation';
 
 export default function Home() {
   const [, setLocation] = useLocation();
   const [videoLoaded, setVideoLoaded] = useState(false);
   const [isMobile, setIsMobile] = useState(false);
   const videoRef = useRef<HTMLVideoElement>(null);
+
+  // Scroll to booking form function
+  const scrollToBooking = () => {
+    const bookingForm = document.getElementById('booking-form');
+    if (bookingForm) {
+      bookingForm.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    } else {
+      // If no booking form on this page, navigate to home3 where the form is
+      setLocation('/home3');
+    }
+  };
 
   useEffect(() => {
     // Check if mobile to disable video on mobile devices
@@ -38,6 +50,8 @@ export default function Home() {
 
   return (
     <div className="min-h-screen">
+      <Navigation onBookingClick={scrollToBooking} />
+
       {/* Hero Section */}
       <section className="relative h-screen flex items-center justify-center overflow-hidden">
         {/* Background - Image on mobile, Video on desktop */}
@@ -81,22 +95,31 @@ export default function Home() {
 
         {/* Hero Content */}
         <div className="relative z-20 text-center max-w-4xl mx-auto px-6">
-          <h1 className="hero-title text-6xl md:text-8xl font-serif font-light mb-8 luxury-gradient">
+          <h1 className="hero-title text-6xl md:text-8xl font-serif font-light mb-8 luxury-gradient tracking-wider" style={{
+            textShadow: '2px 2px 8px rgba(0,0,0,0.6), 0 0 20px rgba(0,0,0,0.4)',
+            letterSpacing: '0.05em'
+          }}>
             VIP PHOTOSHOOTS
           </h1>
-          <p className="text-xl md:text-2xl text-white/90 mb-12 font-light leading-relaxed">
+          <p className="text-xl md:text-2xl text-foreground/90 mb-12 font-light leading-relaxed">
             Luxury Photography Experience
           </p>
           <div className="flex flex-col sm:flex-row gap-6 justify-center">
             <button
-              onClick={() => setLocation('/gallery')}
+              onClick={scrollToBooking}
               className="premium-button px-8 py-4 text-lg font-medium text-background bg-accent hover:bg-accent/90 transition-all duration-300 rounded-lg"
+            >
+              BOOK SESSION
+            </button>
+            <button
+              onClick={() => setLocation('/gallery')}
+              className="px-8 py-4 text-lg font-medium text-foreground/90 border-2 border-foreground/30 hover:border-accent hover:text-accent transition-all duration-300 rounded-lg"
             >
               VIEW PORTFOLIO
             </button>
             <button
               onClick={() => setLocation('/about')}
-              className="px-8 py-4 text-lg font-medium text-white border-2 border-white/30 hover:border-accent hover:text-accent transition-all duration-300 rounded-lg"
+              className="px-8 py-4 text-lg font-medium text-foreground/90 border-2 border-foreground/30 hover:border-accent hover:text-accent transition-all duration-300 rounded-lg"
             >
               LEARN MORE
             </button>
@@ -124,10 +147,10 @@ export default function Home() {
           {/* Call to Action */}
           <div className="text-center mt-12">
             <button
-              onClick={() => setLocation('/gallery')}
+              onClick={scrollToBooking}
               className="text-accent font-sans text-sm tracking-widest hover:text-foreground transition-colors duration-300 underline decoration-1 underline-offset-4 cursor-pointer"
             >
-              VIEW FULL PORTFOLIO
+              BOOK YOUR SESSION
             </button>
           </div>
         </div>
@@ -143,12 +166,13 @@ export default function Home() {
             <div className="elegant-divider w-16 mx-auto mb-6"></div>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-8">
             {[
               { title: 'BOUDOIR', desc: 'Intimate & Elegant', image: 'https://i.imgur.com/HskrxZR.jpeg' },
               { title: 'MATERNITY', desc: 'Beautiful Moments', image: 'https://i.imgur.com/lpEdOD6.jpeg' },
               { title: 'FAMILY', desc: 'Treasured Memories', image: 'https://i.imgur.com/rv8GyqO.jpeg' },
-              { title: 'BESTIE', desc: 'Friendship Forever', image: 'https://i.imgur.com/nUwpbIB.jpeg' },
+              { title: 'COSPLAY', desc: 'Creative Characters', image: 'https://i.imgur.com/BxJNnz3.jpeg' },
+              { title: 'EXECUTIVE', desc: 'Professional Portraits', image: 'https://i.imgur.com/3lpynkM.jpeg' },
             ].map((service, index) => (
               <div
                 key={index}

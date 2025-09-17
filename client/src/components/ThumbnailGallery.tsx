@@ -13,6 +13,18 @@ export default function ThumbnailGallery() {
 
   const galleryImages: GalleryImage[] = [
     {
+      id: "family-1",
+      src: "https://i.imgur.com/rv8GyqO.jpeg",
+      alt: "Luxury family portrait session",
+      category: "family"
+    },
+    {
+      id: "family-2",
+      src: "https://i.imgur.com/ZgBJ4pz.jpeg",
+      alt: "Luxury family photography",
+      category: "family"
+    },
+    {
       id: "boudoir-1",
       src: "https://i.imgur.com/HskrxZR.jpeg",
       alt: "Luxury boudoir photography session",
@@ -25,16 +37,10 @@ export default function ThumbnailGallery() {
       category: "maternity"
     },
     {
-      id: "family-1",
-      src: "https://i.imgur.com/rv8GyqO.jpeg",
-      alt: "Luxury family portrait session",
-      category: "family"
-    },
-    {
-      id: "bestie-1",
-      src: "https://i.imgur.com/nUwpbIB.jpeg",
-      alt: "Luxury bestie photography experience",
-      category: "bestie"
+      id: "cosplay-1",
+      src: "https://i.imgur.com/uemFXbr.jpeg",
+      alt: "Luxury cosplay photography experience",
+      category: "cosplay"
     },
     {
       id: "boudoir-2",
@@ -49,16 +55,10 @@ export default function ThumbnailGallery() {
       category: "maternity"
     },
     {
-      id: "family-2",
-      src: "https://i.imgur.com/ZgBJ4pz.jpeg",
-      alt: "Luxury family photography",
-      category: "family"
-    },
-    {
-      id: "bestie-2",
-      src: "https://i.imgur.com/b467THz.jpeg",
-      alt: "Professional friends photography",
-      category: "bestie"
+      id: "executive-1",
+      src: "https://i.imgur.com/SNd0WEh.jpeg",
+      alt: "Professional executive headshot",
+      category: "executive"
     }
   ];
 

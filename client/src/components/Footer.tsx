@@ -16,7 +16,10 @@ export default function Footer({ onBookingClick }: FooterProps) {
           <div className="grid lg:grid-cols-2 md:grid-cols-2 gap-12">
             {/* Brand Section */}
             <div>
-              <Link href="/" className="text-3xl font-serif font-light luxury-gradient tracking-wide mb-6 block">
+              <Link href="/" className="text-3xl font-serif font-light luxury-gradient tracking-wider mb-6 block hover:brightness-110 transition-all duration-300" style={{
+                textShadow: '1px 1px 3px rgba(0,0,0,0.3)',
+                letterSpacing: '0.08em'
+              }}>
                 VIP PHOTOSHOOTS
               </Link>
               <p className="text-foreground/60 font-sans leading-relaxed">
@@ -41,7 +44,7 @@ export default function Footer({ onBookingClick }: FooterProps) {
                   onClick={onBookingClick}
                   className="premium-button px-6 py-3 text-sm font-medium text-background bg-accent hover:bg-accent/90 transition-all duration-300 rounded-lg w-full mt-6"
                 >
-                  BOOK YOUR SESSION
+                  BOOK YOUR CONSULTATION
                 </button>
               </div>
             </div>

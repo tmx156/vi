@@ -71,24 +71,29 @@ export default function Home({ onBookingClick }: HomeProps = {}) {
 
   const services = [
     {
-      title: "BOUDOIR",
-      description: "Intimate, empowering sessions that celebrate your confidence and beauty in an environment of absolute luxury and discretion.",
-      imageUrl: "https://i.imgur.com/7pArum1.jpeg"
-    },
-    {
-      title: "MATERNITY",
-      description: "Sophisticated portraiture celebrating the profound beauty of motherhood with artistic elegance and timeless grace.",
-      imageUrl: "https://i.imgur.com/rHUmzP5.jpeg"
-    },
-    {
       title: "FAMILY",
-      description: "Exquisite family portraits capturing authentic connections and timeless bonds with refined artistic vision.",
+      description: "Perfect family portraits capturing authentic connections and timeless bonds with refined artistic vision.",
       imageUrl: "https://i.imgur.com/7IsYo4b.jpeg"
     },
     {
-      title: "BESTIE",
-      description: "Celebrate extraordinary friendships with dynamic sessions that capture the unique essence of your bond.",
-      imageUrl: "https://i.imgur.com/CP7vmIf.jpeg"
+      title: "MATERNITY",
+      description: "Sophisticated maternity portraiture celebrating the beauty of motherhood with artistic elegance and grace.",
+      imageUrl: "https://i.imgur.com/rHUmzP5.jpeg"
+    },
+    {
+      title: "BOUDOIR",
+      description: "Intimate, empowering sessions that celebrate your confidence and beauty in a discreet environment.",
+      imageUrl: "https://i.imgur.com/7pArum1.jpeg"
+    },
+    {
+      title: "COSPLAY",
+      description: "Transformative, creative sessions that bring your favorite characters to life with professional lighting and backdrops.",
+      imageUrl: "https://i.imgur.com/BxJNnz3.jpeg"
+    },
+    {
+      title: "EXECUTIVE",
+      description: "Polished, professional portraits that convey confidence and approachability for your brand and career.",
+      imageUrl: "https://i.imgur.com/3lpynkM.jpeg"
     }
   ];
 
@@ -102,16 +107,18 @@ export default function Home({ onBookingClick }: HomeProps = {}) {
           <div className="flex flex-col h-full justify-between">
             <div className="flex flex-col justify-center flex-1">
               <div className="text-center">
-                <h1 className="text-5xl sm:text-6xl md:text-7xl lg:text-8xl font-serif font-light mb-6 luxury-gradient leading-none tracking-wider" style={{textShadow: '2px 2px 8px rgba(0,0,0,0.8), 0 0 20px rgba(0,0,0,0.6)'}} data-testid="hero-title">
-                  PREMIER LUXURY<br />
-                  <span className="font-normal italic">PHOTOGRAPHY STUDIO</span>
-                </h1>
+                <div>
+                  <h1 className="text-5xl sm:text-6xl md:text-7xl lg:text-8xl font-serif font-light mb-6 luxury-gradient leading-none tracking-wider" style={{textShadow: '3px 3px 12px rgba(0,0,0,0.9), 0 0 30px rgba(0,0,0,0.8), 0 0 50px rgba(0,0,0,0.6)'}} data-testid="hero-title">
+                    UK'S PREMIER<br />
+                    <span className="font-normal italic">PHOTOGRAPHY STUDIO</span>
+                  </h1>
+                </div>
                 <div className="elegant-divider w-24 mx-auto"></div>
               </div>
             </div>
             <div className="text-center">
-              <p className="text-xl sm:text-2xl md:text-3xl luxury-gradient max-w-xl mx-auto font-serif font-semibold tracking-wider leading-relaxed mb-4" data-testid="hero-description">
-                Specializing in Boudoir · Maternity · Family · Bestie Photography
+              <p className="text-xl sm:text-2xl md:text-3xl luxury-gradient max-w-xl mx-auto font-serif font-semibold tracking-wider leading-relaxed mb-4" style={{textShadow: '2px 2px 8px rgba(0,0,0,0.8), 0 0 20px rgba(0,0,0,0.6)'}} data-testid="hero-description">
+                Specializing in Family ~ Maternity ~ Boudoir ~ Cosplay ~ Executive Headshot Photography
               </p>
             </div>
           </div>
@@ -120,15 +127,17 @@ export default function Home({ onBookingClick }: HomeProps = {}) {
         <WebGLHero>
         <div className="flex flex-col h-full">
           <div className="flex-1 flex flex-col justify-center">
-            <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl xl:text-8xl font-serif font-light mb-6 luxury-gradient leading-none tracking-wider" data-testid="hero-title">
-              PREMIER LUXURY<br />
-              <span className="font-normal italic">PHOTOGRAPHY STUDIO</span>
-            </h1>
+            <div>
+              <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl xl:text-8xl font-serif font-light mb-6 luxury-gradient leading-none tracking-wider" data-testid="hero-title">
+                UK'S PREMIER<br />
+                <span className="font-normal italic">PHOTOGRAPHY STUDIO</span>
+              </h1>
+            </div>
             <div className="elegant-divider w-24 mx-auto"></div>
           </div>
           <div className="pb-12">
-            <p className="text-lg text-foreground/70 max-w-xl mx-auto font-sans font-medium tracking-wide leading-relaxed" data-testid="hero-description">
-              Specializing in Boudoir · Maternity · Family · Bestie Photography
+            <p className="text-lg text-foreground/90 max-w-xl mx-auto font-sans font-medium tracking-wide leading-relaxed" data-testid="hero-description">
+              Specializing in Family ~ Maternity ~ Boudoir ~ Cosplay ~ Executive Headshot Photography
             </p>
           </div>
         </div>
@@ -136,17 +145,17 @@ export default function Home({ onBookingClick }: HomeProps = {}) {
       )}
 
       {/* Embedded JotForm Section - Positioned right after hero */}
-      <section id="booking-form" className="w-full bg-background py-8">
-        <div className="w-full -ml-4">
+      <section id="booking-form" className="w-full bg-background">
+        <div className="w-full">
           <iframe
             id="JotFormIFrame-252563602964360"
             title="Book Your Session"
-            allowTransparency={true}
+            allowtransparency={true}
             allow="geolocation; microphone; camera"
             src="https://form.jotform.com/252563602964360"
             frameBorder="0"
             style={{
-              height: '1200px',
+              height: '800px',
               width: '100%',
               border: 'none'
             }}
@@ -159,20 +168,16 @@ export default function Home({ onBookingClick }: HomeProps = {}) {
       </section>
 
       {/* Services Section */}
-      <section className="py-16 md:py-32">
+      <section className="py-4 md:py-8">
         <div className="max-w-7xl mx-auto px-0 md:px-8">
           <div className="text-center mb-24 reveal-up visible">
             <h2 className="text-5xl md:text-6xl font-serif font-light mb-8 luxury-gradient tracking-wide" data-testid="services-title">
               SIGNATURE COLLECTIONS
             </h2>
             <div className="elegant-divider w-24 mx-auto mb-8"></div>
-            <p className="text-lg text-foreground/60 max-w-3xl mx-auto font-sans leading-relaxed tracking-wide" data-testid="services-subtitle">
-              Each session is meticulously crafted with uncompromising attention to detail,<br />
-              ensuring your vision transcends into an extraordinary reality
-            </p>
           </div>
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 md:gap-8">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-6 md:gap-8">
             {services.map((service, index) => (
               <div key={service.title} className="reveal-up visible">
                 <ServiceCard
@@ -198,8 +203,8 @@ export default function Home({ onBookingClick }: HomeProps = {}) {
                 </h2>
               <div className="elegant-divider w-24 mx-auto mb-8"></div>
               <p className="text-lg text-foreground/60 mb-12 font-sans leading-relaxed tracking-wide max-w-2xl mx-auto">
-                  Let us connect you with the ideal luxury photography studio<br />
-                  that matches your vision and style perfectly
+                  Let us connect you with the ideal photography studio<br />
+                  that matches your style and location perfectly
                 </p>
           </div>
         </div>
@@ -225,10 +230,10 @@ export default function Home({ onBookingClick }: HomeProps = {}) {
             </p>
           </div>
 
-          <div className="grid md:grid-cols-4 gap-12">
+          <div className="grid md:grid-cols-3 gap-12">
             <div className="text-center reveal-up visible">
               <div className="premium-card p-8 h-48 flex flex-col justify-center">
-                <div className="text-4xl md:text-5xl font-serif font-light luxury-gradient mb-4">500+</div>
+                <div className="text-3xl sm:text-4xl md:text-5xl font-serif font-light luxury-gradient mb-4">15,000+</div>
                 <h3 className="text-lg font-serif text-accent mb-2 tracking-wider">HAPPY CLIENTS</h3>
                 <p className="text-foreground/60 text-sm">Luxury photography sessions delivered</p>
               </div>
@@ -236,7 +241,7 @@ export default function Home({ onBookingClick }: HomeProps = {}) {
 
             <div className="text-center reveal-up visible">
               <div className="premium-card p-8 h-48 flex flex-col justify-center">
-                <div className="text-4xl md:text-5xl font-serif font-light luxury-gradient mb-4">5+</div>
+                <div className="text-3xl sm:text-4xl md:text-5xl font-serif font-light luxury-gradient mb-4">5+</div>
                 <h3 className="text-lg font-serif text-accent mb-2 tracking-wider">YEARS</h3>
                 <p className="text-foreground/60 text-sm">Of premium photography excellence</p>
               </div>
@@ -244,15 +249,7 @@ export default function Home({ onBookingClick }: HomeProps = {}) {
 
             <div className="text-center reveal-up visible">
               <div className="premium-card p-8 h-48 flex flex-col justify-center">
-                <div className="text-4xl md:text-5xl font-serif font-light luxury-gradient mb-4">15+</div>
-                <h3 className="text-lg font-serif text-accent mb-2 tracking-wider">AWARDS</h3>
-                <p className="text-foreground/60 text-sm">Industry recognition and accolades</p>
-              </div>
-            </div>
-
-            <div className="text-center reveal-up visible">
-              <div className="premium-card p-8 h-48 flex flex-col justify-center">
-                <div className="text-4xl md:text-5xl font-serif font-light luxury-gradient mb-4">100%</div>
+                <div className="text-3xl sm:text-4xl md:text-5xl font-serif font-light luxury-gradient mb-4">100%</div>
                 <h3 className="text-lg font-serif text-accent mb-2 tracking-wider">SATISFACTION</h3>
                 <p className="text-foreground/60 text-sm">Client satisfaction guarantee</p>
               </div>
@@ -272,7 +269,7 @@ export default function Home({ onBookingClick }: HomeProps = {}) {
                 onClick={scrollToBooking}
                 className="premium-button px-8 py-3 text-sm font-medium tracking-widest text-accent-foreground cursor-pointer"
               >
-                START YOUR JOURNEY
+                BOOK YOUR CONSULTATION
               </Button>
             </div>
           </div>
@@ -287,7 +284,7 @@ export default function Home({ onBookingClick }: HomeProps = {}) {
         <div className="max-w-7xl mx-auto px-0 md:px-8 relative z-10">
           <div className="text-center mb-24 reveal-up visible">
             <h2 className="text-5xl md:text-6xl font-serif font-light mb-8 luxury-gradient tracking-wide" data-testid="process-title">
-              THE ATELIER EXPERIENCE
+              THE PHOTOGRAPHY EXPERIENCE
             </h2>
             <div className="elegant-divider w-24 mx-auto mb-8"></div>
             <p className="text-lg text-foreground/60 max-w-4xl mx-auto font-sans leading-relaxed tracking-wide" data-testid="process-subtitle">
@@ -337,7 +334,7 @@ export default function Home({ onBookingClick }: HomeProps = {}) {
                   </div>
                 </div>
               </div>
-              <h3 className="text-2xl font-serif font-light mb-6 tracking-wide" data-testid="step-2-title">ATELIER SESSION</h3>
+              <h3 className="text-2xl font-serif font-light mb-6 tracking-wide" data-testid="step-2-title">PHOTOGRAPHY SESSION</h3>
               <div className="w-12 h-px bg-accent/40 mx-auto mb-6"></div>
               <p className="text-foreground/60 font-sans leading-relaxed tracking-wide text-sm" data-testid="step-2-description">
                 An immersive photography experience within our luxury atelier, featuring master-class lighting artistry and refined creative direction.
@@ -368,31 +365,6 @@ export default function Home({ onBookingClick }: HomeProps = {}) {
             </div>
           </div>
 
-          {/* Process CTA */}
-          <div className="text-center mt-16 reveal-up visible">
-            <div className="premium-card p-8 max-w-2xl mx-auto">
-              <h3 className="text-2xl font-serif font-light mb-4 luxury-gradient tracking-wide">
-                EXPERIENCE THE ATELIER DIFFERENCE
-              </h3>
-              <p className="text-foreground/60 mb-6 font-sans text-sm tracking-wide">
-                Ready to begin your luxury photography journey? Book your consultation today.
-              </p>
-              <div className="flex flex-col sm:flex-row gap-4 justify-center">
-                <Button
-                  onClick={scrollToBooking}
-                  className="premium-button px-8 py-3 text-sm font-medium tracking-widest text-accent-foreground cursor-pointer"
-                >
-                  BOOK CONSULTATION
-                </Button>
-                <Button
-                  onClick={() => window.location.href = '/about'}
-                  className="px-8 py-3 text-sm font-medium tracking-widest text-foreground border border-accent/50 hover:bg-accent/10 transition-all duration-300 cursor-pointer"
-                >
-                  LEARN MORE
-                </Button>
-              </div>
-            </div>
-          </div>
         </div>
         {/* Bottom fade overlay for smooth transition */}
         <div className="absolute bottom-0 left-0 right-0 h-24 bg-gradient-to-t from-background to-transparent z-10"></div>
@@ -413,12 +385,10 @@ export default function Home({ onBookingClick }: HomeProps = {}) {
           </div>
 
           {/* Additional Gallery Grid */}
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-3 md:gap-6">
+          <div className="grid grid-cols-2 md:grid-cols-3 gap-3 md:gap-6">
             {[
-              { src: "https://i.imgur.com/at3tBrT.jpeg", alt: "Luxury family portrait", category: "family" },
-              { src: "https://i.imgur.com/qDxWCbT.jpeg", alt: "Luxury family photography", category: "family" },
-              { src: "https://i.imgur.com/13FUUst.jpeg", alt: "Luxury bestie photography", category: "bestie" },
-              { src: "https://i.imgur.com/TtZomX5.jpeg", alt: "Professional friends photography", category: "bestie" },
+              { src: "https://i.imgur.com/U5Hw3hz.jpeg", alt: "Luxury cosplay photography", category: "cosplay" },
+              { src: "https://i.imgur.com/nF3sCiW.jpeg", alt: "Professional cosplay photography", category: "cosplay" },
               { src: "https://i.imgur.com/v1l1YoN.jpeg", alt: "Luxury boudoir photography", category: "boudoir" },
               { src: "https://i.imgur.com/ocClmHz.jpeg", alt: "Luxury boudoir styling", category: "boudoir" },
               { src: "https://i.imgur.com/q6JDXQ6.jpeg", alt: "Elegant maternity photography", category: "maternity" },
@@ -556,81 +526,6 @@ export default function Home({ onBookingClick }: HomeProps = {}) {
         </div>
       </section>
 
-      {/* Awards Section */}
-      <section className="py-16 md:py-32 px-0 md:px-8">
-        <div className="max-w-7xl mx-auto">
-          <div className="text-center mb-24 reveal-up visible">
-            <h2 className="text-5xl md:text-6xl font-serif font-light mb-8 luxury-gradient tracking-wide">
-              AWARDS & RECOGNITION
-            </h2>
-            <div className="elegant-divider w-24 mx-auto mb-8"></div>
-            <p className="text-lg text-foreground/60 max-w-3xl mx-auto font-sans leading-relaxed tracking-wide">
-              Our commitment to excellence has been recognized by the industry's<br />
-              most prestigious institutions and publications
-            </p>
-          </div>
-
-          <div className="grid md:grid-cols-4 gap-12 items-center">
-            <div className="reveal-up visible text-center">
-              <div className="premium-card p-8 h-48 flex flex-col justify-center">
-                <h3 className="font-serif text-lg text-accent mb-2">BRITISH PHOTOGRAPHY</h3>
-                <h4 className="font-serif text-2xl luxury-gradient mb-2">AWARDS</h4>
-                <p className="text-foreground/60 text-sm tracking-wider">PORTRAIT PHOTOGRAPHER<br />OF THE YEAR 2024</p>
-              </div>
-            </div>
-
-            <div className="reveal-up visible text-center">
-              <div className="premium-card p-8 h-48 flex flex-col justify-center">
-                <h3 className="font-serif text-lg text-accent mb-2">LONDON LUXURY</h3>
-                <h4 className="font-serif text-2xl luxury-gradient mb-2">LIFESTYLE</h4>
-                <p className="text-foreground/60 text-sm tracking-wider">BEST PHOTOGRAPHY<br />STUDIO 2024</p>
-              </div>
-            </div>
-
-            <div className="reveal-up visible text-center">
-              <div className="premium-card p-8 h-48 flex flex-col justify-center">
-                <h3 className="font-serif text-lg text-accent mb-2">PROFESSIONAL</h3>
-                <h4 className="font-serif text-2xl luxury-gradient mb-2">PHOTOGRAPHERS</h4>
-                <p className="text-foreground/60 text-sm tracking-wider">EXCELLENCE IN<br />PORTRAITURE 2023</p>
-              </div>
-            </div>
-
-            <div className="reveal-up visible text-center">
-              <div className="premium-card p-8 h-48 flex flex-col justify-center">
-                <h3 className="font-serif text-lg text-accent mb-2">VOGUE FEATURED</h3>
-                <h4 className="font-serif text-2xl luxury-gradient mb-2">ARTIST</h4>
-                <p className="text-foreground/60 text-sm tracking-wider">RECOMMENDED<br />PHOTOGRAPHER 2024</p>
-              </div>
-            </div>
-          </div>
-
-          {/* Awards CTA */}
-          <div className="text-center mt-16 reveal-up visible">
-            <div className="premium-card p-8 max-w-2xl mx-auto">
-              <h3 className="text-2xl font-serif font-light mb-4 luxury-gradient tracking-wide">
-                WORK WITH AWARD-WINNING PHOTOGRAPHERS
-              </h3>
-              <p className="text-foreground/60 mb-6 font-sans text-sm tracking-wide">
-                Trust your precious moments to industry-recognized professionals
-              </p>
-              <div className="flex flex-col sm:flex-row gap-4 justify-center">
-                <Button
-                  onClick={scrollToBooking}
-                  className="premium-button px-8 py-3 text-sm font-medium tracking-widest text-accent-foreground cursor-pointer"
-                >
-                  BOOK CONSULTATION
-                </Button>
-                <Button
-                  onClick={() => window.location.href = '/about'}
-                  className="px-8 py-3 text-sm font-medium tracking-widest text-foreground border border-accent/50 hover:bg-accent/10 transition-all duration-300 cursor-pointer"
-                >
-                  VIEW AWARDS
-                </Button>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
 
     </div>
   );

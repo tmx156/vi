@@ -14,40 +14,10 @@ export default function HomeGallery() {
 
   const galleryImages: GalleryImage[] = [
     {
-      id: "boudoir-1",
-      src: "https://i.imgur.com/HskrxZR.jpeg",
-      alt: "Luxury boudoir photography session",
-      category: "boudoir"
-    },
-    {
-      id: "maternity-1",
-      src: "https://i.imgur.com/lpEdOD6.jpeg",
-      alt: "Elegant maternity photography portrait",
-      category: "maternity"
-    },
-    {
       id: "family-1",
       src: "https://i.imgur.com/rv8GyqO.jpeg",
       alt: "Luxury family portrait session",
       category: "family"
-    },
-    {
-      id: "bestie-1",
-      src: "https://i.imgur.com/nUwpbIB.jpeg",
-      alt: "Luxury bestie photography experience",
-      category: "bestie"
-    },
-    {
-      id: "boudoir-2",
-      src: "https://i.imgur.com/g5NKulQ.jpeg",
-      alt: "Artistic boudoir photography",
-      category: "boudoir"
-    },
-    {
-      id: "maternity-2",
-      src: "https://i.imgur.com/f7NYTlM.jpeg",
-      alt: "Studio maternity photography",
-      category: "maternity"
     },
     {
       id: "family-2",
@@ -56,10 +26,28 @@ export default function HomeGallery() {
       category: "family"
     },
     {
-      id: "bestie-2",
-      src: "https://i.imgur.com/b467THz.jpeg",
-      alt: "Professional friends photography",
-      category: "bestie"
+      id: "cosplay-3",
+      src: "https://i.imgur.com/uemFXbr.jpeg",
+      alt: "Creative cosplay portrait",
+      category: "cosplay"
+    },
+    {
+      id: "executive-1",
+      src: "https://i.imgur.com/IymoHWG.jpeg",
+      alt: "Professional executive headshot",
+      category: "executive"
+    },
+    {
+      id: "boudoir-3",
+      src: "https://i.imgur.com/HskrxZR.jpeg",
+      alt: "Luxury boudoir styling",
+      category: "boudoir"
+    },
+    {
+      id: "maternity-2",
+      src: "https://i.imgur.com/f7NYTlM.jpeg",
+      alt: "Studio maternity photography",
+      category: "maternity"
     }
   ];
 
@@ -99,8 +87,8 @@ export default function HomeGallery() {
           </p>
         </div>
 
-        {/* 2x4 Grid Layout */}
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-3 md:gap-6 w-full">
+        {/* 2x3 Grid Layout */}
+        <div className="grid grid-cols-2 md:grid-cols-3 gap-3 md:gap-6 w-full">
           {galleryImages.map((image, index) => (
             <div
               key={image.id}

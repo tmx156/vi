@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 
 interface OptimizedImageProps {
   src: string;
@@ -24,7 +24,17 @@ export default function OptimizedImage({
   const [imageError, setImageError] = useState(false);
   const [imageLoaded, setImageLoaded] = useState(false);
 
-  // Generate WebP and responsive versions
+  // Mobile detection
+  const [isMobile, setIsMobile] = useState(false);
+
+  useEffect(() => {
+    const checkMobile = () => setIsMobile(window.innerWidth <= 768);
+    checkMobile();
+    window.addEventListener('resize', checkMobile);
+    return () => window.removeEventListener('resize', checkMobile);
+  }, []);
+
+  // Generate optimized versions using reliable Imgur sizes
   const getOptimizedSrc = (originalSrc: string, format: 'webp' | 'jpeg' = 'jpeg') => {
     if (!originalSrc.includes('imgur.com')) {
       return originalSrc; // Return original if not Imgur
@@ -34,15 +44,14 @@ export default function OptimizedImage({
     const imgurId = originalSrc.match(/imgur\.com\/(.+)\.(jpeg|jpg|png)/)?.[1];
     if (!imgurId) return originalSrc;
 
-    // Generate different sizes and formats
-    if (format === 'webp') {
-      return `https://i.imgur.com/${imgurId}.webp`;
+    // Use Imgur's reliable size suffixes
+    if (isMobile) {
+      return `https://i.imgur.com/${imgurId}l.jpeg`; // 640x640 for mobile
     }
-
-    return `https://i.imgur.com/${imgurId}.jpeg`;
+    return `https://i.imgur.com/${imgurId}h.jpeg`; // 1024x1024 for desktop
   };
 
-  const getSrcSet = (originalSrc: string) => {
+  const getSrcSet = (originalSrc: string, format: 'webp' | 'jpeg' = 'jpeg') => {
     if (!originalSrc.includes('imgur.com')) {
       return undefined; // No srcset for non-Imgur images
     }
@@ -50,12 +59,11 @@ export default function OptimizedImage({
     const imgurId = originalSrc.match(/imgur\.com\/(.+)\.(jpeg|jpg|png)/)?.[1];
     if (!imgurId) return undefined;
 
-    // Imgur size suffixes: s=90x90, b=160x160, t=160x160, m=320x320, l=640x640, h=1024x1024
+    // Use Imgur's size suffixes for responsive images
     return [
-      `https://i.imgur.com/${imgurId}m.jpeg 320w`,
-      `https://i.imgur.com/${imgurId}l.jpeg 640w`,
-      `https://i.imgur.com/${imgurId}h.jpeg 1024w`,
-      `https://i.imgur.com/${imgurId}.jpeg 1200w`
+      `https://i.imgur.com/${imgurId}m.jpeg 320w`, // 320x320
+      `https://i.imgur.com/${imgurId}l.jpeg 640w`, // 640x640
+      `https://i.imgur.com/${imgurId}h.jpeg 1024w`, // 1024x1024
     ].join(', ');
   };
 
@@ -67,11 +75,11 @@ export default function OptimizedImage({
     const imgurId = originalSrc.match(/imgur\.com\/(.+)\.(jpeg|jpg|png)/)?.[1];
     if (!imgurId) return undefined;
 
+    // WebP versions using Imgur size suffixes
     return [
-      `https://i.imgur.com/${imgurId}m.webp 320w`,
-      `https://i.imgur.com/${imgurId}l.webp 640w`,
-      `https://i.imgur.com/${imgurId}h.webp 1024w`,
-      `https://i.imgur.com/${imgurId}.webp 1200w`
+      `https://i.imgur.com/${imgurId}m.webp 320w`, // 320x320
+      `https://i.imgur.com/${imgurId}l.webp 640w`, // 640x640
+      `https://i.imgur.com/${imgurId}h.webp 1024w`, // 1024x1024
     ].join(', ');
   };
 

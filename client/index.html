@@ -116,17 +116,13 @@
     <link rel="dns-prefetch" href="//player.vimeo.com">
     <link rel="dns-prefetch" href="//form.jotform.com">
     
-    <!-- CRITICAL: Preload resources for ultra-fast mobile LCP -->
-    <link rel="preload" as="image" href="https://i.imgur.com/MRGNjyIs.webp" fetchpriority="high" media="(max-width: 768px)" crossorigin="anonymous">
-    <link rel="preload" as="image" href="https://i.imgur.com/MRGNjyIm.webp" fetchpriority="high" media="(max-width: 768px)" crossorigin="anonymous">
-    <link rel="preload" as="image" href="https://i.imgur.com/MRGNjyI.jpeg" fetchpriority="high" media="(min-width: 769px)" crossorigin="anonymous">
+    <!-- CRITICAL: Preload hero image -->
+    <link rel="preload" as="image" href="https://i.imgur.com/HskrxZR.jpeg" fetchpriority="high" crossorigin="anonymous">
     
-    <!-- Load Google Fonts properly -->
+    <!-- Optimized font loading -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <!-- Non-blocking font loading -->
-    <link rel="preload" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;500;600;700&family=Montserrat:wght@300;400;500;600;700&display=swap" as="style" onload="this.onload=null;this.rel='stylesheet'">
-    <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;500;600;700&family=Montserrat:wght@300;400;500;600;700&display=swap"></noscript>
+    <!-- Simplified font loading - removed problematic preloads -->
     
     <!-- CRITICAL: DNS prefetch for external resources -->
     <link rel="dns-prefetch" href="//i.imgur.com">
@@ -183,7 +179,7 @@
         const criticalImage = document.createElement('link');
         criticalImage.rel = 'preload';
         criticalImage.as = 'image';
-        criticalImage.href = 'https://i.imgur.com/MRGNjyIs.webp';
+        criticalImage.href = 'https://i.imgur.com/MRGNjyIs.jpeg';
         criticalImage.fetchPriority = 'high';
         criticalImage.crossOrigin = 'anonymous';
         document.head.appendChild(criticalImage);
@@ -200,78 +196,62 @@
     </script>
     
     
-    <!-- Load fonts via CSS -->
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400&family=Montserrat:wght@200;300;400;500;600;700&display=swap">
+    <!-- Async load fonts via CSS -->
+    <link rel="preload" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;500;600;700&family=Montserrat:wght@300;400;500;600;700&display=swap" as="style" onload="this.onload=null;this.rel='stylesheet'">
+    <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;500;600;700&family=Montserrat:wght@300;400;500;600;700&display=swap"></noscript>
     
     <!-- Critical CSS inline for faster rendering -->
     <style>
       /* Critical above-the-fold styles - MOBILE FIRST */
-      * { 
-        box-sizing: border-box; 
-        margin: 0; 
-        padding: 0; 
-      }
-      
-      html { 
-        font-size: 16px; 
-        -webkit-text-size-adjust: 100%; 
-        -ms-text-size-adjust: 100%; 
-      }
-      
-      body { 
-        margin: 0; 
+      * {
+        box-sizing: border-box;
+        margin: 0;
         padding: 0;
-        font-family: 'Montserrat', sans-serif; 
-        background: linear-gradient(135deg, #1a1a2e, #16213e);
-        color: #f2f0e6; 
+      }
+
+      html {
+        font-size: 16px;
+        -webkit-text-size-adjust: 100%;
+      }
+
+      body {
+        margin: 0;
+        padding: 0;
+        font-family: system-ui, -apple-system, sans-serif;
+        background: #1a1a2e;
+        color: #f2f0e6;
         -webkit-font-smoothing: antialiased;
-        -moz-osx-font-smoothing: grayscale;
         text-rendering: optimizeSpeed;
         overflow-x: hidden;
         min-height: 100vh;
-        min-height: 100dvh;
       }
       
       /* Hero section critical styles - ULTRA FAST MOBILE */
       .hero-section {
         position: relative;
         height: 100vh;
-        height: 100dvh;
         display: flex;
         align-items: center;
         justify-content: center;
         overflow: hidden;
-        contain: layout style paint;
-        transform: translateZ(0);
-        backface-visibility: hidden;
       }
-      
+
       .hero-bg {
         position: absolute;
-        top: 0;
-        left: 0;
+        inset: 0;
         width: 100%;
         height: 100%;
         object-fit: cover;
         z-index: 0;
-        contain: layout style paint;
-        transform: translateZ(0);
-        backface-visibility: hidden;
-        will-change: auto;
-        image-rendering: optimizeSpeed;
-        image-rendering: -webkit-optimize-contrast;
       }
-      
+
       .hero-overlay {
         position: absolute;
         inset: 0;
         background: rgba(0, 0, 0, 0.4);
         z-index: 10;
-        contain: layout style paint;
-        transform: translateZ(0);
-        backface-visibility: hidden;
       }
-      
+
       .hero-content {
         position: relative;
         z-index: 20;
@@ -279,136 +259,43 @@
         max-width: 64rem;
         margin: 0 auto;
         padding: 0 1.5rem;
-        contain: layout style paint;
-        transform: translateZ(0);
-        backface-visibility: hidden;
       }
-      
+
       .hero-title {
         font-size: 2.5rem;
         font-weight: 300;
         margin-bottom: 2rem;
         line-height: 1;
         letter-spacing: 0.05em;
-        background: linear-gradient(135deg, #dcb876 0%, #e8d5a3 25%, #dcb876 50%, #c9a96e 75%, #dcb876 100%);
+        background: linear-gradient(135deg, #dcb876, #e8d5a3, #dcb876);
         -webkit-background-clip: text;
         -webkit-text-fill-color: transparent;
         background-clip: text;
-        contain: layout style paint;
-        opacity: 1 !important;
-        transform: translateZ(0) !important;
-        animation: none !important;
-        transition: none !important;
-        visibility: visible !important;
-        display: block !important;
-        background-size: 100% 100% !important;
-        will-change: auto !important;
-        backface-visibility: hidden !important;
-        text-rendering: optimizeSpeed !important;
-        -webkit-font-smoothing: antialiased !important;
-        -moz-osx-font-smoothing: grayscale !important;
       }
       
       /* Mobile-specific optimizations */
       @media (max-width: 768px) {
-        .hero-section {
-          height: 100vh;
-          height: 100dvh; /* Dynamic viewport height for mobile */
-        }
-        
         .hero-title {
           font-size: 2.25rem;
           margin-bottom: 1.5rem;
-          contain: layout style paint;
-          will-change: auto;
         }
-        
+
         .hero-content {
           padding: 0 1rem;
-          contain: layout style paint;
-        }
-        
-        /* Aggressive mobile LCP optimizations */
-        .hero-bg {
-          transform: translateZ(0);
-          backface-visibility: hidden;
-          contain: layout style paint;
-          will-change: auto;
-          image-rendering: optimizeSpeed;
-          image-rendering: -webkit-optimize-contrast;
-        }
-        
-        /* Mobile-specific performance optimizations */
-        .hero-overlay {
-          contain: layout style paint;
-          transform: translateZ(0);
-        }
-        
-        .hero-content {
-          contain: layout style paint;
-          transform: translateZ(0);
-        }
-        
-        /* Reduce repaints on mobile - only apply to hero elements */
-        .hero-bg,
-        .hero-overlay,
-        .hero-content,
-        .hero-title {
-          -webkit-transform: translateZ(0);
-          transform: translateZ(0);
-          -webkit-backface-visibility: hidden;
-          backface-visibility: hidden;
-        }
-        
-        /* Mobile-specific text optimization */
-        .hero-title {
-          text-rendering: optimizeSpeed;
-          -webkit-font-smoothing: antialiased;
-          -moz-osx-font-smoothing: grayscale;
         }
       }
-      
+
       @media (min-width: 640px) {
         .hero-title { font-size: 3rem; }
       }
-      
+
       @media (min-width: 768px) {
         .hero-title { font-size: 3.75rem; }
       }
-      
+
       @media (min-width: 1024px) {
         .hero-title { font-size: 5rem; }
       }
-      
-      @media (min-width: 1280px) {
-        .hero-title { font-size: 6rem; }
-      }
-      
-      /* Desktop-specific optimizations */
-      @media (min-width: 769px) {
-        .hero-bg {
-          /* Remove mobile optimizations on desktop */
-          contain: none;
-          will-change: auto;
-          transform: none;
-          backface-visibility: visible;
-        }
-        
-        .hero-overlay {
-          contain: none;
-        }
-        
-        .hero-content {
-          contain: none;
-        }
-        
-        .hero-title {
-          contain: none;
-        }
-      }
-      
-      .loading { opacity: 0; transition: opacity 0.3s ease; }
-      .loaded { opacity: 1; }
     </style>
   </head>
   <body>
@@ -436,7 +323,7 @@
         
         // Preload critical resources immediately - tiny images only
         const criticalResources = [
-          'https://i.imgur.com/MRGNjyIs.webp' // Tiny 's' size for instant LCP
+          'https://i.imgur.com/MRGNjyIs.jpeg' // Tiny 's' size for instant LCP
         ];
 
         criticalResources.forEach(src => {
@@ -474,7 +361,5 @@
       }
     </script>
 
-    <!-- This is a replit script which adds a banner on the top of the page when opened in development mode outside the replit environment -->
-    <script type="text/javascript" src="https://replit.com/public/js/replit-dev-banner.js"></script>
   </body>
 </html>

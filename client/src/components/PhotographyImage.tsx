@@ -30,13 +30,15 @@ export default function PhotographyImage({
     setIsMobile(window.innerWidth <= 768);
   }, []);
 
-  const getHighQualitySrc = (originalSrc: string) => {
-    // For photography company - always use highest quality available
+  const getOptimizedSrc = (originalSrc: string) => {
     if (originalSrc.includes('i.imgur.com')) {
       const imageId = originalSrc.split('/').pop()?.split('.')[0];
       if (imageId) {
-        // Use Vercel Image Optimization for better performance
-        return `/_vercel/image?url=${encodeURIComponent(`https://i.imgur.com/${imageId}.jpeg`)}&w=1920&q=90`;
+        // Use reliable Imgur size suffixes
+        if (isMobile) {
+          return `https://i.imgur.com/${imageId}l.jpeg`; // 640x640 for mobile
+        }
+        return `https://i.imgur.com/${imageId}h.jpeg`; // 1024x1024 for desktop
       }
     }
 
@@ -47,8 +49,8 @@ export default function PhotographyImage({
     if (originalSrc.includes('i.imgur.com')) {
       const imageId = originalSrc.split('/').pop()?.split('.')[0];
       if (imageId) {
-        // Use full resolution JPEG as fallback
-        return `https://i.imgur.com/${imageId}.jpeg`;
+        // Use medium size as fallback for reliability
+        return `https://i.imgur.com/${imageId}m.jpeg`;
       }
     }
 
@@ -69,7 +71,7 @@ export default function PhotographyImage({
 
   return (
     <img
-      src={getHighQualitySrc(src)}
+      src={getOptimizedSrc(src)}
       alt={alt}
       className={className}
       style={{

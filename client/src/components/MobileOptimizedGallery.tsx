@@ -37,7 +37,8 @@ export default function MobileOptimizedGallery({
     { id: "boudoir", label: "Boudoir" },
     { id: "maternity", label: "Maternity" },
     { id: "family", label: "Family" },
-    { id: "bestie", label: "Bestie" },
+    { id: "cosplay", label: "Cosplay" },
+    { id: "executive", label: "Executive" },
   ];
 
   // Memoized filtered images for performance

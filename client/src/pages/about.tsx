@@ -1,35 +1,5 @@
 export default function About() {
 
-  const teamMembers = [
-    {
-      name: "Alexander Reynolds",
-      role: "Lead Photographer & Creative Director",
-      description: "Award-winning photographer with 15+ years of experience in luxury portraiture. Trained at Central Saint Martins and former Vogue contributor.",
-      credentials: "MA Photography, Royal College of Art",
-      specialties: ["Fashion Portrait", "Editorial", "Celebrity Photography"]
-    },
-    {
-      name: "Sophia Martinez",
-      role: "Senior Portrait Photographer",
-      description: "Specializes in boudoir and maternity photography, creating intimate and empowering experiences. International award winner.",
-      credentials: "BA Fine Arts, Parsons School of Design",
-      specialties: ["Boudoir", "Maternity", "Fine Art Portraiture"]
-    },
-    {
-      name: "James Wellington",
-      role: "Family & Lifestyle Photographer",
-      description: "Expert in capturing authentic family moments with natural, documentary-style approach. Former photojournalist.",
-      credentials: "BA Photojournalism, London College of Communication",
-      specialties: ["Family Portraits", "Lifestyle", "Children Photography"]
-    },
-    {
-      name: "Isabella Chen",
-      role: "Luxury Styling Director",
-      description: "Former fashion stylist for Harper's Bazaar and Elle. Curates wardrobes and sets for each photography session.",
-      credentials: "Styling Diploma, Fashion Institute of Technology",
-      specialties: ["Luxury Styling", "Wardrobe Curation", "Set Design"]
-    }
-  ];
 
 
   return (
@@ -42,17 +12,17 @@ export default function About() {
             </h1>
             <div className="elegant-divider w-12 sm:w-16 mx-auto mb-6 sm:mb-8"></div>
             <p className="text-base sm:text-lg md:text-xl text-foreground/70 mb-6 sm:mb-8 leading-relaxed font-sans tracking-wide" data-testid="about-intro">
-              Founded in 2019 on the unwavering belief that every individual deserves to experience the extraordinary, VIP Photoshoots has ascended to become London's most distinguished luxury photography atelier.
+              Founded in 2019 on the belief that everyone deserves to experience something special, VIP Photoshoots has become one of London's most distinguished photography studios.
             </p>
             <p className="text-sm sm:text-base md:text-lg text-foreground/60 mb-6 sm:mb-8 leading-relaxed font-sans" data-testid="about-description">
-              Our state-of-the-art studios, nestled in the heart of Mayfair and the creative pulse of Shoreditch, combined with our team of internationally acclaimed photographers, create sanctuaries where artistry transcends the ordinary. We specialize in capturing the ineffable essence of our distinguished clientele through sophisticated portraiture that becomes timeless legacy.
+              Our photography studios, nestled in the heart of London and Manchester, combined with our internationally acclaimed team of photographers, hair stylists and makeup artists, create an environment where outstanding photography prevails. We specialize in capturing the unique essence of our clients through professional portraits that become lasting legacies.
             </p>
             <p className="text-sm sm:text-base md:text-lg text-foreground/60 mb-8 sm:mb-12 leading-relaxed font-sans">
-              Each session is a bespoke journey, meticulously crafted to reflect your unique narrative. From Fortune 500 executives to celebrated artists, our diverse clientele trusts us to create imagery that defines their personal and professional legacy.
+              Each session is a bespoke journey, meticulously crafted to reflect your unique narrative. From corporate executives to celebrated artists, our diverse clientele trusts us to create imagery that defines their personal and professional legacy.
             </p>
             <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 sm:gap-6 md:gap-8 mb-8 sm:mb-12">
               <div className="text-center premium-card p-4 sm:p-6">
-                <div className="text-2xl sm:text-3xl md:text-4xl font-serif font-light text-accent mb-2 sm:mb-3" data-testid="stat-sessions">1,200+</div>
+                <div className="text-2xl sm:text-3xl md:text-4xl font-serif font-light text-accent mb-2 sm:mb-3" data-testid="stat-sessions">15,000+</div>
                 <div className="text-xs sm:text-sm text-foreground/60 tracking-widest uppercase">Luxury Sessions</div>
               </div>
               <div className="text-center premium-card p-4 sm:p-6">
@@ -60,7 +30,7 @@ export default function About() {
                 <div className="text-xs sm:text-sm text-foreground/60 tracking-widest uppercase">Years Excellence</div>
               </div>
               <div className="text-center premium-card p-4 sm:p-6">
-                <div className="text-2xl sm:text-3xl md:text-4xl font-serif font-light text-accent mb-2 sm:mb-3" data-testid="stat-satisfaction">99%</div>
+                <div className="text-2xl sm:text-3xl md:text-4xl font-serif font-light text-accent mb-2 sm:mb-3" data-testid="stat-satisfaction">100%</div>
                 <div className="text-xs sm:text-sm text-foreground/60 tracking-widest uppercase">Client Satisfaction</div>
               </div>
             </div>
@@ -68,96 +38,6 @@ export default function About() {
         </div>
       </section>
 
-      {/* Philosophy Section */}
-      <section className="py-32 bg-gradient-to-b from-background to-secondary">
-        <div className="max-w-7xl mx-auto px-8">
-          <div className="text-center mb-24">
-            <h2 className="text-5xl md:text-6xl font-serif font-light mb-8 luxury-gradient tracking-wide">
-              OUR PHILOSOPHY
-            </h2>
-            <div className="elegant-divider w-24 mx-auto mb-8"></div>
-            <p className="text-lg text-foreground/60 max-w-4xl mx-auto font-sans leading-relaxed tracking-wide">
-              We believe that luxury is not merely an aesthetic choice, but a philosophy of excellence<br />
-              that permeates every aspect of the creative process
-            </p>
-          </div>
-
-          <div className="grid md:grid-cols-2 gap-16">
-            <div className="premium-card p-12">
-              <h3 className="text-3xl font-serif font-light mb-6 luxury-gradient">ARTISTRY</h3>
-              <div className="w-12 h-px bg-accent/40 mb-6"></div>
-              <p className="text-foreground/70 font-sans leading-relaxed tracking-wide">
-                Every photograph is a masterpiece in its own right. Our artists approach each session with the dedication of Renaissance masters, ensuring that technical precision meets emotional resonance in perfect harmony.
-              </p>
-            </div>
-            <div className="premium-card p-12">
-              <h3 className="text-3xl font-serif font-light mb-6 luxury-gradient">INTIMACY</h3>
-              <div className="w-12 h-px bg-accent/40 mb-6"></div>
-              <p className="text-foreground/70 font-sans leading-relaxed tracking-wide">
-                True luxury lies in the personal connection. We create an environment of absolute trust and comfort, allowing authentic beauty to emerge naturally. Each session becomes a transformative experience.
-              </p>
-            </div>
-            <div className="premium-card p-12">
-              <h3 className="text-3xl font-serif font-light mb-6 luxury-gradient">LEGACY</h3>
-              <div className="w-12 h-px bg-accent/40 mb-6"></div>
-              <p className="text-foreground/70 font-sans leading-relaxed tracking-wide">
-                We don't simply take photographs; we create heirlooms. Each image is crafted to transcend time, becoming treasured artifacts that tell the story of who you are at this moment in history.
-              </p>
-            </div>
-            <div className="premium-card p-12">
-              <h3 className="text-3xl font-serif font-light mb-6 luxury-gradient">EXCELLENCE</h3>
-              <div className="w-12 h-px bg-accent/40 mb-6"></div>
-              <p className="text-foreground/70 font-sans leading-relaxed tracking-wide">
-                Perfection is not a destination but a journey. From the initial consultation to the final delivery, every detail is scrutinized, refined, and elevated to meet our uncompromising standards.
-              </p>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* Team Section */}
-      <section className="py-32 px-8">
-        <div className="max-w-7xl mx-auto">
-          <div className="text-center mb-24">
-            <h2 className="text-5xl md:text-6xl font-serif font-light mb-8 luxury-gradient tracking-wide" data-testid="team-title">
-              MASTER ARTISANS
-            </h2>
-            <div className="elegant-divider w-24 mx-auto mb-8"></div>
-            <p className="text-lg text-foreground/60 max-w-3xl mx-auto font-sans leading-relaxed tracking-wide" data-testid="team-subtitle">
-              Meet the distinguished artists and visionaries behind every<br />
-              extraordinary photographic experience
-            </p>
-          </div>
-
-          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6 sm:gap-8">
-            {teamMembers.map((member, index) => (
-              <div key={member.name} className="premium-card group">
-                <div className="p-4 sm:p-6">
-                  <h3 className="text-lg sm:text-xl font-serif font-light mb-2 text-accent" data-testid={`team-member-name-${index}`}>
-                    {member.name}
-                  </h3>
-                  <p className="text-foreground/60 text-xs sm:text-sm tracking-wider uppercase mb-3 sm:mb-4" data-testid={`team-member-role-${index}`}>
-                    {member.role}
-                  </p>
-                  <p className="text-foreground/70 text-xs sm:text-sm font-sans leading-relaxed mb-3 sm:mb-4" data-testid={`team-member-description-${index}`}>
-                    {member.description}
-                  </p>
-                  <div className="text-xs text-foreground/50 mb-3">
-                    <strong>Credentials:</strong> {member.credentials}
-                  </div>
-                  <div className="flex flex-wrap gap-1 sm:gap-2">
-                    {member.specialties.map((specialty, i) => (
-                      <span key={i} className="text-xs bg-accent/10 text-accent px-2 py-1 tracking-wider">
-                        {specialty}
-                      </span>
-                    ))}
-                  </div>
-                </div>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
 
 
     </div>

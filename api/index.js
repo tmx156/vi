@@ -46,14 +46,41 @@ var vite_config_default = defineConfig({
     },
     rollupOptions: {
       output: {
-        // Let Vite handle chunking automatically
-        chunkFileNames: "assets/[name]-[hash].js",
+        // Optimized chunking for better caching
+        chunkFileNames: (chunkInfo) => {
+          if (chunkInfo.name === "vendor" || chunkInfo.facadeModuleId?.includes("node_modules")) {
+            return "assets/vendor-[hash].js";
+          }
+          if (chunkInfo.facadeModuleId?.includes("/ui/")) {
+            return "assets/ui-[hash].js";
+          }
+          return "assets/[name]-[hash].js";
+        },
         entryFileNames: "assets/[name]-[hash].js",
-        assetFileNames: "assets/[name]-[hash].[ext]"
+        assetFileNames: "assets/[name]-[hash].[ext]",
+        // Manual chunking for better cache efficiency
+        manualChunks: (id) => {
+          if (id.includes("node_modules")) {
+            if (id.includes("react") || id.includes("wouter")) {
+              return "vendor";
+            }
+            if (id.includes("@radix-ui")) {
+              return "ui";
+            }
+            if (id.includes("clsx") || id.includes("class-variance-authority") || id.includes("tailwind-merge")) {
+              return "utils";
+            }
+            if (id.includes("three") || id.includes("framer-motion")) {
+              return "heavy";
+            }
+          }
+        }
       },
-      // Tree shaking optimizations
+      // Enhanced tree shaking
       treeshake: {
-        moduleSideEffects: "no-external"
+        moduleSideEffects: false,
+        propertyReadSideEffects: false,
+        unknownGlobalSideEffects: false
       }
     },
     // Mobile optimizations
@@ -77,11 +104,26 @@ var vite_config_default = defineConfig({
       }
     }
   },
-  // Mobile performance optimizations
+  // Enhanced dependency optimization
   optimizeDeps: {
-    include: ["react", "react-dom", "wouter"],
-    // Exclude heavy dependencies from pre-bundling for faster dev start
-    exclude: ["framer-motion", "three"]
+    include: [
+      "react",
+      "react-dom",
+      "wouter",
+      "clsx",
+      "class-variance-authority",
+      "tailwind-merge"
+    ],
+    // Exclude heavy dependencies - will be dynamically imported
+    exclude: [
+      "framer-motion",
+      "three",
+      "@types/three",
+      "embla-carousel-react",
+      "recharts"
+    ],
+    // Force optimize critical UI components
+    force: true
   },
   // Critical performance settings
   esbuild: {

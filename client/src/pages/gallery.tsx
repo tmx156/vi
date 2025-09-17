@@ -1,22 +1,12 @@
 import { useState } from "react";
+import MobileOptimizedGalleryImage from "../components/MobileOptimizedGalleryImage";
 
 export default function Gallery() {
   const [selectedCategory, setSelectedCategory] = useState('all');
   const [selectedImage, setSelectedImage] = useState<string | null>(null);
+  const [visibleCount, setVisibleCount] = useState(6); // Start with only 6 images for slow connections
   const galleryImages = [
-    // Featured Portfolio Images
-    {
-      id: "boudoir-1",
-      src: "https://i.imgur.com/v1l1YoN.jpeg",
-      alt: "Luxury boudoir photography",
-      category: "boudoir"
-    },
-    {
-      id: "maternity-1",
-      src: "https://i.imgur.com/lpEdOD6.jpeg",
-      alt: "Elegant maternity photography",
-      category: "maternity"
-    },
+    // Family Images
     {
       id: "family-1",
       src: "https://i.imgur.com/CPb8mAP.jpeg",
@@ -24,16 +14,47 @@ export default function Gallery() {
       category: "family"
     },
     {
-      id: "bestie-1",
-      src: "https://i.imgur.com/nUwpbIB.jpeg",
-      alt: "Luxury bestie photography",
-      category: "bestie"
+      id: "family-2",
+      src: "https://i.imgur.com/qDxWCbT.jpeg",
+      alt: "Luxury family photography",
+      category: "family"
     },
     {
-      id: "boudoir-2",
-      src: "https://i.imgur.com/RkMwCQS.jpeg",
-      alt: "Artistic boudoir photography",
-      category: "boudoir"
+      id: "family-3",
+      src: "https://i.imgur.com/ZgBJ4pz.jpeg",
+      alt: "Studio family photography",
+      category: "family"
+    },
+    {
+      id: "family-4",
+      src: "https://i.imgur.com/OYGgBkV.jpeg",
+      alt: "Intimate family moment",
+      category: "family"
+    },
+    {
+      id: "family-5",
+      src: "https://i.imgur.com/SrLbxYt.jpeg",
+      alt: "Beautiful family portrait",
+      category: "family"
+    },
+    {
+      id: "family-6",
+      src: "https://i.imgur.com/rv8GyqO.jpeg",
+      alt: "Luxury family session",
+      category: "family"
+    },
+    {
+      id: "family-7",
+      src: "https://i.imgur.com/ZyMjl2z.jpeg",
+      alt: "Elegant family photography",
+      category: "family"
+    },
+    // Maternity Images
+    {
+      id: "maternity-1",
+      src: "https://i.imgur.com/lpEdOD6.jpeg",
+      alt: "Elegant maternity photography",
+      category: "maternity"
     },
     {
       id: "maternity-2",
@@ -77,17 +98,18 @@ export default function Gallery() {
       alt: "Professional maternity portrait",
       category: "maternity"
     },
+    // Boudoir Images
     {
-      id: "family-2",
-      src: "https://i.imgur.com/qDxWCbT.jpeg",
-      alt: "Luxury family photography",
-      category: "family"
+      id: "boudoir-1",
+      src: "https://i.imgur.com/v1l1YoN.jpeg",
+      alt: "Luxury boudoir photography",
+      category: "boudoir"
     },
     {
-      id: "bestie-2",
-      src: "https://i.imgur.com/CP7vmIf.jpeg",
-      alt: "Professional friends photography",
-      category: "bestie"
+      id: "boudoir-2",
+      src: "https://i.imgur.com/RkMwCQS.jpeg",
+      alt: "Artistic boudoir photography",
+      category: "boudoir"
     },
     {
       id: "boudoir-3",
@@ -96,71 +118,10 @@ export default function Gallery() {
       category: "boudoir"
     },
     {
-      id: "family-3",
-      src: "https://i.imgur.com/ZgBJ4pz.jpeg",
-      alt: "Studio family photography",
-      category: "family"
-    },
-    {
-      id: "bestie-3",
-      src: "https://i.imgur.com/TtZomX5.jpeg",
-      alt: "Glamorous friends photoshoot",
-      category: "bestie"
-    },
-    // Additional Portfolio Images
-    {
       id: "boudoir-4",
       src: "https://i.imgur.com/JmjTg5I.jpeg",
       alt: "Elegant boudoir portrait",
       category: "boudoir"
-    },
-    {
-      id: "family-4",
-      src: "https://i.imgur.com/OYGgBkV.jpeg",
-      alt: "Intimate family moment",
-      category: "family"
-    },
-    {
-      id: "family-5",
-      src: "https://i.imgur.com/SrLbxYt.jpeg",
-      alt: "Beautiful family portrait",
-      category: "family"
-    },
-    {
-      id: "family-6",
-      src: "https://i.imgur.com/rv8GyqO.jpeg",
-      alt: "Luxury family session",
-      category: "family"
-    },
-    {
-      id: "family-7",
-      src: "https://i.imgur.com/ZyMjl2z.jpeg",
-      alt: "Elegant family photography",
-      category: "family"
-    },
-    {
-      id: "bestie-4",
-      src: "https://i.imgur.com/13FUUst.jpeg",
-      alt: "Creative friendship photography",
-      category: "bestie"
-    },
-    {
-      id: "bestie-5",
-      src: "https://i.imgur.com/WoBCaWp.jpeg",
-      alt: "Elegant friends portrait",
-      category: "bestie"
-    },
-    {
-      id: "bestie-6",
-      src: "https://i.imgur.com/mDhO35Q.jpeg",
-      alt: "Luxury bestie session",
-      category: "bestie"
-    },
-    {
-      id: "bestie-7",
-      src: "https://i.imgur.com/tpQW5n2.jpeg",
-      alt: "Sophisticated friendship photography",
-      category: "bestie"
     },
     {
       id: "boudoir-5",
@@ -186,13 +147,179 @@ export default function Gallery() {
       alt: "Luxury boudoir portrait",
       category: "boudoir"
     },
+    // Cosplay Images
+    {
+      id: "cosplay-1",
+      src: "https://i.imgur.com/U5Hw3hz.jpeg",
+      alt: "Luxury cosplay photography",
+      category: "cosplay"
+    },
+    {
+      id: "cosplay-2",
+      src: "https://i.imgur.com/nF3sCiW.jpeg",
+      alt: "Professional cosplay photography",
+      category: "cosplay"
+    },
+    {
+      id: "cosplay-3",
+      src: "https://i.imgur.com/uemFXbr.jpeg",
+      alt: "Creative cosplay portrait",
+      category: "cosplay"
+    },
+    {
+      id: "cosplay-4",
+      src: "https://i.imgur.com/Smf9Oel.jpeg",
+      alt: "Artistic cosplay photography",
+      category: "cosplay"
+    },
+    {
+      id: "cosplay-5",
+      src: "https://i.imgur.com/BxJNnz3.jpeg",
+      alt: "Elegant cosplay portrait",
+      category: "cosplay"
+    },
+    {
+      id: "cosplay-6",
+      src: "https://i.imgur.com/AMxhBA5.jpeg",
+      alt: "Sophisticated cosplay photography",
+      category: "cosplay"
+    },
+    {
+      id: "cosplay-7",
+      src: "https://i.imgur.com/zvgjszf.jpeg",
+      alt: "Luxury cosplay session",
+      category: "cosplay"
+    },
+    {
+      id: "cosplay-8",
+      src: "https://i.imgur.com/A5op4eb.jpeg",
+      alt: "Studio cosplay photography",
+      category: "cosplay"
+    },
+    {
+      id: "cosplay-9",
+      src: "https://i.imgur.com/HPMDBQo.jpeg",
+      alt: "Creative cosplay portrait",
+      category: "cosplay"
+    },
+    {
+      id: "cosplay-10",
+      src: "https://i.imgur.com/eUzYfaG.jpeg",
+      alt: "Professional cosplay session",
+      category: "cosplay"
+    },
+    {
+      id: "cosplay-11",
+      src: "https://i.imgur.com/Z613NeN.jpeg",
+      alt: "Artistic cosplay photography",
+      category: "cosplay"
+    },
+    {
+      id: "cosplay-12",
+      src: "https://i.imgur.com/tsbFlvz.jpeg",
+      alt: "Elegant cosplay portrait",
+      category: "cosplay"
+    },
+    {
+      id: "cosplay-13",
+      src: "https://i.imgur.com/ImH46Dt.jpeg",
+      alt: "Luxury cosplay photography",
+      category: "cosplay"
+    },
+    {
+      id: "cosplay-14",
+      src: "https://i.imgur.com/p2iPF0J.jpeg",
+      alt: "Sophisticated cosplay session",
+      category: "cosplay"
+    },
+    {
+      id: "cosplay-15",
+      src: "https://i.imgur.com/Ot1XYnL.jpeg",
+      alt: "Premium cosplay photography",
+      category: "cosplay"
+    },
+    // Executive Images
+    {
+      id: "executive-1",
+      src: "https://i.imgur.com/IymoHWG.jpeg",
+      alt: "Professional executive headshot",
+      category: "executive"
+    },
+    {
+      id: "executive-2",
+      src: "https://i.imgur.com/mf6Nrgi.jpeg",
+      alt: "Corporate executive portrait",
+      category: "executive"
+    },
+    {
+      id: "executive-3",
+      src: "https://i.imgur.com/SNd0WEh.jpeg",
+      alt: "Business executive photography",
+      category: "executive"
+    },
+    {
+      id: "executive-4",
+      src: "https://i.imgur.com/Yc9tmNX.jpeg",
+      alt: "Executive headshot session",
+      category: "executive"
+    },
+    {
+      id: "executive-5",
+      src: "https://i.imgur.com/3lpynkM.jpeg",
+      alt: "Professional portrait photography",
+      category: "executive"
+    },
+    {
+      id: "executive-6",
+      src: "https://i.imgur.com/ifDH39E.jpeg",
+      alt: "Corporate headshot photography",
+      category: "executive"
+    },
+    {
+      id: "executive-7",
+      src: "https://i.imgur.com/jhvxtMo.jpeg",
+      alt: "Executive portrait session",
+      category: "executive"
+    },
+    {
+      id: "executive-8",
+      src: "https://i.imgur.com/QsVdbXA.jpeg",
+      alt: "Business professional headshot",
+      category: "executive"
+    },
+    {
+      id: "executive-9",
+      src: "https://i.imgur.com/85dDr7L.jpeg",
+      alt: "Corporate executive portrait",
+      category: "executive"
+    },
+    {
+      id: "executive-10",
+      src: "https://i.imgur.com/7sM3PTm.jpeg",
+      alt: "Professional executive photography",
+      category: "executive"
+    },
+    {
+      id: "executive-11",
+      src: "https://i.imgur.com/UULlN1g.jpeg",
+      alt: "Executive headshot portrait",
+      category: "executive"
+    }
   ];
 
-  const categories = ['all', 'boudoir', 'maternity', 'family', 'bestie'];
+  const categories = ['all', 'family', 'maternity', 'boudoir', 'cosplay', 'executive'];
 
   const filteredImages = selectedCategory === 'all'
     ? galleryImages
     : galleryImages.filter(img => img.category === selectedCategory);
+
+  // Show only a subset for slow connections
+  const visibleImages = filteredImages.slice(0, visibleCount);
+  const hasMoreImages = visibleCount < filteredImages.length;
+
+  const loadMoreImages = () => {
+    setVisibleCount(prev => Math.min(prev + 6, filteredImages.length));
+  };
 
   return (
     <div className="min-h-screen pt-16">
@@ -228,35 +355,44 @@ export default function Gallery() {
 
           {/* Gallery Grid */}
           <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
-            {filteredImages.map((image, index) => (
+            {visibleImages.map((image, index) => (
               <div
                 key={image.id}
                 className="group cursor-pointer transform transition-all duration-500 hover:scale-105"
-                onClick={() => setSelectedImage(image.src)}
                 style={{
                   animationDelay: `${index * 0.05}s`
                 }}
               >
-                <div className="relative aspect-[3/4] overflow-hidden rounded-lg premium-card">
-                  <img
-                    src={image.src}
-                    alt={image.alt}
-                    className="w-full h-full object-cover transition-all duration-700 group-hover:scale-110"
-                    loading="lazy"
-                    decoding="async"
-                  />
-                  {/* Overlay */}
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500">
-                    <div className="absolute bottom-4 left-4 right-4">
-                      <p className="text-white font-serif text-sm tracking-wide capitalize">
-                        {image.category}
-                      </p>
-                    </div>
+                <MobileOptimizedGalleryImage
+                  src={image.src}
+                  alt={image.alt}
+                  className="premium-card"
+                  loading={index < 8 ? 'eager' : 'lazy'} // Load first 8 images eagerly for better LCP
+                  onClick={() => setSelectedImage(image.src)}
+                />
+                {/* Overlay */}
+                <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500">
+                  <div className="absolute bottom-4 left-4 right-4">
+                    <p className="text-white font-serif text-sm tracking-wide capitalize">
+                      {image.category}
+                    </p>
                   </div>
                 </div>
               </div>
             ))}
           </div>
+
+          {/* Load More Button for Slow Connections */}
+          {hasMoreImages && (
+            <div className="flex justify-center mt-12">
+              <button
+                onClick={loadMoreImages}
+                className="px-8 py-3 bg-accent text-background font-medium rounded-lg hover:bg-accent/90 transition-colors duration-300"
+              >
+                Load More Images ({filteredImages.length - visibleCount} remaining)
+              </button>
+            </div>
+          )}
         </div>
       </section>
 
